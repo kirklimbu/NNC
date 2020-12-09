@@ -88,7 +88,7 @@
           <p>
             <mat-form-field>
               <mat-label>Affiliation</mat-label>
-              <mat-select [(value)]="selected">
+              <mat-select [(value)]="selected" formControlName='affiliate'>
                 <mat-option>None</mat-option>
                 <mat-option value="T.U">T.U</mat-option>
                 <mat-option value="K.U">K.U</mat-option>
@@ -204,9 +204,7 @@
         </mat-card-content>
 
         <mat-card-actions align="center">
-          <button mat-raised-button color="primary" (click)="onRegister()">
-            Save
-          </button>
+          <button mat-raised-button color="primary" (click)="onRegister()">Save</button>
           <button
             type="button"
             mat-raised-button
