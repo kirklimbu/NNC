@@ -1,0 +1,78 @@
+<div class="shadow-sm">
+  <nav class="navbar navbar-expand-sm navbar-light sticky-top" id="main-nav">
+    <div class="container">
+      <img
+        class="navbar-brand"
+        src="assets/images/nnc_logo.png"
+        ngbTooltip="DigiChem Graphics"
+      />
+      <button
+        class="navbar-toggler btn btn-primary"
+        data-toggle="collapse "
+        data-target="#main-nav"
+      >
+        test
+        <!-- <fa-icon [class]="fabars"></fa-icon> -->
+        <span class="navbar-toggle-icon"> </span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a>
+          </li>
+          <li class="nav-item active">
+            <a
+              class="nav-link"
+              routerLink="/home/register"
+              >Register</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active">Work</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active">About me</a>
+          </li>
+          <!--           <li class="nav-item" (click)="toContact()">
+            <a class="nav-link" routerLinkActive="active">Contact </a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active">I have worked for</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+<!-- nav bar -->
+<!-- test nav bar -->
+<!-- <mat-toolbar fxLayout="row" color="primary">
+  <button mat-button *ngFor="let item of menuItems"
+      [fxShow]="item.showOnDesktop"
+      [fxShow.xs]="item.showOnMobile"
+      [fxShow.sm]="item.showOnTablet"
+      >
+      <mat-icon class="mr">{{item.icon}}</mat-icon>
+      {{item.label}}
+  </button>
+  <ng-container>
+      <button mat-icon-button [matMenuTriggerFor]="dropMenu">
+          <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #dropMenu="matMenu">
+          <ng-container *ngFor="let item of menuItems">
+              <div [fxShow]="!item.showOnDesktop"
+                   [fxShow.sm]="!item.showOnTablet"
+                   [fxShow.xs]="!item.showOnMobile">
+                  <button mat-menu-item>
+                      <mat-icon class="mr">{{item.icon}}</mat-icon>
+                      {{item.label}}
+                  </button>
+                  <mat-divider></mat-divider>
+              </div>
+          </ng-container>
+      </mat-menu>
+  </ng-container>
+</mat-toolbar> -->
+<!-- / test nav bar -->

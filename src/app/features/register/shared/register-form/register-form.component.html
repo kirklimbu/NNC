@@ -1,0 +1,222 @@
+<div class="content-wrapper">
+  <section
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    class="registerCard"
+  >
+    <mat-card fxFlex="200px" fxFlex.xs="100%" class="mt-4 mb-4">
+      <mat-card-title>Register</mat-card-title>
+      <mat-divider></mat-divider>
+      <form
+        [formGroup]="registerForm"
+        autocomplete="off"
+        novalidate
+        fxLayout="column wrap"
+        fxLayoutAlign="center center"
+        fxLayoutGap="10px"
+      >
+        <mat-card-content class="mt-4">
+          <p>
+            <mat-form-field class="=full-width">
+              <input
+                matInput
+                type="text"
+                placeholder="Full Name"
+                formControlName="fullName"
+                id="fname"
+              />
+              <mat-hint align="end">Enter customer's first name</mat-hint>
+              <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+            <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                placeholder="Address"
+                formControlName="address"
+                id="lname"
+                fxlayoutalign="column"
+              />
+              <mat-hint align="end">Enter customer's last name</mat-hint>
+              <mat-error *ngIf="hasError('name', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('name', 'maxlength')"
+                >Enter last name</mat-error
+              >
+            </mat-form-field>
+          </p>
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              placeholder=" Ward number"
+              formControlName="wardNum"
+              id="lname"
+              fxlayoutalign="column"
+            />
+            <mat-hint align="end">Enter customer's last name</mat-hint>
+            <mat-error *ngIf="hasError('name', 'required')"
+              >Last Name is required</mat-error
+            >
+            <mat-error *ngIf="hasError('name', 'maxlength')"
+              >Enter last name</mat-error
+            >
+          </mat-form-field>
+          <p>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                placeholder="College"
+                formControlName="college"
+                id="lname"
+                fxlayoutalign="column"
+              />
+              <mat-hint align="end">Enter customer's last name</mat-hint>
+              <mat-error *ngIf="hasError('name', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('name', 'maxlength')"
+                >Enter last name</mat-error
+              >
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field>
+              <mat-label>Affiliation</mat-label>
+              <mat-select [(value)]="selected">
+                <mat-option>None</mat-option>
+                <mat-option value="T.U">T.U</mat-option>
+                <mat-option value="K.U">K.U</mat-option>
+                <mat-option value="P.U">P.U</mat-option>
+              </mat-select>
+              <mat-hint align="end">Affiliation</mat-hint>
+
+              <!--<mat-error *ngIf="hasError('address', 'required')">Address is required</mat-error>
+            <mat-error *ngIf="hasError('address', 'maxlength')">You have more than 100 characters</mat-error>-->
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                placeholder="Program"
+                formControlName="program"
+              />
+              <mat-hint align="end">Enter customer's mobile number</mat-hint>
+              <!--<mat-error *ngIf="hasError('mobile', 'required')">Address is required</mat-error>
+            <mat-error *ngIf="hasError('mobile', 'maxlength')">You have more than 100 characters</mat-error>-->
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                placeholder="Choose D.O.B"
+                formControlName="dob"
+                id="registerDate"
+                readonly
+                (click)="picker.open()"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </p>
+          <!-- reg num -->
+          <p>
+            <mat-form-field class="=full-width">
+              <input
+                matInput
+                type="text"
+                placeholder="Registered Number"
+                formControlName="regNum"
+                id="fname"
+              />
+              <mat-hint align="end">Enter Registered number</mat-hint>
+              <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+            <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
+            </mat-form-field>
+          </p>
+          <!-- /reg num -->
+          <p>
+            <!-- <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                placeholder="Choose registered date"
+                formControlName="regDate"
+                id="regDate"
+                readonly
+                (click)="picker.open()"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field> -->
+          </p>
+          <!-- image upload -->
+
+          <!-- /image upload -->
+          <!-- test image upload -->
+          <div class="form-group">
+            <label for="file">Upload Licence photo</label>
+
+            <input
+              formControlName="file"
+              id="file"
+              type="file"
+              class="form-control"
+              multiple=""
+              (change)="onFileChange($event)"
+            />
+
+            <div
+              *ngIf="f.file.touched && f.file.invalid"
+              class="alert alert-danger"
+            >
+              <div *ngIf="f.file.errors.required">File is required.</div>
+            </div>
+          </div>
+
+          <img
+            *ngFor="let url of images"
+            [src]="url"
+            height="150"
+            width="200px"
+            style="margin: 3px"
+          />
+          <br />
+          <!-- test -->
+
+          <!--/ test -->
+          <!-- /test image upload -->
+        </mat-card-content>
+
+        <mat-card-actions align="center">
+          <button mat-raised-button color="primary" (click)="onRegister()">
+            Save
+          </button>
+          <button
+            type="button"
+            mat-raised-button
+            color="danger"
+            (click)="onCancel()"
+          >
+            Cancel
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+  </section>
+</div>
