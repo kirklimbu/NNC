@@ -9,7 +9,7 @@ const routes: Routes = [
     component: RegisterFormComponent,
   },
   {
-    path: 'new-register',
+    path: 'register-list',
     component: RegisterFormComponent,
   },
 ];

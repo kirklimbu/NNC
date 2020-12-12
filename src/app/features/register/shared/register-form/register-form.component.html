@@ -41,12 +41,12 @@
                 fxlayoutalign="column"
               />
               <mat-hint align="end">Enter customer's last name</mat-hint>
-              <mat-error *ngIf="hasError('name', 'required')"
+              <!-- <mat-error *ngIf="hasError('address', 'required')"
                 >Last Name is required</mat-error
               >
-              <mat-error *ngIf="hasError('name', 'maxlength')"
+              <mat-error *ngIf="hasError('address', 'maxlength')"
                 >Enter last name</mat-error
-              >
+              > -->
             </mat-form-field>
           </p>
           <mat-form-field>
@@ -59,12 +59,12 @@
               fxlayoutalign="column"
             />
             <mat-hint align="end">Enter customer's last name</mat-hint>
-            <mat-error *ngIf="hasError('name', 'required')"
-              >Last Name is required</mat-error
-            >
-            <mat-error *ngIf="hasError('name', 'maxlength')"
-              >Enter last name</mat-error
-            >
+            <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('wardNum', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
           </mat-form-field>
           <p>
             <mat-form-field>
@@ -77,22 +77,21 @@
                 fxlayoutalign="column"
               />
               <mat-hint align="end">Enter customer's last name</mat-hint>
-              <mat-error *ngIf="hasError('name', 'required')"
+              <!--  <mat-error *ngIf="hasError('name', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('name', 'maxlength')"
                 >Enter last name</mat-error
-              >
+              > -->
             </mat-form-field>
           </p>
           <p>
             <mat-form-field>
               <mat-label>Affiliation</mat-label>
-              <mat-select [(value)]="selected" formControlName='affiliate'>
-                <mat-option>None</mat-option>
-                <mat-option value="T.U">T.U</mat-option>
-                <mat-option value="K.U">K.U</mat-option>
-                <mat-option value="P.U">P.U</mat-option>
+              <mat-select formControlName="aff">
+                <mat-option *ngFor="let item of affiliations" [value]="item">{{
+                  item
+                }}</mat-option>
               </mat-select>
               <mat-hint align="end">Affiliation</mat-hint>
 
@@ -114,13 +113,12 @@
             </mat-form-field>
           </p>
           <p>
-            <mat-form-field>
+            <!--  <mat-form-field>
               <input
                 matInput
                 [matDatepicker]="picker"
                 placeholder="Choose D.O.B"
                 formControlName="dob"
-                id="registerDate"
                 readonly
                 (click)="picker.open()"
               />
@@ -129,7 +127,7 @@
                 [for]="picker"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+            </mat-form-field> -->
           </p>
           <!-- reg num -->
           <p>
@@ -168,43 +166,112 @@
           <!-- image upload -->
 
           <!-- /image upload -->
-          <!-- test image upload -->
-          <div class="form-group">
-            <label for="file">Upload Licence photo</label>
+
+          <!-- test licence image upload -->
+          <!-- <div class="form-group">
+            <label for="photoLicence">Upload Licence Image</label>
 
             <input
-              formControlName="file"
-              id="file"
+              formControlName="photoLicence"
+              id="photoLicence"
               type="file"
+              accept="image/*"
               class="form-control"
-              multiple=""
-              (change)="onFileChange($event)"
-            />
+              (change)="onLicenceImageChange($event)"
+            /> -->
 
-            <div
+          <!--   <div
               *ngIf="f.file.touched && f.file.invalid"
               class="alert alert-danger"
             >
               <div *ngIf="f.file.errors.required">File is required.</div>
+            </div> -->
+          <!-- </div> -->
+          <!-- licence image upload -->
+          <mat-form-field>
+            <div>
+              <mat-toolbar>
+                <!-- Display files names -->
+                <input
+                  matInput
+                  [(ngModel)]="fileAttr"
+                  [ngModelOptions]="{ standalone: true }"
+                  readonly
+                  name="name"
+                />
+
+                <!-- Browse Button -->
+                <button mat-flat-button color="primary">Browse Image</button>
+              </mat-toolbar>
+
+              <!-- Fetch selected filed on change -->
+              <input
+                type="file"
+                #fileInput
+                id="uploadFile"
+                formControlName="photoLicence"
+                name="uploadFile"
+                accept="image/*"
+                (change)="onLicenceImageChange($event)"
+              />
+              <img
+                [src]="licenceImageSrc"
+                *ngIf="licenceImageSrc"
+                height="150"
+                width="200px"
+                style="margin: 3px"
+              />
             </div>
-          </div>
 
-          <img
-            *ngFor="let url of images"
-            [src]="url"
-            height="150"
-            width="200px"
-            style="margin: 3px"
-          />
-          <br />
-          <!-- test -->
+            <!-- <br /> -->
+          </mat-form-field>
+          <!-- /licence image upload -->
 
-          <!--/ test -->
-          <!-- /test image upload -->
+          <!-- bill image upload-->
+          <mat-form-field>
+            <div>
+              <mat-toolbar>
+                <!-- Display files names -->
+                <input
+                  matInput
+                  [(ngModel)]="fileAttrBill"
+                  [ngModelOptions]="{ standalone: true }"
+                  readonly
+                  name="name"
+                />
+
+                <!-- Browse Button -->
+                <button mat-flat-button color="primary">Browse Image</button>
+              </mat-toolbar>
+
+              <!-- Fetch selected filed on change -->
+              <input
+                type="file"
+                #fileInputBill
+                id="uploadFileBill"
+                formControlName="photoBill"
+                name="uploadFileBill"
+                accept="image/*"
+                (change)="onBillImageChange($event)"
+              />
+              <img
+                [src]="billImageSrc"
+                *ngIf="billImageSrc"
+                height="150"
+                width="200px"
+                style="margin: 3px"
+              />
+            </div>
+
+            <!-- <br /> -->
+          </mat-form-field>
+          <!--/ bill imageupload-->
         </mat-card-content>
 
         <mat-card-actions align="center">
-          <button mat-raised-button color="primary" (click)="onRegister()">Save</button>
+          <button mat-raised-button color="primary" (click)="onRegister()">
+            Save
+          </button>
           <button
             type="button"
             mat-raised-button

@@ -1,3 +1,5 @@
+import { environment } from './../../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -5,7 +7,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class RegisterService {
-  constructor() {}
+  /* props */
+  API_URL = environment.apiUrl;
+  constructor(private http: HttpClient) {}
 
-  register(register) {}
+  register(register): any {
+    console.log('student save service' + JSON.stringify(register));
+
+    return this.http.post(`${this.API_URL}letter/save`, { ...register });
+    // .pipe(
+    //   catchError(err => {
+    //     return Observable.throw(err);
+    //   })
+    // )
+  }
 }
