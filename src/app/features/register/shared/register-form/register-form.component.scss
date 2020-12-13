@@ -9,8 +9,8 @@
 }
 
 .mat-form-field {
-  margin: 40px 0;
-  width: 500px !important;
+  margin: 0.5rem 0;
+  width: 400px !important;
 }
 
 .mat-toolbar-single-row {
@@ -26,7 +26,8 @@
   width: 100%;
 }
 
-#uploadFile,#uploadFileBill {
+#uploadFile,
+#uploadFileBill {
   top: 0px;
   left: 0px;
   width: 100%;

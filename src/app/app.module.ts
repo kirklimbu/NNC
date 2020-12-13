@@ -8,7 +8,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome/fontawesome.module';
+
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,8 +31,21 @@ import { HttpClientModule } from '@angular/common/http';
       autoDismiss: true,
       closeButton: true,
       progressBar: true,
-      progressAnimation:'increasing'
-
+      progressAnimation: 'increasing',
+    }),
+    JwtModule.forRoot({
+      /* config: {
+        // ...
+        tokenGetter: () => {
+          return localStorage.getItem('token');
+        },
+        throwNoTokenError: true,
+      }, */
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:8084', '52.15.190.182:8084'],
+        disallowedRoutes: ['http://example.com/examplebadroute/'],
+      },
     }),
   ],
 

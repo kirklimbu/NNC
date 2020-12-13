@@ -1,6 +1,7 @@
 import { RegisterService } from './../../services/register.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registered-list',
@@ -24,25 +25,38 @@ export class RegisteredListComponent implements OnInit {
   letterListDataSource: MatTableDataSource<any>;
   student: any;
 
-  constructor(private registerService: RegisterService) {}
+  constructor(
+    private registerService: RegisterService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.fetchLetterList();
   }
 
   fetchLetterList() {
-    this.registerService.getLetterList().subscribe((data) => {
-      console.log(data);
+    this.registerService.getLetterList().subscribe(
+      (data) => {
+        console.log(data);
 
-      this.letterListDataSource = data;
-    });
+        this.letterListDataSource = data;
+      },
+      (err) => {
+        err = err.message
+          ? this.toastr.error(err.message)
+          : this.toastr.error('Error while fetching letter list.');
+      }
+    );
   }
 
-  onEdit(letter){
+  onEdit(letter) {}
 
-  }
+  onDelete() {}
 
-  onDelete(){
+
+  onViewDetails(letter) {
+    console.log(letter);
+
 
   }
 }
