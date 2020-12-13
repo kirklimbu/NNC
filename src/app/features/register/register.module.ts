@@ -1,4 +1,5 @@
-import { MaterialLibModule } from './../../core/material-lib/material-lib.module';
+import { SharedModule } from './../../shared/shared.module';
+import { MaterialLibModule } from '../../core/material-lib/material-lib.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -15,7 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     RegisterRoutingModule,
     MaterialLibModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule,
     // MatFileUploadModule,
     // NgxMatFileInputModule,
   ],

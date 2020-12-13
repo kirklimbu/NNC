@@ -22,10 +22,10 @@
                 matInput
                 type="text"
                 placeholder="Full Name"
-                formControlName="fullName"
+                formControlName="name"
                 id="fname"
               />
-              <mat-hint align="end">Enter customer's first name</mat-hint>
+              <mat-hint align="end">Enter full name</mat-hint>
               <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
             <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
             </mat-form-field>
@@ -40,7 +40,7 @@
                 id="lname"
                 fxlayoutalign="column"
               />
-              <mat-hint align="end">Enter customer's last name</mat-hint>
+              <mat-hint align="end">Enter address</mat-hint>
               <!-- <mat-error *ngIf="hasError('address', 'required')"
                 >Last Name is required</mat-error
               >
@@ -49,34 +49,74 @@
               > -->
             </mat-form-field>
           </p>
-          <mat-form-field>
-            <input
-              matInput
-              type="text"
-              placeholder=" Ward number"
-              formControlName="wardNum"
-              id="lname"
-              fxlayoutalign="column"
-            />
-            <mat-hint align="end">Enter customer's last name</mat-hint>
-            <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+          <p>
+            <mat-form-field>
+              <input
+                matInput
+                type="number"
+                placeholder=" Ward number"
+                formControlName="wardNo"
+                id="lname"
+                fxlayoutalign="column"
+              />
+              <mat-hint align="end">Enter ward number</mat-hint>
+              <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('wardNum', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-          </mat-form-field>
+            </mat-form-field>
+          </p>
           <p>
             <mat-form-field>
               <input
                 matInput
                 type="text"
-                placeholder="College"
-                formControlName="college"
+                placeholder=" Mobile number"
+                formControlName="mobileNo"
                 id="lname"
                 fxlayoutalign="column"
               />
-              <mat-hint align="end">Enter customer's last name</mat-hint>
+              <mat-hint align="end">Enter mobile number</mat-hint>
+              <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('wardNum', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                placeholder=" Email"
+                formControlName="email"
+                id="lname"
+                fxlayoutalign="column"
+              />
+              <mat-hint align="end">Enter e-mail address</mat-hint>
+              <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('wardNum', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                placeholder="College Name"
+                formControlName="collegeName"
+                id="college"
+                fxlayoutalign="column"
+              />
+              <mat-hint align="end">Enter college name</mat-hint>
               <!--  <mat-error *ngIf="hasError('name', 'required')"
                 >Last Name is required</mat-error
               >
@@ -87,13 +127,34 @@
           </p>
           <p>
             <mat-form-field>
-              <mat-label>Affiliation</mat-label>
-              <mat-select formControlName="aff">
-                <mat-option *ngFor="let item of affiliations" [value]="item">{{
-                  item
-                }}</mat-option>
+              <input
+                matInput
+                type="text"
+                placeholder="College Address"
+                formControlName="collegeAddress"
+                id="collegeAddress"
+                fxlayoutalign="column"
+              />
+              <mat-hint align="end">Enter college address</mat-hint>
+              <!--  <mat-error *ngIf="hasError('name', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('name', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field>
+              <mat-label>Affiliation College</mat-label>
+              <mat-select formControlName="affiliationCollege">
+                <mat-option
+                  *ngFor="let item of affiliationCollegeList"
+                  [value]="item"
+                  >{{ item.name }}</mat-option
+                >
               </mat-select>
-              <mat-hint align="end">Affiliation</mat-hint>
+              <mat-hint align="end">Select college affiliation</mat-hint>
 
               <!--<mat-error *ngIf="hasError('address', 'required')">Address is required</mat-error>
             <mat-error *ngIf="hasError('address', 'maxlength')">You have more than 100 characters</mat-error>-->
@@ -101,19 +162,35 @@
           </p>
           <p>
             <mat-form-field>
-              <input
-                matInput
-                type="text"
-                placeholder="Program"
-                formControlName="program"
-              />
-              <mat-hint align="end">Enter customer's mobile number</mat-hint>
-              <!--<mat-error *ngIf="hasError('mobile', 'required')">Address is required</mat-error>
-            <mat-error *ngIf="hasError('mobile', 'maxlength')">You have more than 100 characters</mat-error>-->
+              <mat-label>Letter Receiver</mat-label>
+              <mat-select formControlName="letterReceiver">
+                <mat-option
+                  *ngFor="let item of letterReceiverList"
+                  [value]="item"
+                  >{{ item.name }}</mat-option
+                >
+              </mat-select>
+              <mat-hint align="end">Select letter receiver</mat-hint>
+
+              <!--<mat-error *ngIf="hasError('address', 'required')">Address is required</mat-error>
+            <mat-error *ngIf="hasError('address', 'maxlength')">You have more than 100 characters</mat-error>-->
             </mat-form-field>
           </p>
           <p>
-            <!--  <mat-form-field>
+            <!-- <mat-form-field>
+              <input
+                matInput
+                type="text"
+                placeholder="Mobile number"
+                formControlName="mobileNo"
+              />
+              <mat-hint align="end">Enter customer's mobile number</mat-hint> -->
+            <!--<mat-error *ngIf="hasError('mobile', 'required')">Address is required</mat-error>
+            <mat-error *ngIf="hasError('mobile', 'maxlength')">You have more than 100 characters</mat-error>-->
+            <!-- </mat-form-field> -->
+          </p>
+          <p>
+            <mat-form-field>
               <input
                 matInput
                 [matDatepicker]="picker"
@@ -127,7 +204,8 @@
                 [for]="picker"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field> -->
+              <mat-hint align="end">Select Date of Birth(D.O.B)</mat-hint>
+            </mat-form-field>
           </p>
           <!-- reg num -->
           <p>
@@ -136,10 +214,10 @@
                 matInput
                 type="text"
                 placeholder="Registered Number"
-                formControlName="regNum"
+                formControlName="regNo"
                 id="fname"
               />
-              <mat-hint align="end">Enter Registered number</mat-hint>
+              <mat-hint align="end">Enter registered number</mat-hint>
               <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
             <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
             </mat-form-field>
@@ -222,6 +300,7 @@
                 style="margin: 3px"
               />
             </div>
+            <mat-hint align="end">Upload licence photo</mat-hint>
 
             <!-- <br /> -->
           </mat-form-field>
@@ -262,6 +341,7 @@
                 style="margin: 3px"
               />
             </div>
+            <mat-hint align="end">Upload Bill photo</mat-hint>
 
             <!-- <br /> -->
           </mat-form-field>
@@ -269,7 +349,12 @@
         </mat-card-content>
 
         <mat-card-actions align="center">
-          <button mat-raised-button color="primary" (click)="onRegister()">
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="!registerForm.valid"
+            (click)="onRegister()"
+          >
             Save
           </button>
           <button

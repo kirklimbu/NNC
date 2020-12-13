@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://52.15.190.182/:8084/nnc/api/',
+  apiUrl: 'http://52.15.190.182:8084/nnc/api/',
 };
 
 /*

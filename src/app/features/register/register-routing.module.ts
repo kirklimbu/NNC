@@ -6,10 +6,10 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    component: RegisterFormComponent,
+    component: RegisteredListComponent,
   },
   {
-    path: 'register-list',
+    path: 'add-letter',
     component: RegisterFormComponent,
   },
 ];

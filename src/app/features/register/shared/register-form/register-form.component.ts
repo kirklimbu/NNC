@@ -1,11 +1,10 @@
-import { Register } from './../../../../core/models/register.model';
-import { HttpClient } from '@angular/common/http';
+import { Letter } from '../../../../core/models/letter.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterService } from '../../services/register.service';
-import { ImageSnippet } from 'src/app/core/models/image-snippet.model';
 import { ImageService } from '../../services/image.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register-form',
@@ -14,26 +13,30 @@ import { ImageService } from '../../services/image.service';
 })
 export class RegisterFormComponent implements OnInit {
   public registerForm: FormGroup;
-  register: Register;
+  letter = new Letter();
+  register: Letter;
   licenceImageSrc: string = '';
   billImageSrc: string = '';
 
   licenceImage: File | null;
   billImage: File | null;
 
-  affiliations: any[] = ['C.T.E.V.T', 'T.U', 'P.U', 'K.U'];
+  affiliationCollegeList: any[] = [];
+  letterReceiverList: any[] = [];
 
   fileAttr = 'Choose Licence Image';
   fileAttrBill = 'Choose Bill Image';
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('fileInputBill') fileInputBill: ElementRef;
 
+  letterFormValues: Letter;
   constructor(
     // private http: HttpClient,
     private registerService: RegisterService,
     private imageService: ImageService,
     private formBuilder: FormBuilder,
-    private router: Router // private toastrService: ToastrService
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.licenceImage = null;
     this.billImage = null;
@@ -44,22 +47,50 @@ export class RegisterFormComponent implements OnInit {
     this.billImageSrc;
     // this.toastrService.success('wel-come to create new customer page')
     this.buildRegisterForm();
+    this.fetchLetterFormValues();
+  }
+
+  fetchLetterFormValues() {
+    this.registerService.getLetterForm().subscribe(
+      (data) => {
+        console.log(data);
+
+        this.letterFormValues = data;
+        this.affiliationCollegeList = data.affiliationCollegeList;
+        this.letterReceiverList = data.letterReceiverList;
+      },
+      (err) => {
+        err = err.message
+          ? this.toastr.error(err.message)
+          : this.toastr.error('Error fetching form values.');
+      }
+    );
   }
 
   buildRegisterForm() {
     this.registerForm = this.formBuilder.group({
-      regNum: ['', Validators.required],
-      fullName: ['', Validators.required],
-      address: ['', Validators.required],
-      wardNum: ['', Validators.required],
-      program: ['', Validators.required],
-      aff: ['', Validators.required],
-      college: ['', Validators.required],
+      regNo: [this.letter.regNo],
+      name: [this.letter.name, Validators.required],
+      address: [this.letter.address, Validators.required],
+      wardNo: [this.letter.wardNo, Validators.required],
+      // program: [this.letter.program, Validators.required],
+      collegeName: ['', Validators.required],
+      collegeAddress: ['', Validators.required],
       dob: ['', Validators.required],
-      // regDate: ['', Validators.required],
-      // file: [null],
+      email: ['', Validators.required],
+      mobileNo: ['', Validators.required],
       photoLicence: ['', Validators.required],
       photoBill: ['', Validators.required],
+      letterReceiver: ['', Validators.required],
+      affiliationCollege: ['', Validators.required],
+      /* letterReceiver: this.formBuilder.group({
+        id: [],
+        name: ['', Validators.required],
+      }), */
+      /* affiliationCollege: this.formBuilder.group({
+        id: [],
+        name: ['', Validators.required],
+      }) */
     });
   }
 
@@ -68,11 +99,14 @@ export class RegisterFormComponent implements OnInit {
   }
   /* test */
   onLicenceImageChange(event) {
+    console.log(event);
+
     const reader = new FileReader();
 
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
+      // console.log(reader.readAsDataURL(file));
 
       reader.onload = () => {
         this.licenceImageSrc = reader.result as string;
@@ -84,11 +118,14 @@ export class RegisterFormComponent implements OnInit {
     }
   }
   onBillImageChange(event) {
+    console.log(event);
+
     const reader = new FileReader();
 
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
+      // console.log(reader.readAsDataURL(file));
 
       reader.onload = () => {
         this.billImageSrc = reader.result as string;
@@ -99,93 +136,33 @@ export class RegisterFormComponent implements OnInit {
       };
     }
   }
-  /* / test */
 
-  /* test2 */
-  /* uploadFileEvt(imgFile: any) {
-    console.log(imgFile);
-
-    if (imgFile.target.files && imgFile.target.files[0]) {
-      this.fileAttr = '';
-      Array.from(imgFile.target.files).forEach((file: File) => {
-        this.fileAttr += file.name + ' - ';
-      });
-
-      // HTML5 FileReader API
-      let reader = new FileReader();
-      reader.onload = (e: any) => {
-        let image = new Image();
-        image.src = e.target.result;
-        image.onload = (rs) => {
-          let imgBase64Path = e.target.result;
-        };
-      };
-      reader.readAsDataURL(imgFile.target.files[0]);
-
-      // Reset if duplicate image uploaded again
-      this.fileInput.nativeElement.value = '';
-    } else {
-      this.fileAttr = 'Choose File';
-    }
-  } */
-  /* / test2 */
-
-  /*  onLicenceImageChange(event) {
-    if (event.target.files && event.target.files[0]) {
-      var filesAmount = event.target.files.length;
-
-      for (let i = 0; i < filesAmount; i++) {
-        var licence = new FileReader();
-
-        licence.onload = (event: any) => {
-          console.log(event.target.result);
-
-          this.licenceList.push(event.target.result);
-
-          this.registerForm.patchValue({
-            licence: licence,
-          });
-        };
-
-        licence.readAsDataURL(event.target.files[i]);
-      }
-    }
-  } */
-
-  /*  onBillImageChange(event) {
-    if (event.target.files && event.target.files[0]) {
-      var filesAmount = event.target.files.length;
-
-      for (let i = 0; i < filesAmount; i++) {
-        var bill = new FileReader();
-
-        bill.onload = (event: any) => {
-          console.log(event.target.result);
-
-          this.billList.push(event.target.result);
-
-          this.registerForm.patchValue({
-            bill: this.billList,
-          });
-        };
-
-        bill.readAsDataURL(event.target.files[i]);
-      }
-    }
-  } */
   onRegister() {
     console.log('dfasdf' + JSON.stringify(this.registerForm.value));
+    /* const formData = new FormData();
+    formData.append('regNum', this.registerForm.value.regNum);
+    formData.append('fullName', this.registerForm.value.photofullNameBill);
+    formData.append('address', this.registerForm.value.address);
+    formData.append('wardNum', this.registerForm.value.wardNum);
+    formData.append('program', this.registerForm.value.program);
+    formData.append('aff', this.registerForm.value.aff);
+    formData.append('college', this.registerForm.value.college);
+    formData.append('photoLicence', this.licenceImage, this.licenceImage.name);
+    formData.append('photoBill', this.billImage, this.billImage.name); */
+    // formData.append('file', this.registerForm.get('photoBill').value);
 
     this.registerService.register(this.registerForm.value).subscribe(
       (data) => {
         console.log('subscribe vitra daddfa' + data);
         // this.customer = data;
-        this.router.navigate(['home/register-list']);
+        this.router.navigate(['home/register']);
         // this.registerForm = data;?console.log('dafsdfsa' + this.registerForm);
         // tslint:disable-next-line:no-shadowed-variable
       },
-      (error) => {
-        console.log(' error vitra xu' + JSON.stringify(error));
+      (err) => {
+        err = err.message
+          ? this.toastr.error(err.message)
+          : this.toastr.error('Error while saving letter.');
       }
     );
   }

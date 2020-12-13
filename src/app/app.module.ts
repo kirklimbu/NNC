@@ -1,3 +1,4 @@
+import { ToastrModule } from 'ngx-toastr';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 
@@ -18,7 +19,16 @@ import { HttpClientModule } from '@angular/common/http';
     NgbModule,
     // FontAwesomeModule,
     HttpClientModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      autoDismiss: true,
+      closeButton: true,
+      progressBar: true,
+      progressAnimation:'increasing'
 
+    }),
   ],
 
   providers: [],
