@@ -17,8 +17,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" routerLinkActive="active" routerLink="/home"
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              routerLink="/home/letter"
               >Home</a
             >
           </li>
@@ -26,23 +29,28 @@
             <a
               routerLinkActive="active"
               class="nav-link"
-              routerLink="/home/register"
+              routerLink="/home/letter/letter-list"
               >Letter List</a
             >
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active">Work</a>
+            <a
+              class="nav-link"
+              routerLink="/home/letter/print-letter"
+              routerLinkActive="active"
+              >Print Letter</a
+            >
           </li>
-          <li class="nav-item">
+          <!--  <li class="nav-item">
             <a class="nav-link" routerLinkActive="active">About me</a>
-          </li>
+          </li> -->
           <!--           <li class="nav-item" (click)="toContact()">
             <a class="nav-link" routerLinkActive="active">Contact </a>
           </li> -->
-          <li class="nav-item">
+          <!--  <li class="nav-item">
             <a class="nav-link" routerLinkActive="active">I have worked for</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>

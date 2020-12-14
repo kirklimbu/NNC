@@ -1,0 +1,49 @@
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+img {
+  margin: 0;
+} /* margin reset*/
+h1 {
+  font-size: 18pt;
+  font-weight: 500;
+  margin-bottom: 0.5cm;
+}
+h2 {
+  font-size: 30pt;
+  font-weight: 600;
+  font-family: "Times New Roman", Times, serif;
+}
+p {
+  font-size: 12pt;
+}
+
+.logotipo {
+  margin: -0.5cm;
+}
+.disclaimer,
+.address p {
+  font-size: 14pt;
+}
+
+.signature-field {
+  margin-top: 2rem;
+  padding-bottom: 24pt;
+  border-top: solid black 1pt;
+}
+
+.divider {
+  font-weight: 100;
+}
+.info-list {
+  padding-left: 1rem;
+}
+.content-wrapper {
+  padding: 10%;
+  font-family: "Times New Roman", Times, serif;
+  // font-weight: 300;
+}

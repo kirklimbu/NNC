@@ -3,11 +3,13 @@ export class Letter {
   name: string;
   address: string;
   wardNo: number;
-  colege: string;
+  collegeName: string;
   collegeAdderss: string;
   program: string;
   affiliate: string;
   photoLicence: string;
+  isPhotoLicenceChange: boolean
+
   photoBill: string;
   dob: string;
   email: string;

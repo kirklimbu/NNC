@@ -25,6 +25,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
+import { MatRadioModule } from '@angular/material/radio';
 
 const material = [
   MatTableModule,
@@ -39,6 +40,7 @@ const material = [
   MatSidenavModule,
   MatListModule,
   MatDatepickerModule,
+  MatRadioModule,
   // MatMomentDateModule,
   MatNativeDateModule,
   MatTooltipModule,

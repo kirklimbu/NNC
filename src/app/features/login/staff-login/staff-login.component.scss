@@ -1,0 +1,22 @@
+#img-container {
+  display: grid;
+  place-items: center;
+}
+
+#login-container {
+  display: grid;
+  place-items: center;
+}
+
+/* img {
+  // height: 100px;
+  // width: 100px;
+  // border-radius: 50%;
+  // border: thin dotted;
+} */
+mat-card {
+  width: 400px;
+  margin: 10em auto;
+  text-align: center;
+  height: 580px;
+}

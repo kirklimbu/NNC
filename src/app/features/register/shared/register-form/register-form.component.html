@@ -1,183 +1,191 @@
 <div class="content-wrapper">
-  <section
-    fxLayout="row wrap"
-    fxLayoutAlign="center center"
-    class="registerCard"
-  >
-    <mat-card fxFlex="200px" fxFlex.xs="100%" class="mt-4 mb-4">
-      <mat-card-title>Register</mat-card-title>
-      <mat-divider></mat-divider>
-      <form
-        [formGroup]="registerForm"
-        autocomplete="off"
-        novalidate
-        fxLayout="column wrap"
+  <div class="row">
+    <div class="col-md-6">
+      <section
+        fxLayout="row wrap"
         fxLayoutAlign="center center"
-        fxLayoutGap="10px"
+        class="registerCard"
       >
-        <mat-card-content class="mt-4">
-          <p>
-            <mat-form-field class="=full-width">
-              <input
-                matInput
-                type="text"
-                placeholder="Full Name"
-                formControlName="name"
-                id="fname"
-              />
-              <mat-hint align="end">Enter full name</mat-hint>
-              <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+        <mat-card fxFlex="200px" fxFlex.xs="100%" class="mt-4 mb-4">
+          <mat-card-title>Register</mat-card-title>
+          <mat-divider></mat-divider>
+          <form
+            [formGroup]="registerForm"
+            autocomplete="off"
+            novalidate
+            fxLayout="column wrap"
+            fxLayoutAlign="center center"
+            fxLayoutGap="10px"
+          >
+            <mat-card-content class="mt-4">
+              <p>
+                <mat-form-field class="=full-width">
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Full Name"
+                    formControlName="name"
+                    id="fname"
+                  />
+                  <mat-hint align="end">Enter full name</mat-hint>
+                  <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
             <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field>
-              <input
-                matInput
-                type="text"
-                placeholder="Address"
-                formControlName="address"
-                id="lname"
-                fxlayoutalign="column"
-              />
-              <mat-hint align="end">Enter address</mat-hint>
-              <!-- <mat-error *ngIf="hasError('address', 'required')"
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Address"
+                    formControlName="address"
+                    id="lname"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter address</mat-hint>
+                  <!-- <mat-error *ngIf="hasError('address', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('address', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field>
-              <input
-                matInput
-                type="number"
-                placeholder=" Ward number"
-                formControlName="wardNo"
-                id="lname"
-                fxlayoutalign="column"
-              />
-              <mat-hint align="end">Enter ward number</mat-hint>
-              <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="number"
+                    placeholder=" Ward number"
+                    formControlName="wardNo"
+                    id="lname"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter ward number</mat-hint>
+                  <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('wardNum', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field>
-              <input
-                matInput
-                type="text"
-                placeholder=" Mobile number"
-                formControlName="mobileNo"
-                id="lname"
-                fxlayoutalign="column"
-              />
-              <mat-hint align="end">Enter mobile number</mat-hint>
-              <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="text"
+                    placeholder=" Mobile number"
+                    formControlName="mobileNo"
+                    id="lname"
+                    fxlayoutalign="column"
+                    #input
+                    maxlength="10"
+                  />
+                  <mat-hint align="end"
+                    >{{ input.value?.length || 0 }}/10, Enter mobile
+                    number</mat-hint
+                  >
+
+                  <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('wardNum', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field>
-              <input
-                matInput
-                type="text"
-                placeholder=" Email"
-                formControlName="email"
-                id="lname"
-                fxlayoutalign="column"
-              />
-              <mat-hint align="end">Enter e-mail address</mat-hint>
-              <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="text"
+                    placeholder=" Email"
+                    formControlName="email"
+                    id="lname"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter e-mail address</mat-hint>
+                  <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('wardNum', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field>
-              <input
-                matInput
-                type="text"
-                placeholder="College Name"
-                formControlName="collegeName"
-                id="college"
-                fxlayoutalign="column"
-              />
-              <mat-hint align="end">Enter college name</mat-hint>
-              <!--  <mat-error *ngIf="hasError('name', 'required')"
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="College Name"
+                    formControlName="collegeName"
+                    id="college"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter college name</mat-hint>
+                  <!--  <mat-error *ngIf="hasError('name', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('name', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field>
-              <input
-                matInput
-                type="text"
-                placeholder="College Address"
-                formControlName="collegeAddress"
-                id="collegeAddress"
-                fxlayoutalign="column"
-              />
-              <mat-hint align="end">Enter college address</mat-hint>
-              <!--  <mat-error *ngIf="hasError('name', 'required')"
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="College Address"
+                    formControlName="collegeAddress"
+                    id="collegeAddress"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter college address</mat-hint>
+                  <!--  <mat-error *ngIf="hasError('name', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('name', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field>
-              <mat-label>Affiliation College</mat-label>
-              <mat-select formControlName="affiliationCollege">
-                <mat-option
-                  *ngFor="let item of affiliationCollegeList"
-                  [value]="item"
-                  >{{ item.name }}</mat-option
-                >
-              </mat-select>
-              <mat-hint align="end">Select college affiliation</mat-hint>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <mat-label>Affiliation College</mat-label>
+                  <mat-select formControlName="affiliationCollege">
+                    <mat-option
+                      *ngFor="let item of affiliationCollegeList"
+                      [value]="item"
+                      >{{ item.name }}</mat-option
+                    >
+                  </mat-select>
+                  <mat-hint align="end">Select college affiliation</mat-hint>
 
-              <!--<mat-error *ngIf="hasError('address', 'required')">Address is required</mat-error>
+                  <!--<mat-error *ngIf="hasError('address', 'required')">Address is required</mat-error>
             <mat-error *ngIf="hasError('address', 'maxlength')">You have more than 100 characters</mat-error>-->
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field>
-              <mat-label>Letter Receiver</mat-label>
-              <mat-select formControlName="letterReceiver">
-                <mat-option
-                  *ngFor="let item of letterReceiverList"
-                  [value]="item"
-                  >{{ item.name }}</mat-option
-                >
-              </mat-select>
-              <mat-hint align="end">Select letter receiver</mat-hint>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <mat-label>Letter Receiver</mat-label>
+                  <mat-select formControlName="letterReceiver">
+                    <mat-option
+                      *ngFor="let item of letterReceiverList"
+                      [value]="item"
+                      >{{ item.name }}</mat-option
+                    >
+                  </mat-select>
+                  <mat-hint align="end">Select letter receiver</mat-hint>
 
-              <!--<mat-error *ngIf="hasError('address', 'required')">Address is required</mat-error>
+                  <!--<mat-error *ngIf="hasError('address', 'required')">Address is required</mat-error>
             <mat-error *ngIf="hasError('address', 'maxlength')">You have more than 100 characters</mat-error>-->
-            </mat-form-field>
-          </p>
-          <p>
-            <!-- <mat-form-field>
+                </mat-form-field>
+              </p>
+              <p>
+                <!-- <mat-form-field>
               <input
                 matInput
                 type="text"
@@ -185,189 +193,160 @@
                 formControlName="mobileNo"
               />
               <mat-hint align="end">Enter customer's mobile number</mat-hint> -->
-            <!--<mat-error *ngIf="hasError('mobile', 'required')">Address is required</mat-error>
+                <!--<mat-error *ngIf="hasError('mobile', 'required')">Address is required</mat-error>
             <mat-error *ngIf="hasError('mobile', 'maxlength')">You have more than 100 characters</mat-error>-->
-            <!-- </mat-form-field> -->
-          </p>
-          <p>
-            <mat-form-field>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                placeholder="Choose D.O.B"
-                formControlName="dob"
-                readonly
-                (click)="picker.open()"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              <mat-hint align="end">Select Date of Birth(D.O.B)</mat-hint>
-            </mat-form-field>
-          </p>
-          <!-- reg num -->
-          <p>
-            <mat-form-field class="=full-width">
-              <input
-                matInput
-                type="text"
-                placeholder="Registered Number"
-                formControlName="regNo"
-                id="fname"
-              />
-              <mat-hint align="end">Enter registered number</mat-hint>
-              <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+                <!-- </mat-form-field> -->
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    placeholder="Choose D.O.B"
+                    formControlName="dob"
+                    readonly
+                    (click)="picker.open()"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-hint align="end">Select Date of Birth(D.O.B)</mat-hint>
+                </mat-form-field>
+              </p>
+              <!-- reg num -->
+              <p>
+                <mat-form-field class="=full-width">
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Registered Number"
+                    formControlName="regNo"
+                    id="fname"
+                  />
+                  <mat-hint align="end">Enter registered number</mat-hint>
+                  <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
             <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
-            </mat-form-field>
-          </p>
-          <!-- /reg num -->
-          <p>
-            <!-- <mat-form-field>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                placeholder="Choose registered date"
-                formControlName="regDate"
-                id="regDate"
-                readonly
-                (click)="picker.open()"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field> -->
-          </p>
-          <!-- image upload -->
+                </mat-form-field>
+              </p>
+              <!-- /reg num -->
+              <p></p>
+              <!-- /reg num -->
 
-          <!-- /image upload -->
+              <mat-form-field>
+                <div>
+                  <mat-toolbar>
+                    <!-- Display files names -->
+                    <input
+                      matInput
+                      [(ngModel)]="fileAttr"
+                      [ngModelOptions]="{ standalone: true }"
+                      readonly
+                      name="name"
+                    />
 
-          <!-- test licence image upload -->
-          <!-- <div class="form-group">
-            <label for="photoLicence">Upload Licence Image</label>
+                    <!-- Browse Button -->
+                    <button mat-flat-button color="primary">
+                      Browse Image
+                    </button>
+                  </mat-toolbar>
 
-            <input
-              formControlName="photoLicence"
-              id="photoLicence"
-              type="file"
-              accept="image/*"
-              class="form-control"
-              (change)="onLicenceImageChange($event)"
-            /> -->
+                  <!-- Fetch selected filed on change -->
+                  <input
+                    type="file"
+                    #fileInput
+                    id="uploadFile"
+                    formControlName="photoLicence"
+                    name="uploadFile"
+                    accept="image/*"
+                    (change)="onLicenceImageChange($event)"
+                  />
+                  <img
+                    [src]="licenceImageSrc"
+                    *ngIf="licenceImageSrc"
+                    height="150"
+                    width="200px"
+                    style="margin: 3px"
+                  />
+                </div>
+                <mat-hint align="end">Upload licence photo</mat-hint>
 
-          <!--   <div
-              *ngIf="f.file.touched && f.file.invalid"
-              class="alert alert-danger"
-            >
-              <div *ngIf="f.file.errors.required">File is required.</div>
-            </div> -->
-          <!-- </div> -->
-          <!-- licence image upload -->
-          <mat-form-field>
-            <div>
-              <mat-toolbar>
-                <!-- Display files names -->
-                <input
-                  matInput
-                  [(ngModel)]="fileAttr"
-                  [ngModelOptions]="{ standalone: true }"
-                  readonly
-                  name="name"
-                />
+                <!-- <br /> -->
+              </mat-form-field>
+              <!-- /licence image upload -->
 
-                <!-- Browse Button -->
-                <button mat-flat-button color="primary">Browse Image</button>
-              </mat-toolbar>
+              <!-- bill image upload-->
+              <mat-form-field>
+                <div>
+                  <mat-toolbar>
+                    <!-- Display files names -->
+                    <input
+                      matInput
+                      [(ngModel)]="fileAttrBill"
+                      [ngModelOptions]="{ standalone: true }"
+                      readonly
+                      name="name"
+                    />
 
-              <!-- Fetch selected filed on change -->
-              <input
-                type="file"
-                #fileInput
-                id="uploadFile"
-                formControlName="photoLicence"
-                name="uploadFile"
-                accept="image/*"
-                (change)="onLicenceImageChange($event)"
-              />
-              <img
-                [src]="licenceImageSrc"
-                *ngIf="licenceImageSrc"
-                height="150"
-                width="200px"
-                style="margin: 3px"
-              />
-            </div>
-            <mat-hint align="end">Upload licence photo</mat-hint>
+                    <!-- Browse Button -->
+                    <button mat-flat-button color="primary">
+                      Browse Image
+                    </button>
+                  </mat-toolbar>
 
-            <!-- <br /> -->
-          </mat-form-field>
-          <!-- /licence image upload -->
+                  <!-- Fetch selected filed on change -->
+                  <input
+                    type="file"
+                    #fileInputBill
+                    id="uploadFileBill"
+                    formControlName="photoBill"
+                    name="uploadFileBill"
+                    accept="image/*"
+                    (change)="onBillImageChange($event)"
+                  />
+                  <img
+                    [src]="billImageSrc"
+                    *ngIf="billImageSrc"
+                    height="150"
+                    width="200px"
+                    style="margin: 3px"
+                  />
+                </div>
+                <mat-hint align="end">Upload Bill photo</mat-hint>
 
-          <!-- bill image upload-->
-          <mat-form-field>
-            <div>
-              <mat-toolbar>
-                <!-- Display files names -->
-                <input
-                  matInput
-                  [(ngModel)]="fileAttrBill"
-                  [ngModelOptions]="{ standalone: true }"
-                  readonly
-                  name="name"
+                <!-- <br /> -->
+              </mat-form-field>
+              <!--/ bill imageupload-->
+            </mat-card-content>
 
-                />
+            <mat-card-actions align="end">
+              <button
+                mat-raised-button
+                color="primary"
+                [disabled]="!registerForm.valid"
+                (click)="onRegister()"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                mat-raised-button
+                color="danger"
+                (click)="onCancel()"
+              >
+                Cancel
+              </button>
+            </mat-card-actions>
+          </form>
+        </mat-card>
+      </section>
+    </div>
 
-                <!-- Browse Button -->
-                <button mat-flat-button color="primary">Browse Image</button>
-              </mat-toolbar>
-
-              <!-- Fetch selected filed on change -->
-              <input
-                type="file"
-                #fileInputBill
-                id="uploadFileBill"
-                formControlName="photoBill"
-                name="uploadFileBill"
-                accept="image/*"
-                (change)="onBillImageChange($event)"
-              />
-              <img
-                [src]="billImageSrc"
-                *ngIf="billImageSrc"
-                height="150"
-                width="200px"
-                style="margin: 3px"
-              />
-            </div>
-            <mat-hint align="end">Upload Bill photo</mat-hint>
-
-            <!-- <br /> -->
-          </mat-form-field>
-          <!--/ bill imageupload-->
-        </mat-card-content>
-
-        <mat-card-actions align="end">
-          <button
-            mat-raised-button
-            color="primary"
-            [disabled]="!registerForm.valid"
-            (click)="onRegister()"
-          >
-            Save
-          </button>
-          <button
-            type="button"
-            mat-raised-button
-            color="danger"
-            (click)="onCancel()"
-          >
-            Cancel
-          </button>
-        </mat-card-actions>
-      </form>
-    </mat-card>
-  </section>
+    <div class="col-md-6">
+      <section>
+        <app-staff-login></app-staff-login>
+      </section>
+    </div>
+  </div>
 </div>

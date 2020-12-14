@@ -1,7 +1,10 @@
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Letter } from './../../../../core/models/letter.model';
 import { RegisterService } from './../../services/register.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-registered-list',
@@ -10,53 +13,45 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegisteredListComponent implements OnInit {
   // props
-  displayedColumns: string[] = [
-    'Id',
-    'name',
-    'regNo',
-    /*  'address',
-   'class',
-    'dob',
-    'fatherName',
-    'motherName',
-    'phoneNum', */
-    'Action',
-  ];
+  displayedColumns: string[] = ['Id', 'name', 'regNo', 'Action'];
   letterListDataSource: MatTableDataSource<any>;
+  letterListDataSource$: Observable<any>;
+  filtereedletterListDataSource$: Observable<any>;
   student: any;
+  letterStatuses = ['Verified', 'Not-verified', 'All'];
 
   constructor(
     private registerService: RegisterService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    // this.fetchLetterList();
     this.fetchLetterList();
   }
 
   fetchLetterList() {
-    this.registerService.getLetterList().subscribe(
-      (data) => {
-        console.log(data);
-
-        this.letterListDataSource = data;
-      },
-      (err) => {
-        err = err.message
-          ? this.toastr.error(err.message)
-          : this.toastr.error('Error while fetching letter list.');
-      }
-    );
+    this.letterListDataSource$ = this.registerService.getLetterList();
+    console.log(this.letterListDataSource$);
   }
 
   onEdit(letter) {}
 
   onDelete() {}
 
+  onVerifyDetails(mode, letter: Letter) {
+    console.log(mode + JSON.stringify(letter));
 
-  onViewDetails(letter) {
-    console.log(letter);
+    const link: any = mode === 'add' ? 'add-letter' : 'verify/' + letter.regNo;
+    this.router.navigate([link], { relativeTo: this.route });
+  }
 
-
+  onFilter(status) {
+    console.log(status);
+    this.letterListDataSource$ = this.registerService.getFilteredLetters(
+      status
+    );
   }
 }

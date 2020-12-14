@@ -37,7 +37,7 @@ export class TableActionButtonsComponent implements OnInit {
   onDelete() {
     this.delete.emit();
   }
-  onViewDetails() {
+  onVerifyDetails() {
     this.viewDetails.emit();
   }
 }

@@ -1,0 +1,117 @@
+<!-- test print section -->
+<div class="content-wrapper">
+  <div id="print-section">
+    <div class="container-fluid">
+      <div class="row no-gutters">
+        <div class="col-md-3 mt-2 mb-2">
+          <img
+            src="/assets/images/nnc_logo.png"
+            alt="logotipo"
+            class="logotipo"
+          />
+        </div>
+
+        <div class="col-md-7">
+          <h2 class="text-center mt-2">Nepal Nursing Council</h2>
+          <h6 class="text-center mt-2">
+            Estd. Under Nepal Nursing Council Act, 2053,(1996)
+          </h6>
+        </div>
+      </div>
+      <hr class="divider" />
+
+      <div class="row no-gutters">
+        <div class="col-md-1">
+          <p>Date:</p>
+        </div>
+        <div class="col-md-11">
+          <p>{{ myDate | date: "mediumDate" }}</p>
+        </div>
+      </div>
+
+      <div class="row no-gutters mt-2">
+        <div class="col-1 mb-2">Ref:</div>
+
+        <div class="col-10 mb-2">
+          <p>TEXAS BOARD OF NURSING</p>
+          <p>333 Gaudalupe - Suite 3-460</p>
+          <p>Austin, Texas 78701</p>
+          <p>USA</p>
+        </div>
+      </div>
+
+      <div class="row no-gutters disclaimer mt-3 mb-3">
+        <div class="col-md-1">Subject:</div>
+        <div class="col-md-11">
+          <u> Verification of Registration and Good Standing </u>
+        </div>
+      </div>
+
+      <div class="row no-gutters">
+        <div class="col-md-12 mt-3">
+          <p class="disclaimer">Dear Sir/Madam,</p>
+        </div>
+        <div class="col-md-12 mt-3">
+          <p class="disclaimer mt-3 mb-3">
+            This is to certify that Ms. <b>{{ studentName }}</b
+            >, a resident of {{ address }},ward num {{ wardNo }} is a Registered
+            Nurse.Her Registration number according to the record of this
+            council is <b>{{ regNo }}</b
+            >.
+          </p>
+          <p class="disclaimer mt-4">
+            She completed her 3 Years Proficiency Certificate Level in Nursing
+            from {{ collegeName }},{{ collegeAddress }} dated {{ regDate }},
+            which is affiliated to {{ affiliation }}.
+          </p>
+          <p class="mt-4 mb-1 disclaimer">Other informations are as follows:</p>
+
+          <ul class="info-list disclaimer">
+            <li>Date of birth:{{ dob }}</li>
+            <li>Registration issued date:{{ regIssueDate }}</li>
+            <li>Registration expiry date:{{ regExpDate }}</li>
+            <li>Registration: {{ Registration }}</li>
+          </ul>
+        </div>
+        <div class="col-md-12">
+          <p class="disclaimer mt-3 mb-3 text-left">
+            According to Nepal Nursing Council's record she has good standing
+            status. No complain on any illegal misconduct, denied
+            suspension,cancellation or mispractice is known against her
+            professional career. I wish all success in her future endeavours.
+          </p>
+        </div>
+        <div class="col-md-12 mt-4 mb-4">
+          <p class="disclaimer">Thanking you,</p>
+          <p class="disclaimer">With regards,</p>
+        </div>
+        <div class="col-md-12 mt-4 mb-3">
+          <p>............................</p>
+          <p class="disclaimer">Binda Ghemire</p>
+          <p class="disclaimer">Registar</p>
+        </div>
+      </div>
+      <div class="row no-gutters">
+        <div class="col">
+          <p class="signature-field text-center mt-3">
+            Bansbari, Kathmandu, Nepal, Tel. No.: +977-1-4372521, Fax.No:
+            +977-1-4377214,GPO Box:12541
+            <br />
+            E-mail: info@nnc.org.np Website: www.nnc.org.np
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="invoice-buttons text-right">
+    <button
+      class="btn btn-primary mr-2"
+      printTitle="Test Invoice"
+      printSectionId="print-section"
+      [useExistingCss]="true"
+      ngxPrint
+    >
+      Print Invoice
+    </button>
+  </div>
+</div>
