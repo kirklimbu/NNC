@@ -64,7 +64,12 @@ export class RegisteredListComponent implements OnInit {
       };
   }
 
-  onEdit(letter) {}
+  onEdit(letter: Letter) {
+    console.log('on edit clicked' + JSON.stringify(letter));
+    this.router.navigate(['/home/letter'], {
+      queryParams: { regNo: letter.regNo },
+    });
+  }
 
   onDelete() {}
 

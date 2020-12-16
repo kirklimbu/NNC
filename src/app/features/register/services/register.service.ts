@@ -13,8 +13,6 @@ export class RegisterService {
   constructor(private http: HttpClient) {}
 
   register(register): any {
-    // console.log('student save service' + JSON.stringify(register));
-
     return this.http.post(`${this.API_URL}letter/save`, { ...register }).pipe(
       catchError((err) => {
         return throwError(err);
@@ -24,6 +22,21 @@ export class RegisterService {
 
   getLetterForm(): any {
     return this.http.get(`${this.API_URL}letter/form`).pipe(
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
+  }
+  testEdit(regNo): any {
+    return this.http.get(`${this.API_URL}letter/form?regNo=${regNo}`).pipe(
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
+  }
+
+  getSearchDetails(regNo): any {
+    return this.http.get(`${this.API_URL}letter/form?regNo=${regNo}`).pipe(
       catchError((err) => {
         return throwError(err);
       })

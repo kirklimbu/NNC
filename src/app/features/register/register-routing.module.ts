@@ -11,6 +11,10 @@ const routes: Routes = [
     path: '',
     component: RegisterFormComponent,
   },
+  /* {
+    path: 'edit-letter',
+    component: RegisterFormComponent,
+  }, */
   {
     path: 'letter-list',
     component: RegisteredListComponent,

@@ -26,6 +26,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
+import { NgMatSearchBarModule } from 'ng-mat-search-bar';
+import { SearchFieldModule } from 'ngx-mat-search-field';
 
 const material = [
   MatTableModule,
@@ -52,6 +54,8 @@ const material = [
   MatDialogModule,
   MatGridListModule,
   MatExpansionModule,
+  NgMatSearchBarModule,
+  SearchFieldModule,
 ];
 
 @NgModule({

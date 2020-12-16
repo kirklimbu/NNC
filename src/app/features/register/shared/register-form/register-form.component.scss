@@ -10,7 +10,7 @@
 
 .mat-form-field {
   margin: 0.5rem 0;
-  width: 400px !important;
+  width: 300px !important;
 }
 
 .mat-toolbar-single-row {
@@ -38,4 +38,11 @@
   position: absolute;
 }
 
-
+img {
+  height: 300px;
+  width: 300px;
+}
+.mat-search_icons[_ngcontent-nuy-c283]
+  .mat-search_icon-search[_ngcontent-nuy-c283] {
+  left: 300px;
+}

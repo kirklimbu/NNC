@@ -1,11 +1,14 @@
+import { LetterReceicer } from './../../../../core/models/letter-receicer.model';
+import { AffiliationCollege } from './../../../../core/models/affiliation-college.model';
 import { Letter } from '../../../../core/models/letter.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { RegisterService } from '../../services/register.service';
 import { ImageService } from '../../services/image.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { SearchFieldDataSource, SearchFieldResult } from 'ngx-mat-search-field';
 
 @Component({
   selector: 'app-register-form',
@@ -19,7 +22,8 @@ export class RegisterFormComponent implements OnInit {
   licenceImageSrc: string = '';
   billImageSrc: string = '';
   licenceImage: File | null;
-  billImage: File | null;
+  // billImage: File[] | null;
+  billImage: any[];
 
   affiliationCollegeList: any[] = [];
   letterReceiverList: any[] = [];
@@ -33,24 +37,44 @@ export class RegisterFormComponent implements OnInit {
   letterFormValues$: Observable<Letter>;
   mode = 'add';
 
+  letterId: number;
+  letterDetails$: Observable<Letter>;
+  letterReceiver: LetterReceicer;
+  affiliationCollege: AffiliationCollege;
+  searchFieldDataSource: SearchFieldDataSource;
+
+  isSubmitted = false;
+
   constructor(
     // private http: HttpClient,
     private registerService: RegisterService,
     private imageService: ImageService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private toastr: ToastrService
+    private route: ActivatedRoute,
+    private toastr: ToastrService // private userService: UserService
   ) {
     this.licenceImage = null;
     this.billImage = null;
+    this.searchFieldDataSource = {
+      search(
+        regNo: string
+        /*  size: number,
+        skip: number */
+      ): Observable<SearchFieldResult> {
+        return registerService.getSearchDetails(regNo).subscribe((data) => {
+          console.log('constructor vitra ' + JSON.stringify(data));
+        });
+      },
+    };
   }
 
   ngOnInit() {
     this.licenceImageSrc;
     this.billImageSrc;
-    // this.toastrService.success('wel-come to create new customer page')
     this.buildRegisterForm();
     this.fetchLetterFormValues();
+    // this.fetchParamFromUrl();
   }
 
   fetchLetterFormValues() {
@@ -70,27 +94,46 @@ export class RegisterFormComponent implements OnInit {
     );
   }
 
-  buildRegisterForm() {
-    this.registerForm = this.formBuilder.group({
-      regNo: [this.letter.regNo],
-      name: [this.letter.name, Validators.required],
-      address: [this.letter.address, Validators.required],
-      wardNo: [this.letter.wardNo, Validators.required],
-      // program: [this.letter.program, Validators.required],
-      collegeName: [this.letter.collegeName, Validators.required],
-      collegeAddress: [this.letter.collegeAddress, Validators.required],
-      dob: [this.letter.dob, Validators.required],
-      email: [this.letter.email, Validators.required],
-      mobileNo: [this.letter.mobileNo, Validators.required],
-      photoLicenceChange: [this.letter.photoLicenceChange],
-      photoLicence: [this.letter.photoLicence, Validators.required],
-      photoBill: [this.letter.photoBill, Validators.required],
-      photoBillChange: [this.letter.photoBillChange],
-      letterReceiver: [this.letter.letterReceiver, Validators.required],
-      affiliationCollege: [this.letter.affiliationCollege, Validators.required],
+  onSearch(regId: number) {
+    this.registerService.getSearchDetails(regId).subscribe((data) => {
+      this.mode = 'edit';
+      this.letter = data.form;
+      this.letterReceiver = data.form.letterReceiver;
+      this.affiliationCollege = data.form.affiliationCollege;
+      this.licenceImage = data.form.photoLicence;
+      this.billImage = data.form.requestList;
+      console.log('photo request list : ' + JSON.stringify(this.billImage));
+
+      this.buildRegisterForm();
     });
+  }
+
+  buildRegisterForm() {
     if (this.mode === 'add') {
+      this.registerForm = this.formBuilder.group({
+        regNo: [this.letter.regNo],
+        name: [this.letter.name, Validators.required],
+        address: [this.letter.address, Validators.required],
+        wardNo: [this.letter.wardNo, Validators.required],
+        // program: [this.letter.program, Validators.required],
+        collegeName: [this.letter.collegeName, Validators.required],
+        collegeAddress: [this.letter.collegeAddress, Validators.required],
+        dob: [this.letter.dob, Validators.required],
+        email: [this.letter.email, Validators.required],
+        mobileNo: [this.letter.mobileNo, Validators.required],
+        photoLicenceChange: [true],
+        photoLicence: [this.letter.photoLicence, Validators.required],
+        photoBill: [this.letter.photoBill, Validators.required],
+        photoBillChange: [true],
+        letterReceiver: [this.letter.letterReceiver, Validators.required],
+        affiliationCollege: [
+          this.letter.affiliationCollege,
+          Validators.required,
+        ],
+      });
     } else {
+      console.log('inside edit form');
+
       this.registerForm = this.formBuilder.group({
         regNo: [this.letter.regNo],
         name: [this.letter.name, Validators.required],
@@ -118,6 +161,13 @@ export class RegisterFormComponent implements OnInit {
     }
   }
 
+  patchPhotoLicenceChange() {
+    this.registerForm.patchValue({ photoLicenceChange: true });
+  }
+  patchPhotoBillChange() {
+    this.registerForm.patchValue({ photoBillChange: true });
+  }
+
   get f() {
     return this.registerForm.controls;
   }
@@ -137,7 +187,13 @@ export class RegisterFormComponent implements OnInit {
         this.registerForm.patchValue({
           photoLicence: reader.result,
         });
-        this.registerForm.get('photoLicenceChange').patchValue(true);
+        this.patchPhotoLicenceChange();
+        // this.registerForm.patchValue({photoLicenceChange: true})
+
+        /*  this.registerForm.patchValue({
+          photoLicenceChange: 'true',
+        });
+        this.registerForm.controls['photoLicenceChange'].patchValue(true); */
       };
     }
   }
@@ -157,7 +213,8 @@ export class RegisterFormComponent implements OnInit {
         this.registerForm.patchValue({
           photoBill: reader.result,
         });
-        this.registerForm.get('photoBillChange').patchValue(true);
+        this.patchPhotoLicenceChange();
+        // this.registerForm.get('photoBillChange').patchValue(true);
       };
     }
   }
@@ -175,21 +232,29 @@ export class RegisterFormComponent implements OnInit {
     formData.append('photoLicence', this.licenceImage, this.licenceImage.name);
     formData.append('photoBill', this.billImage, this.billImage.name); */
     // formData.append('file', this.registerForm.get('photoBill').value);
-
-    this.registerService.register(this.registerForm.value).subscribe(
-      (data) => {
-        console.log('subscribe vitra daddfa' + data);
-        // this.customer = data;
-        this.router.navigate(['home/register']);
-        // this.registerForm = data;?console.log('dafsdfsa' + this.registerForm);
-        // tslint:disable-next-line:no-shadowed-variable
-      },
-      (err) => {
-        err = err.message
-          ? this.toastr.error(err.message)
-          : this.toastr.error('Error while saving letter.');
+    this.isSubmitted = true;
+    if (this.registerForm.valid) {
+      if (this.mode === 'add') {
+        this.registerService.register(this.registerForm.value).subscribe(
+          (data) => {
+            console.log('subscribe vitra daddfa' + data);
+            // this.customer = data;
+            this.router.navigate(['home/register']);
+            // this.registerForm = data;?console.log('dafsdfsa' + this.registerForm);
+            // tslint:disable-next-line:no-shadowed-variable
+          },
+          (err) => {
+            err = err.error.message
+              ? this.toastr.error(err.error.message)
+              : this.toastr.error('Error while saving letter.');
+          }
+        );
+      } else {
+        // for edit case
       }
-    );
+    } else {
+      console.log('invalid register form');
+    }
   }
 
   hasError(name: string, required: string) {}

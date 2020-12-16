@@ -1,5 +1,23 @@
 <div class="content-wrapper">
   <div class="row">
+    <div class="col-md-10">
+      <mat-search-bar
+        style="margin-left: 300px"
+        class="text-right ml-4"
+        placeholder="search by RegNo"
+        (change)="onSearch($event.target.value)"
+      ></mat-search-bar>
+      <!-- <mat-form-field>
+        <ngx-mat-search-field
+          placeholder="Search by RegId"
+          prefetch="true"
+          [maxRows]="20"
+          [dataSource]="searchFieldDataSource"
+        ></ngx-mat-search-field>
+      </mat-form-field> -->
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-6">
       <section
         fxLayout="row wrap"
@@ -25,7 +43,7 @@
                     type="text"
                     placeholder="Full Name"
                     formControlName="name"
-                    id="fname"
+                    id="name"
                   />
                   <mat-hint align="end">Enter full name</mat-hint>
                   <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
@@ -156,11 +174,18 @@
                 <mat-form-field>
                   <mat-label>Affiliation College</mat-label>
                   <mat-select formControlName="affiliationCollege">
-                    <mat-option
-                      *ngFor="let item of affiliationCollegeList"
-                      [value]="item"
-                      >{{ item.name }}</mat-option
-                    >
+                    <ng-container *ngIf="mode === 'edit'">
+                      <mat-option [value]="affiliationCollege">{{
+                        affiliationCollege.name
+                      }}</mat-option>
+                    </ng-container>
+                    <ng-container *ngIf="mode === 'add'">
+                      <mat-option
+                        *ngFor="let item of affiliationCollegeList"
+                        [value]="item"
+                        >{{ item.name }}</mat-option
+                      >
+                    </ng-container>
                   </mat-select>
                   <mat-hint align="end">Select college affiliation</mat-hint>
 
@@ -172,11 +197,18 @@
                 <mat-form-field>
                   <mat-label>Letter Receiver</mat-label>
                   <mat-select formControlName="letterReceiver">
-                    <mat-option
-                      *ngFor="let item of letterReceiverList"
-                      [value]="item"
-                      >{{ item.name }}</mat-option
-                    >
+                    <ng-container *ngIf="mode === 'add'">
+                      <mat-option
+                        *ngFor="let item of letterReceiverList"
+                        [value]="item"
+                        >{{ item.name }}</mat-option
+                      >
+                    </ng-container>
+                    <ng-container *ngIf="mode !== 'add'">
+                      <mat-option [value]="letterReceiver">{{
+                        letterReceiver.name
+                      }}</mat-option>
+                    </ng-container>
                   </mat-select>
                   <mat-hint align="end">Select letter receiver</mat-hint>
 
@@ -184,24 +216,12 @@
             <mat-error *ngIf="hasError('address', 'maxlength')">You have more than 100 characters</mat-error>-->
                 </mat-form-field>
               </p>
-              <p>
-                <!-- <mat-form-field>
-              <input
-                matInput
-                type="text"
-                placeholder="Mobile number"
-                formControlName="mobileNo"
-              />
-              <mat-hint align="end">Enter customer's mobile number</mat-hint> -->
-                <!--<mat-error *ngIf="hasError('mobile', 'required')">Address is required</mat-error>
-            <mat-error *ngIf="hasError('mobile', 'maxlength')">You have more than 100 characters</mat-error>-->
-                <!-- </mat-form-field> -->
-              </p>
+
               <p>
                 <mat-form-field>
                   <input
-                    matInput
                     [matDatepicker]="picker"
+                    matInput
                     placeholder="Choose D.O.B"
                     formControlName="dob"
                     readonly
@@ -240,10 +260,9 @@
                     <!-- Display files names -->
                     <input
                       matInput
-                      [(ngModel)]="fileAttr"
-                      [ngModelOptions]="{ standalone: true }"
                       readonly
                       name="name"
+                      placeholder="Choose Licence Photo"
                     />
 
                     <!-- Browse Button -->
@@ -263,8 +282,8 @@
                     (change)="onLicenceImageChange($event)"
                   />
                   <img
-                    [src]="licenceImageSrc"
-                    *ngIf="licenceImageSrc"
+                    [src]="licenceImageSrc || licenceImage"
+                    *ngIf="licenceImageSrc || licenceImage"
                     height="150"
                     width="200px"
                     style="margin: 3px"
@@ -283,10 +302,9 @@
                     <!-- Display files names -->
                     <input
                       matInput
-                      [(ngModel)]="fileAttrBill"
-                      [ngModelOptions]="{ standalone: true }"
                       readonly
                       name="name"
+                      placeholder="Choose Licence Photo"
                     />
 
                     <!-- Browse Button -->
@@ -296,22 +314,38 @@
                   </mat-toolbar>
 
                   <!-- Fetch selected filed on change -->
-                  <input
-                    type="file"
-                    #fileInputBill
-                    id="uploadFileBill"
-                    formControlName="photoBill"
-                    name="uploadFileBill"
-                    accept="image/*"
-                    (change)="onBillImageChange($event)"
-                  />
-                  <img
-                    [src]="billImageSrc"
-                    *ngIf="billImageSrc"
-                    height="150"
-                    width="200px"
-                    style="margin: 3px"
-                  />
+                  <ng-container *ngIf="mode === 'add'">
+                    <input
+                      type="file"
+                      #fileInputBill
+                      id="uploadFileBill"
+                      formControlName="photoBill"
+                      name="uploadFileBill"
+                      accept="image/*"
+                      (change)="onBillImageChange($event)"
+                    />
+                    <img
+                      *ngIf="billImageSrc"
+                      [src]="billImageSrc"
+                      style="margin: 3px"
+                    />
+                  </ng-container>
+                  <ng-container *ngIf="mode === 'edit'">
+                    <input
+                      type="file"
+                      #fileInputBill
+                      id="uploadFileBill"
+                      formControlName="photoBill"
+                      name="uploadFileBill"
+                      accept="image/*"
+                      (change)="onBillImageChange($event)"
+                    />
+                    <img
+                      *ngFor="let item of billImage"
+                      [src]="billImageSrc || billImage"
+                      style="margin: 3px"
+                    />
+                  </ng-container>
                 </div>
                 <mat-hint align="end">Upload Bill photo</mat-hint>
 
@@ -342,11 +376,10 @@
         </mat-card>
       </section>
     </div>
-
-    <div class="col-md-6">
-      <section *ngIf="mode == 'add'">
+    <ng-container>
+      <div class="col-md-6">
         <app-staff-login></app-staff-login>
-      </section>
-    </div>
+      </div>
+    </ng-container>
   </div>
 </div>
