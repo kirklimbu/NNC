@@ -78,13 +78,14 @@ export class RegisterFormComponent implements OnInit {
       wardNo: [this.letter.wardNo, Validators.required],
       // program: [this.letter.program, Validators.required],
       collegeName: [this.letter.collegeName, Validators.required],
-      collegeAddress: [this.letter.collegeAdderss, Validators.required],
+      collegeAddress: [this.letter.collegeAddress, Validators.required],
       dob: [this.letter.dob, Validators.required],
       email: [this.letter.email, Validators.required],
       mobileNo: [this.letter.mobileNo, Validators.required],
-      isPhotoLicenceChange: [this.letter.isPhotoLicenceChange],
+      photoLicenceChange: [this.letter.photoLicenceChange],
       photoLicence: [this.letter.photoLicence, Validators.required],
       photoBill: [this.letter.photoBill, Validators.required],
+      photoBillChange: [this.letter.photoBillChange],
       letterReceiver: [this.letter.letterReceiver, Validators.required],
       affiliationCollege: [this.letter.affiliationCollege, Validators.required],
     });
@@ -97,16 +98,17 @@ export class RegisterFormComponent implements OnInit {
         wardNo: [this.letter.wardNo, Validators.required],
         // program: [this.letter.program, Validators.required],
         collegeName: [this.letter.collegeName, Validators.required],
-        collegeAddress: [this.letter.collegeAdderss, Validators.required],
+        collegeAddress: [this.letter.collegeAddress, Validators.required],
         dob: [this.letter.dob, Validators.required],
         email: [this.letter.email, Validators.required],
         mobileNo: [this.letter.mobileNo, Validators.required],
         photoLicence: [this.letter.photoLicence, Validators.required],
-        isPhotoLicenceChange: [
-          this.letter.isPhotoLicenceChange,
+        photoLicenceChange: [
+          this.letter.photoLicenceChange,
           Validators.required,
         ],
         photoBill: [this.letter.photoBill, Validators.required],
+        photoBillChange: [this.letter.photoBillChange],
         letterReceiver: [this.letter.letterReceiver, Validators.required],
         affiliationCollege: [
           this.letter.affiliationCollege,
@@ -132,14 +134,10 @@ export class RegisterFormComponent implements OnInit {
       reader.onload = () => {
         this.licenceImageSrc = reader.result as string;
 
-        // console.log('base64' + this.licenceImageSrc);
-
         this.registerForm.patchValue({
           photoLicence: reader.result,
         });
-        this.registerForm.patchValue({
-          isPhotoLicenceChange: true,
-        });
+        this.registerForm.get('photoLicenceChange').patchValue(true);
       };
     }
   }
@@ -156,16 +154,16 @@ export class RegisterFormComponent implements OnInit {
       reader.onload = () => {
         this.billImageSrc = reader.result as string;
 
-        /* this.registerForm.patchValue({
+        this.registerForm.patchValue({
           photoBill: reader.result,
-        }); */
-        this.registerForm.get('isPhotoLicenceChange').patchValue(true);
+        });
+        this.registerForm.get('photoBillChange').patchValue(true);
       };
     }
   }
 
   onRegister() {
-    console.log('dfasdf' + JSON.stringify(this.registerForm.value));
+    console.log(JSON.stringify(this.registerForm.value));
     /* const formData = new FormData();
     formData.append('regNum', this.registerForm.value.regNum);
     formData.append('fullName', this.registerForm.value.photofullNameBill);

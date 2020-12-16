@@ -31,7 +31,7 @@
                     <mat-label>Username </mat-label>
                     <mat-hint align="end">Enter username</mat-hint>
 
-                    <input matInput required formControlName="username" />
+                    <input matInput required formControlName="userName" />
 
                     <mat-error *ngIf="staffLoginForm.invalid">
                       {{ getUsernameErrorMsg() }}
@@ -47,7 +47,7 @@
 
                     <input
                       matInput
-                      formControlName="password"
+                      formControlName="passWord"
                       [type]="hide ? 'password' : 'text'"
                     />
                     <button

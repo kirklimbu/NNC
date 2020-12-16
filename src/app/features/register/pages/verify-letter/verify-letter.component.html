@@ -1,1 +1,283 @@
-<p>verify-letter works!</p>
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-md-12">
+      <section
+        fxLayout="row wrap"
+        fxLayoutAlign="center center"
+        class="registerCard"
+      >
+        <mat-card fxFlex="200px" fxFlex.xs="100%" class="mt-4 mb-4">
+          <mat-card-title>For Verification </mat-card-title>
+          <mat-divider></mat-divider>
+          <form
+            [formGroup]="letterVerifyForm"
+            autocomplete="off"
+            novalidate
+            fxLayout="column wrap"
+            fxLayoutAlign="center center"
+            fxLayoutGap="10px"
+          >
+            <mat-card-content class="mt-4">
+              <p>
+                <mat-form-field class="=full-width">
+                  <input
+                    matInput
+                    readonly
+                    type="text"
+                    placeholder="Full Name"
+                    formControlName="name"
+                    id="fname"
+                  />
+                  <mat-hint align="end">Enter full name</mat-hint>
+                  <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+            <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    readonly
+                    type="text"
+                    placeholder="Address"
+                    formControlName="address"
+                    id="lname"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter address</mat-hint>
+                  <!-- <mat-error *ngIf="hasError('address', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('address', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    readonly
+                    type="number"
+                    placeholder=" Ward number"
+                    formControlName="wardNo"
+                    id="lname"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter ward number</mat-hint>
+                  <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('wardNum', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    readonly
+                    type="text"
+                    placeholder=" Mobile number"
+                    formControlName="mobileNo"
+                    id="lname"
+                    fxlayoutalign="column"
+                    #input
+                    maxlength="10"
+                  />
+                  <mat-hint align="end"> Enter mobile number</mat-hint>
+
+                  <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('wardNum', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    readonly
+                    type="text"
+                    placeholder=" Email"
+                    formControlName="email"
+                    id="lname"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter e-mail address</mat-hint>
+                  <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('wardNum', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    readonly
+                    type="text"
+                    placeholder="College Name"
+                    formControlName="collegeName"
+                    id="college"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter college name</mat-hint>
+                  <!--  <mat-error *ngIf="hasError('name', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('name', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <input
+                    matInput
+                    readonly
+                    type="text"
+                    placeholder="College Address"
+                    formControlName="collegeAddress"
+                    id="collegeAddress"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter college address</mat-hint>
+                  <!--  <mat-error *ngIf="hasError('name', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('name', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <mat-label>Affiliation College</mat-label>
+                  <mat-select readonly formControlName="affiliationCollege">
+                    <mat-option [value]="affiliationCollege">{{
+                      affiliationCollege.name
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-hint align="end">Select college affiliation</mat-hint>
+
+                  <!--<mat-error *ngIf="hasError('address', 'required')">Address is required</mat-error>
+            <mat-error *ngIf="hasError('address', 'maxlength')">You have more than 100 characters</mat-error>-->
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field>
+                  <mat-label>Letter Receiver</mat-label>
+                  <mat-select readonly formControlName="letterReceiver">
+                    <mat-option [value]="letterReceiver">{{
+                      letterReceiver.name
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-hint align="end">Select letter receiver</mat-hint>
+
+                  <!--<mat-error *ngIf="hasError('address', 'required')">Address is required</mat-error>
+            <mat-error *ngIf="hasError('address', 'maxlength')">You have more than 100 characters</mat-error>-->
+                </mat-form-field>
+              </p>
+              <p></p>
+              <p>
+                <mat-form-field>
+                  <input
+                    readonly
+                    matInput
+                    placeholder="Choose D.O.B"
+                    formControlName="dob"
+                    readonly
+                    (click)="picker.open()"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    readonly
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-hint align="end">Select Date of Birth(D.O.B)</mat-hint>
+                </mat-form-field>
+              </p>
+              <!-- reg num -->
+              <p>
+                <mat-form-field class="=full-width">
+                  <input
+                    readonly
+                    matInput
+                    type="text"
+                    placeholder="Registered Number"
+                    formControlName="regNo"
+                    id="fname"
+                  />
+                  <mat-hint align="end">Enter registered number</mat-hint>
+                  <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+            <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
+                </mat-form-field>
+              </p>
+              <!-- /reg num -->
+              <!-- image display -->
+              <div class="row">
+                <div class="col-md-6 mt-2">
+                  <img
+                    src="{{ licenceImage }}"
+                    class="img-thumbnail img-fluid avator img-thumbnail img-fluid"
+                  />
+                  <!-- zoom test -->
+                  <!-- <ngx-img-zoom
+                    [zoomImageSrc]="licenceImage"
+                    [previewImageSrc]="licenceImage"
+                    [lensStyle]="'width:155px; height:155px'"
+                    [enableZoom]="enableZoom"
+                    [containerStyle]=""
+                  ></ngx-img-zoom> -->
+                  <!-- /zoom test -->
+                  <h4>
+                    <label class="mx-auto mt-2 mb-2"
+                      >Uploaded Licence Image</label
+                    >
+                  </h4>
+                </div>
+              </div>
+              <div class="row">
+                <div
+                  class="col-md-6"
+                  *ngFor="let photo of billImage; index as i"
+                >
+                  <img
+                    src="{{ photo.photoBill }}  "
+                    class="img-thumbnail rounded avator img-fluid"
+                  />
+                  <h4>
+                    <label class="mx-auto mx-auto mt-2 mb-2"
+                      >Uploaded Bill Image. {{ i + 1 }}</label
+                    >
+                  </h4>
+                </div>
+              </div>
+              <!--/ bill imageupload-->
+            </mat-card-content>
+
+            <mat-card-actions align="end" >
+              <button mat-raised-button color="primary" (click)="onVerify()">
+                Verify
+              </button>
+              <button
+                type="button"
+                mat-raised-button
+                color="warn"
+                (click)="onReject()"
+              >
+                Reject
+              </button>
+            </mat-card-actions>
+          </form>
+        </mat-card>
+      </section>
+    </div>
+  </div>
+</div>

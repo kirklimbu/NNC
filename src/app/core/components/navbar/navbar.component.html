@@ -27,6 +27,7 @@
           </li>
           <li class="nav-item">
             <a
+
               routerLinkActive="active"
               class="nav-link"
               routerLink="/home/letter/letter-list"
@@ -36,6 +37,7 @@
 
           <li class="nav-item">
             <a
+              *ngIf="isLoggedIn$ | async"
               class="nav-link"
               routerLink="/home/letter/print-letter"
               routerLinkActive="active"
@@ -45,9 +47,16 @@
           <!--  <li class="nav-item">
             <a class="nav-link" routerLinkActive="active">About me</a>
           </li> -->
-          <!--           <li class="nav-item" (click)="toContact()">
-            <a class="nav-link" routerLinkActive="active">Contact </a>
-          </li> -->
+          <li class="nav-item">
+            <a
+
+              class="nav-link"
+              routerLinkActive="active"
+              (click)="onLogout()"
+            >
+              Logout
+            </a>
+          </li>
           <!--  <li class="nav-item">
             <a class="nav-link" routerLinkActive="active">I have worked for</a>
           </li> -->

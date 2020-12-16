@@ -1,5 +1,10 @@
+import { RegisterService } from './../../services/register.service';
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Observable } from 'rxjs';
+import { Letter } from 'src/app/core/models/letter.model';
 
 @Component({
   selector: 'app-print-letter',
@@ -23,12 +28,57 @@ export class PrintLetterComponent implements OnInit {
   regIssueDate = '10th March 2016';
   regExpDate = '10th March 2028';
   Registration: 'Registered Nurse';
-  constructor(private datePipe: DatePipe) {}
+  letterId: number;
+
+  printDetails$: Observable<Letter>;
+  printDetails: Letter;
+
+  constructor(
+    private datePipe: DatePipe,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private letterService: RegisterService
+  ) {}
+
   ngOnInit(): void {
     this.calcDate();
+    this.fetchParamFromUrl();
   }
 
   calcDate() {
     this.myDate = new Date();
+  }
+
+  fetchParamFromUrl() {
+    this.route.queryParamMap.subscribe((params) => {
+      this.letterId = +params.get('id');
+      // this.printDetails$ = this.letterService.getPrintDetails(this.letterId);
+      this.printDetails$ = this.letterService
+        .getPrintDetails(this.letterId)
+        .subscribe((data) => {
+          this.printDetails = data;
+          console.log(this.printDetails);
+        });
+    }),
+      (err) => {
+        err = err.error.message
+          ? this.toastr.error(err.error.message)
+          : this.toastr.error('Error fetching param value.');
+      };
+  }
+
+  onPrintSave() {
+    const id = this.letterId;
+    this.letterService.savePrintInfo(id).subscribe(
+      (res) => {
+        this.router.navigate(['/home/letter/letter-list']);
+      },
+      (err) => {
+        err = err.error.message
+          ? this.toastr.error(err.error.message)
+          : this.toastr.error('Error saving print details.');
+      }
+    );
   }
 }

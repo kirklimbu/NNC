@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPrintModule } from 'ngx-print';
 import { VerifyLetterComponent } from './pages/verify-letter/verify-letter.component';
 import { PrintLetterComponent } from './pages/print-letter/print-letter.component';
+import { NgxImgZoomModule } from 'ngx-img-zoom';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PrintLetterComponent } from './pages/print-letter/print-letter.componen
     SharedModule,
     LoginModule,
     NgxPrintModule,
+    NgxImgZoomModule,
     // MatFileUploadModule,
     // NgxMatFileInputModule,
   ],

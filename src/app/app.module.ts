@@ -7,8 +7,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
-import { JwtModule } from '@auth0/angular-jwt';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
+import { JtwTokenInterceptorService } from './core/interceptor/jtw-token-interceptor.service';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome/fontawesome.module';
 
 export function tokenGetter() {
@@ -34,22 +35,30 @@ export function tokenGetter() {
       progressAnimation: 'increasing',
     }),
     JwtModule.forRoot({
-      /* config: {
+      config: {
         // ...
         tokenGetter: () => {
           return localStorage.getItem('token');
         },
         throwNoTokenError: true,
-      }, */
-      config: {
+      },
+      /*  config: {
         tokenGetter: tokenGetter,
         allowedDomains: ['localhost:8084', '52.15.190.182:8084'],
         disallowedRoutes: ['http://example.com/examplebadroute/'],
-      },
+      }, */
     }),
   ],
 
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JtwTokenInterceptorService,
+      multi: true,
+    },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    ,
+  ],
   // schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   bootstrap: [AppComponent],
 })

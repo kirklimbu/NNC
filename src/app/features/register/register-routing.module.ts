@@ -1,3 +1,5 @@
+import { VerifyLetterComponent } from './pages/verify-letter/verify-letter.component';
+import { AuthGuardService } from './../../core/guards/auth/auth-guard.service';
 import { PrintLetterComponent } from './pages/print-letter/print-letter.component';
 import { RegisterFormComponent } from './shared/register-form/register-form.component';
 import { RegisteredListComponent } from './pages/registered-list/registered-list.component';
@@ -12,14 +14,17 @@ const routes: Routes = [
   {
     path: 'letter-list',
     component: RegisteredListComponent,
+    canActivate: [AuthGuardService],
   },
   {
-    path: 'verify/:id',
-    component: RegisterFormComponent,
+    path: 'verify/detail',
+    component: VerifyLetterComponent,
+    canActivate: [AuthGuardService],
   },
   {
     path: 'print-letter',
     component: PrintLetterComponent,
+    canActivate: [AuthGuardService],
   },
 ];
 

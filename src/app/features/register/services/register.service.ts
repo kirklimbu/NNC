@@ -30,17 +30,70 @@ export class RegisterService {
     );
   }
   getLetterList(): any {
-    return this.http.get(`${this.API_URL}verify/list`).pipe(
+    return this.http
+      .get(`${this.API_URL}auth/letter/verify/list?status=${status}`)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
+  }
+  getFilteredLetters(status): any {
+    return this.http
+      .get(`${this.API_URL}auth/letter/verify/list?status=${status}`)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
+  }
+  getLetterDetails(id: number): any {
+    return this.http
+      .get(`${this.API_URL}auth/letter/verify/detail?id=${id}`)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
+  }
+  isVerfied(id: number): any {
+    // console.log('student save service' + JSON.stringify(register));
+
+    return this.http
+      .post(`${this.API_URL}auth/letter/verify/save?id=${id}`, id)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
+  }
+
+  isRejected(id: number): any {
+    // console.log('student save service' + JSON.stringify(register));
+    return this.http
+      .post(`${this.API_URL}auth/letter/reject/save?id=${id}`, id)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
+  }
+  // print
+  getPrintDetails(id: number): any {
+    return this.http.get(`${this.API_URL}auth/letter/print?id=${id}`).pipe(
       catchError((err) => {
         return throwError(err);
       })
     );
   }
-  getFilteredLetters(status): any {
-    return this.http.get(`${this.API_URL}verify/list`).pipe(
-      catchError((err) => {
-        return throwError(err);
-      })
-    );
+  savePrintInfo(id: number): any {
+    // console.log('student save service' + JSON.stringify(register));
+    return this.http
+      .post(`${this.API_URL}auth/letter/print/save?id=${id}`, id)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
   }
 }

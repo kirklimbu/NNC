@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { User } from 'src/app/core/models/user.model';
 import { environment } from 'src/environments/environment';
 
@@ -13,14 +14,17 @@ export class LoginService {
     // console.log(environment.production); // Logs false for default environment
   }
 
-  login(username: string, password: string): any {
-    console.log('login service' + username + password);
-
-    return this.http.post<User>(this.API_URL + 'user/logen', {
-      username,
-      password,
-    });
+  login(userName: string, passWord: string): any {
+    return this.http
+      .post<User>(this.API_URL + 'staff/login', {
+        userName,
+        passWord,
+      })
+      .pipe(
+        map((res) => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('token', res.token);
+        })
+      );
   }
 }
-
-

@@ -10,7 +10,6 @@ import { User } from 'src/app/core/models/user.model';
   styleUrls: ['./staff-login.component.scss'],
 })
 export class StaffLoginComponent implements OnInit {
-
   // props
   user = new User();
   staffLoginForm: FormGroup;
@@ -33,8 +32,8 @@ export class StaffLoginComponent implements OnInit {
 
   buildStaffLoginForm() {
     this.staffLoginForm = this.fb.group({
-      username: [this.user.userName, [Validators.required]],
-      password: [this.user.password, [Validators.required]],
+      userName: [this.user.userName, [Validators.required]],
+      passWord: [this.user.passWord, [Validators.required]],
     });
   }
 
@@ -43,38 +42,26 @@ export class StaffLoginComponent implements OnInit {
   }
 
   get username() {
-    return this.staffLoginForm.get('username');
+    return this.staffLoginForm.get('userName');
   }
   get pwd() {
-    return this.staffLoginForm.get('password');
+    return this.staffLoginForm.get('passWord');
   }
 
   login() {
-    console.log('clicked');
     this.formSubmitted = true;
     this.loading = true;
     if (this.staffLoginForm.valid && this.formSubmitted) {
       this.loginService
-        .login(this.f.username.value, this.f.password.value)
+        .login(this.f.userName.value, this.f.passWord.value)
         .subscribe(
           (res) => {
-            this.router.navigate(['/home/register']);
+            this.router.navigate(['home/letter/letter-list']);
           },
           (err) => {
-            console.log('login error ' + JSON.stringify(err));
-
-            err.status == 401
-              ? (this.errorMsg = err.error.message)
+            err.status == 400
+              ? (this.errorMsg = err.error.message || err.error.errors[0])
               : (this.errorMsg = 'Login Failed');
-            /*  this.loginInvalid = true;
-            if (err.status == 401) {
-              this.errorMsg = err.error.message;
-            } else {
-              console.log("error " + JSON.stringify(err));
-
-              this.loginInvalid = true;
-              this.errorMsg = "Login Failed";
-            } */
           }
         );
     }
@@ -82,12 +69,12 @@ export class StaffLoginComponent implements OnInit {
 
   /* Error messages */
   getUsernameErrorMsg() {
-    return this.staffLoginForm.controls.username.hasError('required')
+    return this.staffLoginForm.controls.userName.hasError('required')
       ? 'Username is required.'
       : '';
   }
   getPassErrorMsg() {
-    return this.staffLoginForm.controls.password.hasError('required')
+    return this.staffLoginForm.controls.passWord.hasError('required')
       ? 'Password is required.'
       : '';
   }
