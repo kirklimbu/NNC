@@ -1,6 +1,6 @@
 import { AffiliationCollege } from './affiliation-college.model';
 import { LetterReceicer } from './letter-receicer.model';
-export class Letter {
+export class LetterVerify {
   id: number;
   regNo: number;
   name: string;
@@ -11,25 +11,14 @@ export class Letter {
   affiliate: string;
   photoLicence: string;
   photoLicenceChange: boolean;
+  photoBill: string;
+  photoBillChange: boolean;
   dob: string;
   email: string;
   mobileNo: string;
-  collegeAddress: string;
-
-  photoBill1: string;
-  photoBillChange1: boolean;
-  status1: string;
-  print1: boolean;
-  letterReceiverId1: number;
-  letterReceiverName1: string;
-
-  photoBill2: string;
-  photoBillChange2: boolean;
-  status2: string;
-  print2: boolean;
-  letterReceiverId2: number;
-  letterReceiverName2: string;
-
   affiliationCollege: AffiliationCollege;
   letterReceiver: LetterReceicer;
+  requestList: any[];
+  collegeAddress: any;
+  // letterReceiverList: any[];
 }

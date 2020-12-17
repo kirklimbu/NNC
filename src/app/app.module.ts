@@ -27,8 +27,7 @@ export function tokenGetter() {
     HttpClientModule,
     ToastrModule.forRoot({
       timeOut: 5000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true,
+      positionClass: 'toast-bottom-right',
       autoDismiss: true,
       closeButton: true,
       progressBar: true,

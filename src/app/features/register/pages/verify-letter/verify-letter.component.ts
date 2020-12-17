@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { Letter } from 'src/app/core/models/letter.model';
 import { idText } from 'typescript';
 import { NgxImgZoomService } from 'ngx-img-zoom';
+import { LetterVerify } from 'src/app/core/models/verify-letter.model';
 
 @Component({
   selector: 'app-verify-letter',
@@ -19,10 +20,10 @@ export class VerifyLetterComponent implements OnInit {
   // props
   letterVerifyForm: FormGroup;
   letterDetails$: Observable<Letter>;
-  letterDetails: Letter;
+  letterDetails: LetterVerify;
   letterId: number;
   selected: string;
-  letter = new Letter();
+  letter = new LetterVerify();
   affiliationCollegeList = [];
   letterReceiverList = [];
   letterReceiver: LetterReceicer;

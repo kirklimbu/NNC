@@ -13,6 +13,19 @@ export class RegisterService {
   constructor(private http: HttpClient) {}
 
   register(register): any {
+    console.log(register);
+
+    /* const formData = new FormData();
+    formData.append('regNum', this.registerForm.value.regNum);
+    formData.append('fullName', this.registerForm.value.photofullNameBill);
+    formData.append('address', this.registerForm.value.address);
+    formData.append('wardNum', this.registerForm.value.wardNum);
+    formData.append('program', this.registerForm.value.program);
+    formData.append('aff', this.registerForm.value.aff);
+    formData.append('college', this.registerForm.value.college);
+    formData.append('photoLicence', this.licenceImage, this.licenceImage.name);
+    formData.append('photoBill', this.billImage, this.billImage.name);
+    formData.append('file', this.registerForm.get('photoBill').value); */
     return this.http.post(`${this.API_URL}letter/save`, { ...register }).pipe(
       catchError((err) => {
         return throwError(err);

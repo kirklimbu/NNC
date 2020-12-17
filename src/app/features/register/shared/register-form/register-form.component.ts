@@ -3,9 +3,7 @@ import { AffiliationCollege } from './../../../../core/models/affiliation-colleg
 import { Letter } from '../../../../core/models/letter.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 import { RegisterService } from '../../services/register.service';
-import { ImageService } from '../../services/image.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { SearchFieldDataSource, SearchFieldResult } from 'ngx-mat-search-field';
@@ -16,65 +14,54 @@ import { SearchFieldDataSource, SearchFieldResult } from 'ngx-mat-search-field';
   styleUrls: ['./register-form.component.scss'],
 })
 export class RegisterFormComponent implements OnInit {
-  public registerForm: FormGroup;
+  // props
+  registerForm: FormGroup;
   letter = new Letter();
   register: Letter;
   licenceImageSrc: string = '';
-  billImageSrc: string = '';
+  billImageSrc1: string = '';
+  billImageSrc2: string = '';
   licenceImage: File | null;
-  // billImage: File[] | null;
-  billImage: any[];
+  billImage1: File | null;
+  billImage2: File | null;
 
   affiliationCollegeList: any[] = [];
   letterReceiverList: any[] = [];
-
-  fileAttr = 'Choose Licence Image';
-  fileAttrBill = 'Choose Bill Image';
-  @ViewChild('fileInput') fileInput: ElementRef;
-  @ViewChild('fileInputBill') fileInputBill: ElementRef;
 
   letterFormValues: Letter;
   letterFormValues$: Observable<Letter>;
   mode = 'add';
 
+  letterStatus = 'V' || 'P' || 'R';
   letterId: number;
   letterDetails$: Observable<Letter>;
   letterReceiver: LetterReceicer;
-  affiliationCollege: AffiliationCollege;
+  affCollege: AffiliationCollege;
   searchFieldDataSource: SearchFieldDataSource;
 
   isSubmitted = false;
+  selected: string;
+  dob: string;
+
+  /*  replace with letterRecieved2 + bill name from server */
+  selectedLicence = 'Choose File';
+  selectedBill1 = 'Choose File';
+  selectedBill2 = 'Choose File';
 
   constructor(
     // private http: HttpClient,
     private registerService: RegisterService,
-    private imageService: ImageService,
     private formBuilder: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastr: ToastrService // private userService: UserService
-  ) {
-    this.licenceImage = null;
-    this.billImage = null;
-    this.searchFieldDataSource = {
-      search(
-        regNo: string
-        /*  size: number,
-        skip: number */
-      ): Observable<SearchFieldResult> {
-        return registerService.getSearchDetails(regNo).subscribe((data) => {
-          console.log('constructor vitra ' + JSON.stringify(data));
-        });
-      },
-    };
-  }
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
+    this.letterStatus = 'V';
+    this.disablePhotoUpload();
     this.licenceImageSrc;
-    this.billImageSrc;
+    this.billImageSrc1;
     this.buildRegisterForm();
     this.fetchLetterFormValues();
-    // this.fetchParamFromUrl();
   }
 
   fetchLetterFormValues() {
@@ -96,15 +83,25 @@ export class RegisterFormComponent implements OnInit {
 
   onSearch(regId: number) {
     this.registerService.getSearchDetails(regId).subscribe((data) => {
-      this.mode = 'edit';
-      this.letter = data.form;
-      this.letterReceiver = data.form.letterReceiver;
-      this.affiliationCollege = data.form.affiliationCollege;
-      this.licenceImage = data.form.photoLicence;
-      this.billImage = data.form.requestList;
-      console.log('photo request list : ' + JSON.stringify(this.billImage));
+      console.log(data);
+      if (data.form.id !== 0) {
+        this.mode = 'edit';
+        this.letter = data.form;
+        this.letterReceiver = data.form.letterReceiver;
+        this.affCollege = this.letter.affiliationCollege;
+        this.dob = this.letter.dob;
+        this.licenceImage = data.form.photoLicence;
+        this.selectedBill1 = data.form.letterReceiverName1;
+        this.selectedBill2 = data.form.letterReceiverName2;
+        this.billImage1 = data.form.photoBill1;
+        this.billImage2 = data.form.photoBill2;
+        // this.registerForm.get('dob').setValue(data.form.dob);
 
-      this.buildRegisterForm();
+        this.buildRegisterForm();
+        // this.resetRegisterForm();
+      } else {
+        this.toastr.error('You are not Registered.');
+      }
     });
   }
 
@@ -115,7 +112,6 @@ export class RegisterFormComponent implements OnInit {
         name: [this.letter.name, Validators.required],
         address: [this.letter.address, Validators.required],
         wardNo: [this.letter.wardNo, Validators.required],
-        // program: [this.letter.program, Validators.required],
         collegeName: [this.letter.collegeName, Validators.required],
         collegeAddress: [this.letter.collegeAddress, Validators.required],
         dob: [this.letter.dob, Validators.required],
@@ -123,8 +119,10 @@ export class RegisterFormComponent implements OnInit {
         mobileNo: [this.letter.mobileNo, Validators.required],
         photoLicenceChange: [true],
         photoLicence: [this.letter.photoLicence, Validators.required],
-        photoBill: [this.letter.photoBill, Validators.required],
-        photoBillChange: [true],
+        photoBill1: [this.letter.photoBill1, Validators.required],
+        photoBill2: [],
+        photoBillChange1: [true],
+        photoBillChange2: [],
         letterReceiver: [this.letter.letterReceiver, Validators.required],
         affiliationCollege: [
           this.letter.affiliationCollege,
@@ -139,7 +137,6 @@ export class RegisterFormComponent implements OnInit {
         name: [this.letter.name, Validators.required],
         address: [this.letter.address, Validators.required],
         wardNo: [this.letter.wardNo, Validators.required],
-        // program: [this.letter.program, Validators.required],
         collegeName: [this.letter.collegeName, Validators.required],
         collegeAddress: [this.letter.collegeAddress, Validators.required],
         dob: [this.letter.dob, Validators.required],
@@ -150,8 +147,10 @@ export class RegisterFormComponent implements OnInit {
           this.letter.photoLicenceChange,
           Validators.required,
         ],
-        photoBill: [this.letter.photoBill, Validators.required],
-        photoBillChange: [this.letter.photoBillChange],
+        photoBill1: [this.letter.photoBill1, Validators.required],
+        photoBill2: [this.letter.photoBill2, Validators.required],
+        photoBillChange1: [this.letter.photoBillChange1], //status V P R check garne ani matra flag on garne
+        photoBillChange2: [this.letter.photoBillChange2],
         letterReceiver: [this.letter.letterReceiver, Validators.required],
         affiliationCollege: [
           this.letter.affiliationCollege,
@@ -162,86 +161,122 @@ export class RegisterFormComponent implements OnInit {
   }
 
   patchPhotoLicenceChange() {
-    this.registerForm.patchValue({ photoLicenceChange: true });
+    // this.registerForm.patchValue({ photoLicenceChange: false });
+    this.registerForm.controls['photoBillChaphotoLicenceChangenge1'].setValue(
+      false
+    );
   }
-  patchPhotoBillChange() {
-    this.registerForm.patchValue({ photoBillChange: true });
+  patchPhotoBillChange1() {
+    this.registerForm.controls['photoBillChange1'].setValue(false);
+  }
+  patchPhotoBillChange2() {
+    this.registerForm.controls['photoBillChange2'].setValue(false);
+  }
+  patchLicencePhoto() {
+    this.registerForm.controls['photoLicence'].setValue(this.licenceImageSrc);
+  }
+  patchBillPhoto1() {
+    this.registerForm.controls['photoBill1'].setValue(this.billImageSrc1);
+  }
+  patchBillPhoto2() {
+    this.registerForm.controls['photoBill2'].setValue(this.billImageSrc2);
   }
 
   get f() {
     return this.registerForm.controls;
   }
-  /* test */
   onLicenceImageChange(event) {
     console.log(event);
-
-    const reader = new FileReader();
-
-    if (event.target.files && event.target.files.length) {
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        this.licenceImageSrc = reader.result as string;
-
-        this.registerForm.patchValue({
-          photoLicence: reader.result,
-        });
-        this.patchPhotoLicenceChange();
-        // this.registerForm.patchValue({photoLicenceChange: true})
-
-        /*  this.registerForm.patchValue({
-          photoLicenceChange: 'true',
-        });
-        this.registerForm.controls['photoLicenceChange'].patchValue(true); */
-      };
+    /* selected file info */
+    if (event.target.files && event.target.files[0]) {
+      this.selectedLicence = '';
+      Array.from(event.target.files).forEach((file: File) => {
+        this.selectedLicence += file.name + ' - ';
+      });
+      /* base64 conversion */
+      const reader = new FileReader();
+      if (event.target.files[0] && event.target.files.length) {
+        const [file] = event.target.files;
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.licenceImageSrc = null;
+          this.licenceImageSrc = reader.result as string;
+          console.log('photo licence ' + JSON.stringify(this.licenceImageSrc));
+          this.patchLicencePhoto();
+          this.patchPhotoLicenceChange();
+        };
+      }
     }
   }
 
-  onBillImageChange(event) {
-    console.log(event);
+  onBillImageChange1(event) {
+    /* selected file info */
+    if (event.target.files && event.target.files[0]) {
+      this.selectedBill1 = '';
+      Array.from(event.target.files).forEach((file: File) => {
+        this.selectedBill1 += file.name + ' - ';
+      });
 
-    const reader = new FileReader();
+      /* base64 conversion */
+      const reader = new FileReader();
+      if (event.target.files[0] && event.target.files.length) {
+        const [file] = event.target.files;
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.billImageSrc1 = null;
+          this.billImageSrc1 = reader.result as string;
+          console.log('photo bill1 ' + JSON.stringify(this.billImageSrc1));
+          this.patchBillPhoto1();
 
-    if (event.target.files && event.target.files.length) {
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        this.billImageSrc = reader.result as string;
-
-        this.registerForm.patchValue({
+          /* this.registerForm.patchValue({
           photoBill: reader.result,
-        });
-        this.patchPhotoLicenceChange();
-        // this.registerForm.get('photoBillChange').patchValue(true);
-      };
+          // console.log('licence ko base 64 ');
+        }); */
+          this.patchPhotoBillChange1();
+        };
+      }
+    }
+  }
+  onBillImageChange2(event) {
+    console.log(event);
+    /* selected file info */
+    if (event.target.files && event.target.files[0]) {
+      this.selectedBill2 = '';
+      Array.from(event.target.files).forEach((file: File) => {
+        this.selectedBill2 += file.name + ' - ';
+      });
+
+      /* base64 conversion */
+      const reader = new FileReader();
+
+      if (event.target.files[0] && event.target.files.length) {
+        const [file] = event.target.files;
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+          this.billImageSrc2 = null;
+
+          this.billImageSrc2 = reader.result as string;
+          console.log('photo bill ' + JSON.stringify(this.billImageSrc2));
+          this.patchBillPhoto2();
+          this.patchPhotoBillChange2();
+        };
+      }
     }
   }
 
   onRegister() {
-    console.log(JSON.stringify(this.registerForm.value));
-    /* const formData = new FormData();
-    formData.append('regNum', this.registerForm.value.regNum);
-    formData.append('fullName', this.registerForm.value.photofullNameBill);
-    formData.append('address', this.registerForm.value.address);
-    formData.append('wardNum', this.registerForm.value.wardNum);
-    formData.append('program', this.registerForm.value.program);
-    formData.append('aff', this.registerForm.value.aff);
-    formData.append('college', this.registerForm.value.college);
-    formData.append('photoLicence', this.licenceImage, this.licenceImage.name);
-    formData.append('photoBill', this.billImage, this.billImage.name); */
-    // formData.append('file', this.registerForm.get('photoBill').value);
+    console.log(this.registerForm.value);
     this.isSubmitted = true;
-    if (this.registerForm.valid) {
-      if (this.mode === 'add') {
+    if (this.registerForm) {
+       if (this.mode ) {
         this.registerService.register(this.registerForm.value).subscribe(
           (data) => {
-            console.log('subscribe vitra daddfa' + data);
-            // this.customer = data;
-            this.router.navigate(['home/register']);
-            // this.registerForm = data;?console.log('dafsdfsa' + this.registerForm);
-            // tslint:disable-next-line:no-shadowed-variable
+            data = data.message
+              ? this.toastr.success(data.message)
+              : this.toastr.success('Student Details saved successfully.');
+            // location.reload();
+            this.resetRegisterForm();
           },
           (err) => {
             err = err.error.message
@@ -256,11 +291,22 @@ export class RegisterFormComponent implements OnInit {
       console.log('invalid register form');
     }
   }
+  resetRegisterForm() {
+    this.registerForm.reset();
+  }
 
   hasError(name: string, required: string) {}
 
-  public onCancel = () => {
-    return null;
-    // this.location.reload();
-  };
+  onCancel() {
+    this.resetRegisterForm();
+  }
+
+  disablePhotoUpload() {
+    if (this.mode === 'edit' && this.letterStatus === 'V') {
+      console.log('photo2 upload disabled');
+
+      this.registerForm.get('photoBill1').disable();
+    } else {
+    }
+  }
 }
