@@ -56,8 +56,8 @@
         <td mat-cell *matCellDef="let element">
           <app-table-action-buttons
             *ngIf="!isVerified"
-            [enableEdit]="true"
-            [enableDelete]="true"
+            [enableEdit]="false"
+            [enableDelete]="false"
             [enableViewDetails]="true"
             (edit)="onEdit(element)"
             (delete)="onDelete(element)"

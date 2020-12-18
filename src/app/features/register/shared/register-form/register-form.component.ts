@@ -5,8 +5,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegisterService } from '../../services/register.service';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { SearchFieldDataSource, SearchFieldResult } from 'ngx-mat-search-field';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register-form',
@@ -18,48 +20,53 @@ export class RegisterFormComponent implements OnInit {
   registerForm: FormGroup;
   letter = new Letter();
   register: Letter;
-  licenceImageSrc: string = '';
+  /* licenceImageSrc: string = '';
   billImageSrc1: string = '';
-  billImageSrc2: string = '';
-  licenceImage: File | null;
+  billImageSrc2: string = ''; */
+  licenceImage: File | null | string;
   billImage1: File | null;
   billImage2: File | null;
 
   affiliationCollegeList: any[] = [];
+
   letterReceiverList: any[] = [];
 
-  letterFormValues: Letter;
+  letterResponse: Letter;
   letterFormValues$: Observable<Letter>;
   mode = 'add';
 
   letterStatus = 'V' || 'P' || 'R';
   letterId: number;
   letterDetails$: Observable<Letter>;
-  letterReceiver: LetterReceicer;
+  letterRec: LetterReceicer;
   affCollege: AffiliationCollege;
   searchFieldDataSource: SearchFieldDataSource;
 
   isSubmitted = false;
-  selected: string;
+  selectedLetterReceiver: string;
+  selectedCollegeAff: string;
   dob: string;
 
   /*  replace with letterRecieved2 + bill name from server */
-  selectedLicence = 'Choose File';
-  selectedBill1 = 'Choose File';
-  selectedBill2 = 'Choose File';
+  selectedLicence = 'Licence';
+  selectedBill1 = 'Bill 1';
+  selectedBill2 = 'Bill 2';
 
+  button1Status: string;
+  button2Status: string;
   constructor(
-    // private http: HttpClient,
     private registerService: RegisterService,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
-    this.letterStatus = 'V';
-    this.disablePhotoUpload();
-    this.licenceImageSrc;
-    this.billImageSrc1;
+    // this.spinner.show();
+    // setTimeout(() => {
+    //   /** spinner ends after 5 seconds */
+    //   this.spinner.hide();
+    // }, 5000);
     this.buildRegisterForm();
     this.fetchLetterFormValues();
   }
@@ -68,10 +75,10 @@ export class RegisterFormComponent implements OnInit {
     this.letterFormValues$ = this.registerService.getLetterForm().subscribe(
       (data) => {
         console.log(data);
-
-        this.letterFormValues = data;
+        this.letter = data.form;
         this.affiliationCollegeList = data.affiliationCollegeList;
         this.letterReceiverList = data.letterReceiverList;
+        this.buildRegisterForm();
       },
       (err) => {
         err = err.message
@@ -82,118 +89,121 @@ export class RegisterFormComponent implements OnInit {
   }
 
   onSearch(regId: number) {
-    this.registerService.getSearchDetails(regId).subscribe((data) => {
-      console.log(data);
-      if (data.form.id !== 0) {
-        this.mode = 'edit';
-        this.letter = data.form;
-        this.letterReceiver = data.form.letterReceiver;
-        this.affCollege = this.letter.affiliationCollege;
-        this.dob = this.letter.dob;
-        this.licenceImage = data.form.photoLicence;
-        this.selectedBill1 = data.form.letterReceiverName1;
-        this.selectedBill2 = data.form.letterReceiverName2;
-        this.billImage1 = data.form.photoBill1;
-        this.billImage2 = data.form.photoBill2;
-        // this.registerForm.get('dob').setValue(data.form.dob);
+    this.spinner.show();
 
-        this.buildRegisterForm();
-        // this.resetRegisterForm();
-      } else {
-        this.toastr.error('You are not Registered.');
-      }
-    });
+    this.registerService
+      .getSearchDetails(regId)
+      .pipe(finalize(() => this.spinner.hide()))
+      .subscribe((data) => {
+        console.log(data);
+        if (data.form.id !== 0) {
+          this.mode = 'edit';
+          this.letter = data.form;
+          this.letterRec = data.form.letterReceiver;
+          this.affCollege = this.letter.affiliationCollege;
+          this.licenceImage = data.form.photoLicence;
+          this.billImage1 = data.form.photoBill1;
+          this.billImage2 = data.form.photoBill2;
+          this.button1Status = this.letter.status1;
+          this.button2Status = this.letter.status2;
+
+          this.disablePhotoUpload();
+          this.buildRegisterForm();
+        } else {
+          this.toastr.error('You are not Registered.');
+        }
+      });
   }
 
   buildRegisterForm() {
-    if (this.mode === 'add') {
+    if (this.mode == 'add') {
       this.registerForm = this.formBuilder.group({
         regNo: [this.letter.regNo],
-        name: [this.letter.name, Validators.required],
-        address: [this.letter.address, Validators.required],
-        wardNo: [this.letter.wardNo, Validators.required],
-        collegeName: [this.letter.collegeName, Validators.required],
-        collegeAddress: [this.letter.collegeAddress, Validators.required],
-        dob: [this.letter.dob, Validators.required],
-        email: [this.letter.email, Validators.required],
-        mobileNo: [this.letter.mobileNo, Validators.required],
+        name: [this.letter.name],
+        address: [this.letter.address],
+        wardNo: [this.letter.wardNo],
+        collegeName: [this.letter.collegeName],
+        collegeAddress: [this.letter.collegeAddress],
+        dob: [this.letter.dob],
+        email: [this.letter.email],
+        mobileNo: [this.letter.mobileNo],
         photoLicenceChange: [true],
-        photoLicence: [this.letter.photoLicence, Validators.required],
-        photoBill1: [this.letter.photoBill1, Validators.required],
+        photoLicence: [this.letter.photoLicence],
+        photoBill1: [this.letter.photoBill1],
         photoBill2: [],
-        photoBillChange1: [true],
-        photoBillChange2: [],
-        letterReceiver: [this.letter.letterReceiver, Validators.required],
-        affiliationCollege: [
-          this.letter.affiliationCollege,
-          Validators.required,
-        ],
+        photoBillChange1: [this.letter.photoBillChange1],
+        photoBillChange2: [this.letter.photoBillChange2],
+        letterReceiver: [this.letter.letterReceiver],
+        affiliationCollege: [this.letter.affiliationCollege],
+        letterReceiverId1: [this.letter.letterReceiverId1],
+        letterReceiverId2: [this.letter.letterReceiverId2],
+        letterReceiverName1: [this.letter.letterReceiverName1],
+        letterReceiverName2: [this.letter.letterReceiverName2],
       });
     } else {
       console.log('inside edit form');
 
       this.registerForm = this.formBuilder.group({
+        id: [this.letter.id],
         regNo: [this.letter.regNo],
-        name: [this.letter.name, Validators.required],
-        address: [this.letter.address, Validators.required],
-        wardNo: [this.letter.wardNo, Validators.required],
-        collegeName: [this.letter.collegeName, Validators.required],
-        collegeAddress: [this.letter.collegeAddress, Validators.required],
-        dob: [this.letter.dob, Validators.required],
-        email: [this.letter.email, Validators.required],
-        mobileNo: [this.letter.mobileNo, Validators.required],
-        photoLicence: [this.letter.photoLicence, Validators.required],
-        photoLicenceChange: [
-          this.letter.photoLicenceChange,
-          Validators.required,
-        ],
-        photoBill1: [this.letter.photoBill1, Validators.required],
-        photoBill2: [this.letter.photoBill2, Validators.required],
-        photoBillChange1: [this.letter.photoBillChange1], //status V P R check garne ani matra flag on garne
+        name: [this.letter.name],
+        address: [this.letter.address],
+        wardNo: [this.letter.wardNo],
+        collegeName: [this.letter.collegeName],
+        collegeAddress: [this.letter.collegeAddress],
+        dob: [this.letter.dob],
+        email: [this.letter.email],
+        mobileNo: [this.letter.mobileNo],
+        photoLicence: [this.letter.photoLicence],
+        photoLicenceChange: [this.letter.photoLicenceChange],
+        photoBill1: [this.letter.photoBill1],
+        photoBill2: [this.letter.photoBill2],
+        letterReceiverId1: [this.letter.letterReceiverId1],
+        letterReceiverId2: [this.letter.letterReceiverId2],
+        letterReceiverName1: [this.letter.letterReceiverName1],
+        letterReceiverName2: [this.letter.letterReceiverName2],
+        photoBillChange1: [this.letter.photoBillChange1],
         photoBillChange2: [this.letter.photoBillChange2],
-        letterReceiver: [this.letter.letterReceiver, Validators.required],
-        affiliationCollege: [
-          this.letter.affiliationCollege,
-          Validators.required,
-        ],
+        letterReceiver: [this.letter.letterReceiver],
+        affiliationCollege: [this.letter.affiliationCollege],
       });
     }
   }
 
-  patchPhotoLicenceChange() {
+  /* patchPhotoLicenceChange() {
     // this.registerForm.patchValue({ photoLicenceChange: false });
-    this.registerForm.controls['photoBillChaphotoLicenceChangenge1'].setValue(
-      false
-    );
-  }
-  patchPhotoBillChange1() {
-    this.registerForm.controls['photoBillChange1'].setValue(false);
-  }
-  patchPhotoBillChange2() {
-    this.registerForm.controls['photoBillChange2'].setValue(false);
-  }
-  patchLicencePhoto() {
+    this.registerForm.controls['photoLicenceChange'].setValue(true);
+  } */
+  /*  patchPhotoBillChange1() {
+    this.registerForm.controls['photoBillChange1'].setValue(true);
+  } */
+  /* patchPhotoBillChange2() {
+    this.registerForm.controls['photoBillChange2'].setValue(true);
+  } */
+  /*  patchLicencePhoto() {
+    console.log('phtoto patch' + JSON.stringify(this.licenceImageSrc));
+
     this.registerForm.controls['photoLicence'].setValue(this.licenceImageSrc);
-  }
-  patchBillPhoto1() {
+  } */
+  /* patchBillPhoto1() {
     this.registerForm.controls['photoBill1'].setValue(this.billImageSrc1);
-  }
-  patchBillPhoto2() {
+  } */
+  /* patchBillPhoto2() {
     this.registerForm.controls['photoBill2'].setValue(this.billImageSrc2);
-  }
+  } */
 
   get f() {
     return this.registerForm.controls;
   }
-  onLicenceImageChange(event) {
-    console.log(event);
-    /* selected file info */
+
+  /*  onLicenceImageChange(event) {
+
     if (event.target.files && event.target.files[0]) {
       this.selectedLicence = '';
       Array.from(event.target.files).forEach((file: File) => {
         this.selectedLicence += file.name + ' - ';
       });
-      /* base64 conversion */
+
       const reader = new FileReader();
       if (event.target.files[0] && event.target.files.length) {
         const [file] = event.target.files;
@@ -207,17 +217,16 @@ export class RegisterFormComponent implements OnInit {
         };
       }
     }
-  }
+  } */
 
-  onBillImageChange1(event) {
-    /* selected file info */
+  /*  onBillImageChange1(event) {
     if (event.target.files && event.target.files[0]) {
       this.selectedBill1 = '';
       Array.from(event.target.files).forEach((file: File) => {
         this.selectedBill1 += file.name + ' - ';
       });
 
-      /* base64 conversion */
+
       const reader = new FileReader();
       if (event.target.files[0] && event.target.files.length) {
         const [file] = event.target.files;
@@ -227,26 +236,20 @@ export class RegisterFormComponent implements OnInit {
           this.billImageSrc1 = reader.result as string;
           console.log('photo bill1 ' + JSON.stringify(this.billImageSrc1));
           this.patchBillPhoto1();
-
-          /* this.registerForm.patchValue({
-          photoBill: reader.result,
-          // console.log('licence ko base 64 ');
-        }); */
           this.patchPhotoBillChange1();
         };
       }
     }
-  }
-  onBillImageChange2(event) {
+  } */
+  /* onBillImageChange2(event) {
     console.log(event);
-    /* selected file info */
     if (event.target.files && event.target.files[0]) {
       this.selectedBill2 = '';
       Array.from(event.target.files).forEach((file: File) => {
         this.selectedBill2 += file.name + ' - ';
       });
 
-      /* base64 conversion */
+
       const reader = new FileReader();
 
       if (event.target.files[0] && event.target.files.length) {
@@ -255,7 +258,6 @@ export class RegisterFormComponent implements OnInit {
 
         reader.onload = () => {
           this.billImageSrc2 = null;
-
           this.billImageSrc2 = reader.result as string;
           console.log('photo bill ' + JSON.stringify(this.billImageSrc2));
           this.patchBillPhoto2();
@@ -263,30 +265,25 @@ export class RegisterFormComponent implements OnInit {
         };
       }
     }
-  }
+  } */
 
   onRegister() {
     console.log(this.registerForm.value);
     this.isSubmitted = true;
     if (this.registerForm) {
-       if (this.mode ) {
-        this.registerService.register(this.registerForm.value).subscribe(
-          (data) => {
-            data = data.message
-              ? this.toastr.success(data.message)
-              : this.toastr.success('Student Details saved successfully.');
-            // location.reload();
-            this.resetRegisterForm();
-          },
-          (err) => {
-            err = err.error.message
-              ? this.toastr.error(err.error.message)
-              : this.toastr.error('Error while saving letter.');
-          }
-        );
-      } else {
-        // for edit case
-      }
+      this.registerService.register(this.registerForm.value).subscribe(
+        (data) => {
+          data = data.message
+            ? this.toastr.success(data.message)
+            : this.toastr.success('Student saved successfully');
+          location.reload();
+        },
+        (err) => {
+          err = err.error.message
+            ? this.toastr.error(err.error.message)
+            : this.toastr.error('Error while saving letter.');
+        }
+      );
     } else {
       console.log('invalid register form');
     }
@@ -302,11 +299,61 @@ export class RegisterFormComponent implements OnInit {
   }
 
   disablePhotoUpload() {
-    if (this.mode === 'edit' && this.letterStatus === 'V') {
-      console.log('photo2 upload disabled');
+    console.log(this.button1Status);
+
+    this.mode === 'edit' && this.button1Status == 'V'
+      ? this.registerForm.get('photoBill1').disable()
+      : this.registerForm.get('photoBill1').enable();
+
+    /*  if (this.mode === 'edit' && this.button1Status == 'V') {
+      console.log('inside if disable');
 
       this.registerForm.get('photoBill1').disable();
     } else {
-    }
+      console.log('inside else disable');
+
+      this.registerForm.get('photoBill1').enable();
+    } */
   }
+  /* yemjee le lekheko */
+  onImageChange($event, imageType) {
+    const file = $event.target.files[0];
+    this.convertToBase64(file, imageType);
+  }
+
+  convertToBase64(file: File, imageType: string) {
+    const observable = new Observable((subscriber: Subscriber<any>) => {
+      this.readFile(file, subscriber);
+    });
+    observable.subscribe((base64) => {
+      if (imageType === 'photoLicence') {
+        this.licenceImage = base64;
+        this.registerForm.controls['photoLicence'].setValue(this.licenceImage);
+        this.registerForm.controls['photoLicenceChange'].setValue(true);
+      } else if (imageType === 'photoBill1') {
+        this.billImage1 = base64;
+        this.registerForm.controls['photoBill1'].setValue(this.billImage1);
+        this.registerForm.controls['photoBillChange1'].setValue(true);
+      } else if (imageType === 'photoBill2') {
+        this.billImage2 = base64;
+        this.registerForm.controls['photoBill2'].setValue(this.billImage2);
+        this.registerForm.controls['photoBillChange2'].setValue(true);
+      }
+    });
+  }
+
+  readFile(file: File, subscriber: Subscriber<any>) {
+    const filereader = new FileReader();
+    filereader.readAsDataURL(file);
+
+    filereader.onload = () => {
+      subscriber.next(filereader.result);
+      subscriber.complete();
+    };
+    filereader.onerror = (error) => {
+      subscriber.error(error);
+      subscriber.complete();
+    };
+  }
+  /* yemjee le lekheko end*/
 }

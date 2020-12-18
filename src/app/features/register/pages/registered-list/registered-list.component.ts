@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-registered-list',
@@ -31,6 +32,7 @@ export class RegisteredListComponent implements OnInit {
   constructor(
     private registerService: RegisterService,
     private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder
@@ -44,15 +46,13 @@ export class RegisteredListComponent implements OnInit {
   }
 
   buildFilterForm() {
+    // this.spinner.show()
     this.filterForm = this.fb.group({
       status: ['P'],
     });
   }
   fetchLetterList() {
-    console.log('inside empty status list');
-
     this.letterListDataSource$ = this.registerService.getLetterList();
-    console.log(this.letterListDataSource$);
   }
   fetchPendingLetterList() {
     const status = 'P';
@@ -65,7 +65,6 @@ export class RegisteredListComponent implements OnInit {
   }
 
   onEdit(letter: Letter) {
-    console.log('on edit clicked' + JSON.stringify(letter));
     this.router.navigate(['/home/letter'], {
       queryParams: { regNo: letter.regNo },
     });
@@ -73,12 +72,6 @@ export class RegisteredListComponent implements OnInit {
 
   onDelete() {}
 
-  /* onVerifyDetails(mode, letter: Letter) {
-    console.log(mode + JSON.stringify(letter));
-
-    const link: any = mode === 'add' ? 'add-letter' : 'verify/' + letter.id;
-    this.router.navigate([link], { relativeTo: this.route });
-  } */
   onVerifyDetails(mode: string, letter: Letter) {
     this.isVerified = true;
     console.log('show data ' + JSON.stringify(letter));
@@ -88,10 +81,7 @@ export class RegisteredListComponent implements OnInit {
   }
 
   onFilter(status) {
-    console.log(status);
     if (status !== 'V') {
-      console.log('inside !v');
-
       this.isVerified = false;
       (this.letterListDataSource$ = this.registerService.getFilteredLetters(
         status
@@ -100,8 +90,6 @@ export class RegisteredListComponent implements OnInit {
           this.toastr.error(err.message);
         };
     } else {
-      console.log('inside v');
-
       this.isVerified = true;
       (this.letterListDataSource$ = this.registerService.getFilteredLetters(
         status

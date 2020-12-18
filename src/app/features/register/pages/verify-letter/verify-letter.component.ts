@@ -7,8 +7,6 @@ import { RegisterService } from './../../services/register.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Letter } from 'src/app/core/models/letter.model';
-import { idText } from 'typescript';
-import { NgxImgZoomService } from 'ngx-img-zoom';
 import { LetterVerify } from 'src/app/core/models/verify-letter.model';
 
 @Component({
@@ -39,17 +37,8 @@ export class VerifyLetterComponent implements OnInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder,
-    private ngxImgZoom: NgxImgZoomService
-  ) {
-    this.ngxImgZoom.setZoomBreakPoints([
-      { w: 100, h: 100 },
-      { w: 150, h: 150 },
-      { w: 200, h: 200 },
-      { w: 250, h: 250 },
-      { w: 300, h: 300 },
-    ]);
-  }
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.fetchParamFromUrl();
@@ -92,20 +81,20 @@ export class VerifyLetterComponent implements OnInit {
   buildRegisterForm() {
     this.letterVerifyForm = this.formBuilder.group({
       regNo: [this.letter.regNo],
-      name: [this.letter.name, Validators.required],
-      address: [this.letter.address, Validators.required],
-      wardNo: [this.letter.wardNo, Validators.required],
-      collegeName: [this.letter.collegeName, Validators.required],
-      collegeAddress: [this.letter.collegeAddress, Validators.required],
-      dob: [this.letter.dob, Validators.required],
-      email: [this.letter.email, Validators.required],
-      mobileNo: [this.letter.mobileNo, Validators.required],
+      name: [this.letter.name],
+      address: [this.letter.address],
+      wardNo: [this.letter.wardNo],
+      collegeName: [this.letter.collegeName],
+      collegeAddress: [this.letter.collegeAddress],
+      dob: [this.letter.dob],
+      email: [this.letter.email],
+      mobileNo: [this.letter.mobileNo],
       photoLicenceChange: [this.letter.photoLicenceChange],
-      photoLicence: [this.letter.photoLicence, Validators.required],
-      photoBill: [this.letter.photoBill, Validators.required],
+      photoLicence: [this.letter.photoLicence],
+      photoBill: [this.letter.photoBill],
       photoBillChange: [this.letter.photoBillChange],
-      letterReceiver: [this.letter.letterReceiver, Validators.required],
-      affiliationCollege: [this.letter.affiliationCollege, Validators.required],
+      letterReceiver: [this.letter.letterReceiver],
+      affiliationCollege: [this.letter.affiliationCollege],
     });
   }
 

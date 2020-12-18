@@ -136,21 +136,21 @@
                 <mat-form-field>
                   <mat-label>Affiliation College</mat-label>
                   <mat-select
+
                     formControlName="affiliationCollege"
-                    [(value)]="selected"
                   >
-                    <ng-container *ngIf="mode === 'add'">
+                    <ng-container>
                       <mat-option
                         *ngFor="let item of affiliationCollegeList"
                         [value]="item"
                         >{{ item.name }}</mat-option
                       >
                     </ng-container>
-                    <ng-container *ngIf="mode !== 'add'">
+                    <!-- <ng-container *ngIf="mode !== 'add'">
                       <mat-option [value]="affCollege">{{
                         affCollege.name
                       }}</mat-option>
-                    </ng-container>
+                    </ng-container> -->
                   </mat-select>
                   <mat-hint align="end">Select college affiliation</mat-hint>
                 </mat-form-field>
@@ -228,9 +228,7 @@
             <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
                 </mat-form-field>
               </p>
-              <!-- /reg num -->
-              <p></p>
-              <!-- /reg num -->
+
               <!-- upload licence photo  -->
               <mat-form-field>
                 <div>
@@ -251,26 +249,20 @@
                     />
 
                     <!-- Browse Button -->
-                    <button mat-flat-button color="primary">
+                    <!--  <button mat-flat-button color="primary">
                       Browse Image
-                    </button>
+                    </button> -->
                   </mat-toolbar>
 
                   <!-- Fetch selected filed on change -->
                   <input
                     type="file"
-                    #fileInput
-                    id="uploadFile"
-                    formControlName="photoLicence"
-                    name="uploadFile"
                     accept="image/*"
-                    (change)="onLicenceImageChange($event)"
+                    (change)="onImageChange($event, 'photoLicence')"
                   />
                   <img
-                    [src]="licenceImageSrc || licenceImage"
-                    *ngIf="licenceImageSrc || licenceImage"
-                    height="150"
-                    width="200px"
+                    [src]="licenceImage"
+                    *ngIf="licenceImage"
                     style="margin: 3px"
                   />
                 </div>
@@ -285,6 +277,7 @@
                     <mat-toolbar>
                       <!-- Display files names -->
                       <input
+                        [disabled]="button1Status === 'V'"
                         readonly
                         matInput
                         readonly
@@ -298,32 +291,32 @@
                       />
 
                       <!-- Browse Button -->
-                      <button mat-flat-button color="primary">
+                      <!--  <button
+                        mat-flat-button
+                        color="primary"
+                        [disabled]="button1Status === 'V'"
+                      >
                         Browse Image
-                      </button>
+                      </button> -->
                     </mat-toolbar>
 
                     <!-- Fetch selected filed on change -->
-
                     <input
                       type="file"
-                      #fileInputBill
-                      id="uploadFileBill"
-                      formControlName="photoBill1"
-                      name="uploadFileBill"
                       accept="image/*"
-                      (change)="onBillImageChange1($event)"
+                      (change)="onImageChange($event, 'photoBill1')"
                     />
                     <img
-                      *ngIf="billImageSrc1 || billImage1"
-                      [src]="billImageSrc1 || billImage1"
+                      *ngIf="billImage1"
+                      [src]="billImage1"
                       style="margin: 3px"
                     />
                   </div>
                   <mat-hint align="end">Upload Bill photo 1</mat-hint>
                 </mat-form-field>
               </ng-container>
-              <ng-container *ngIf="mode === 'edit'">
+
+              <ng-container *ngIf="mode !== 'add'">
                 <mat-form-field>
                   <mat-toolbar>
                     <!-- Display files names -->
@@ -340,22 +333,18 @@
                     />
 
                     <!-- Browse Button -->
-                    <button mat-flat-button color="primary">
+                    <!-- <button mat-flat-button color="primary">
                       Browse Image
-                    </button>
+                    </button> -->
                   </mat-toolbar>
                   <input
                     type="file"
-                    #fileInputBill
-                    id="uploadFileBill"
-                    formControlName="photoBill2"
-                    name="uploadFileBill"
                     accept="image/*"
-                    (change)="onBillImageChange2($event)"
+                    (change)="onImageChange($event, 'photoLicence')"
                   />
                   <img
-                    *ngIf="billImageSrc2 || billImage2"
-                    [src]="billImageSrc2 || billImage2"
+                    *ngIf="billImage2"
+                    [src]="billImage2"
                     style="margin: 3px"
                   />
 
@@ -367,18 +356,19 @@
                 <mat-form-field>
                   <mat-label>Letter Receiver</mat-label>
                   <mat-select formControlName="letterReceiver">
-                    <ng-container *ngIf="mode === 'add'">
+                    <ng-container>
                       <mat-option
+                        [(value)]="selectedLetterReceiver"
                         *ngFor="let item of letterReceiverList"
                         [value]="item"
                         >{{ item.name }}</mat-option
                       >
                     </ng-container>
-                    <ng-container *ngIf="mode !== 'add'">
-                      <mat-option [value]="letterReceiver">{{
-                        letterReceiver.name
+                    <!-- <ng-container *ngIf="mode !== 'add'">
+                      <mat-option [value]="letterRec">{{
+                        letterRec.name
                       }}</mat-option>
-                    </ng-container>
+                    </ng-container> -->
                   </mat-select>
                   <mat-hint align="end">Select letter receiver</mat-hint>
                 </mat-form-field>
@@ -390,6 +380,7 @@
                 mat-raised-button
                 color="primary"
                 (click)="onRegister()"
+                [disabled]="!registerForm.valid"
               >
                 Save
               </button>

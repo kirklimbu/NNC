@@ -56,9 +56,9 @@ export function tokenGetter() {
       multi: true,
     },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-    ,
   ],
   // schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

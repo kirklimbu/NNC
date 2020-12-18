@@ -46,3 +46,8 @@ img {
   .mat-search_icon-search[_ngcontent-nuy-c283] {
   left: 300px;
 }
+
+input:disabled,
+input[disabled] {
+  cursor: not-allowed !important;
+}
