@@ -6,7 +6,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegisterService } from '../../services/register.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscriber } from 'rxjs';
-import { SearchFieldDataSource, SearchFieldResult } from 'ngx-mat-search-field';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize } from 'rxjs/operators';
 
@@ -17,43 +16,35 @@ import { finalize } from 'rxjs/operators';
 })
 export class RegisterFormComponent implements OnInit {
   // props
+  mode = 'add';
   registerForm: FormGroup;
   letter = new Letter();
-  register: Letter;
-  /* licenceImageSrc: string = '';
-  billImageSrc1: string = '';
-  billImageSrc2: string = ''; */
+
   licenceImage: File | null | string;
   billImage1: File | null;
   billImage2: File | null;
 
   affiliationCollegeList: any[] = [];
-
   letterReceiverList: any[] = [];
 
-  letterResponse: Letter;
   letterFormValues$: Observable<Letter>;
-  mode = 'add';
 
   letterStatus = 'V' || 'P' || 'R';
-  letterId: number;
+
   letterDetails$: Observable<Letter>;
-  letterRec: LetterReceicer;
-  affCollege: AffiliationCollege;
-  searchFieldDataSource: SearchFieldDataSource;
 
   isSubmitted = false;
   selectedLetterReceiver: string;
   selectedCollegeAff: string;
   dob: string;
 
-  /*  replace with letterRecieved2 + bill name from server */
   selectedLicence = 'Licence';
   selectedBill1 = 'Bill 1';
   selectedBill2 = 'Bill 2';
 
   button1Status: string;
   button2Status: string;
+
   constructor(
     private registerService: RegisterService,
     private formBuilder: FormBuilder,
@@ -74,10 +65,10 @@ export class RegisterFormComponent implements OnInit {
   fetchLetterFormValues() {
     this.letterFormValues$ = this.registerService.getLetterForm().subscribe(
       (data) => {
-        console.log(data);
         this.letter = data.form;
         this.affiliationCollegeList = data.affiliationCollegeList;
         this.letterReceiverList = data.letterReceiverList;
+
         this.buildRegisterForm();
       },
       (err) => {
@@ -89,18 +80,16 @@ export class RegisterFormComponent implements OnInit {
   }
 
   onSearch(regId: number) {
-    this.spinner.show();
-
+    // this.spinner.show();
+    /* this.registerForm.reset();
+     this.mode = 'edit'; */
     this.registerService
       .getSearchDetails(regId)
-      .pipe(finalize(() => this.spinner.hide()))
+      // .pipe(finalize(() => this.spinner.hide()))
       .subscribe((data) => {
-        console.log(data);
         if (data.form.id !== 0) {
           this.mode = 'edit';
           this.letter = data.form;
-          this.letterRec = data.form.letterReceiver;
-          this.affCollege = this.letter.affiliationCollege;
           this.licenceImage = data.form.photoLicence;
           this.billImage1 = data.form.photoBill1;
           this.billImage2 = data.form.photoBill2;
@@ -141,7 +130,7 @@ export class RegisterFormComponent implements OnInit {
         letterReceiverName2: [this.letter.letterReceiverName2],
       });
     } else {
-      console.log('inside edit form');
+
 
       this.registerForm = this.formBuilder.group({
         id: [this.letter.id],
@@ -192,55 +181,11 @@ export class RegisterFormComponent implements OnInit {
     this.registerForm.controls['photoBill2'].setValue(this.billImageSrc2);
   } */
 
+  // for showing error message
   get f() {
     return this.registerForm.controls;
   }
 
-  /*  onLicenceImageChange(event) {
-
-    if (event.target.files && event.target.files[0]) {
-      this.selectedLicence = '';
-      Array.from(event.target.files).forEach((file: File) => {
-        this.selectedLicence += file.name + ' - ';
-      });
-
-      const reader = new FileReader();
-      if (event.target.files[0] && event.target.files.length) {
-        const [file] = event.target.files;
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          this.licenceImageSrc = null;
-          this.licenceImageSrc = reader.result as string;
-          console.log('photo licence ' + JSON.stringify(this.licenceImageSrc));
-          this.patchLicencePhoto();
-          this.patchPhotoLicenceChange();
-        };
-      }
-    }
-  } */
-
-  /*  onBillImageChange1(event) {
-    if (event.target.files && event.target.files[0]) {
-      this.selectedBill1 = '';
-      Array.from(event.target.files).forEach((file: File) => {
-        this.selectedBill1 += file.name + ' - ';
-      });
-
-
-      const reader = new FileReader();
-      if (event.target.files[0] && event.target.files.length) {
-        const [file] = event.target.files;
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          this.billImageSrc1 = null;
-          this.billImageSrc1 = reader.result as string;
-          console.log('photo bill1 ' + JSON.stringify(this.billImageSrc1));
-          this.patchBillPhoto1();
-          this.patchPhotoBillChange1();
-        };
-      }
-    }
-  } */
   /* onBillImageChange2(event) {
     console.log(event);
     if (event.target.files && event.target.files[0]) {
@@ -248,14 +193,10 @@ export class RegisterFormComponent implements OnInit {
       Array.from(event.target.files).forEach((file: File) => {
         this.selectedBill2 += file.name + ' - ';
       });
-
-
       const reader = new FileReader();
-
       if (event.target.files[0] && event.target.files.length) {
         const [file] = event.target.files;
-        reader.readAsDataURL(file);
-
+       reader.readAsDataURL(file);
         reader.onload = () => {
           this.billImageSrc2 = null;
           this.billImageSrc2 = reader.result as string;
@@ -268,7 +209,7 @@ export class RegisterFormComponent implements OnInit {
   } */
 
   onRegister() {
-    console.log(this.registerForm.value);
+
     this.isSubmitted = true;
     if (this.registerForm) {
       this.registerService.register(this.registerForm.value).subscribe(
@@ -284,9 +225,9 @@ export class RegisterFormComponent implements OnInit {
             : this.toastr.error('Error while saving letter.');
         }
       );
-    } else {
+    } /* else {
       console.log('invalid register form');
-    }
+    } */
   }
   resetRegisterForm() {
     this.registerForm.reset();
@@ -299,7 +240,7 @@ export class RegisterFormComponent implements OnInit {
   }
 
   disablePhotoUpload() {
-    console.log(this.button1Status);
+
 
     this.mode === 'edit' && this.button1Status == 'V'
       ? this.registerForm.get('photoBill1').disable()
@@ -315,7 +256,7 @@ export class RegisterFormComponent implements OnInit {
       this.registerForm.get('photoBill1').enable();
     } */
   }
-  /* yemjee le lekheko */
+  /* img to base64 conversion */
   onImageChange($event, imageType) {
     const file = $event.target.files[0];
     this.convertToBase64(file, imageType);
@@ -355,5 +296,9 @@ export class RegisterFormComponent implements OnInit {
       subscriber.complete();
     };
   }
-  /* yemjee le lekheko end*/
+
+  /* comparing the dropdown values & setting the selected value in edit form */
+  compareFn(optionOne, optionTwo): boolean {
+    return optionOne.id === optionTwo.id;
+  }
 }

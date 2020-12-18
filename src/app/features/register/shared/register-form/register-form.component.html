@@ -136,21 +136,14 @@
                 <mat-form-field>
                   <mat-label>Affiliation College</mat-label>
                   <mat-select
-
                     formControlName="affiliationCollege"
+                    [compareWith]="compareFn"
                   >
-                    <ng-container>
-                      <mat-option
-                        *ngFor="let item of affiliationCollegeList"
-                        [value]="item"
-                        >{{ item.name }}</mat-option
-                      >
-                    </ng-container>
-                    <!-- <ng-container *ngIf="mode !== 'add'">
-                      <mat-option [value]="affCollege">{{
-                        affCollege.name
-                      }}</mat-option>
-                    </ng-container> -->
+                    <mat-option
+                      *ngFor="let item of affiliationCollegeList"
+                      [value]="item"
+                      >{{ item.name }}</mat-option
+                    >
                   </mat-select>
                   <mat-hint align="end">Select college affiliation</mat-hint>
                 </mat-form-field>
@@ -201,7 +194,6 @@
                     matInput
                     placeholder="Choose D.O.B"
                     formControlName="dob"
-                    readonly
                     (click)="picker.open()"
                     [(value)]="dob"
                   />
@@ -235,8 +227,8 @@
                   <mat-toolbar>
                     <!-- Display files names -->
                     <input
-                      matInput
                       readonly
+                      matInput
                       name="name"
                       [(value)]="selectedLicence"
                       [ngStyle]="{
@@ -256,8 +248,13 @@
 
                   <!-- Fetch selected filed on change -->
                   <input
+                    class="form-control"
                     type="file"
                     accept="image/*"
+                    style="
+                      border: none !important;
+                      border-color: transparent !important;
+                    "
                     (change)="onImageChange($event, 'photoLicence')"
                   />
                   <img
@@ -278,9 +275,7 @@
                       <!-- Display files names -->
                       <input
                         [disabled]="button1Status === 'V'"
-                        readonly
                         matInput
-                        readonly
                         name="name"
                         [(value)]="selectedBill1"
                         [ngStyle]="{
@@ -302,6 +297,7 @@
 
                     <!-- Fetch selected filed on change -->
                     <input
+                      class="form-control"
                       type="file"
                       accept="image/*"
                       (change)="onImageChange($event, 'photoBill1')"
@@ -322,7 +318,6 @@
                     <!-- Display files names -->
                     <input
                       matInput
-                      readonly
                       name="name"
                       [(value)]="selectedBill2"
                       [ngStyle]="{
@@ -338,6 +333,7 @@
                     </button> -->
                   </mat-toolbar>
                   <input
+                    class="form-control"
                     type="file"
                     accept="image/*"
                     (change)="onImageChange($event, 'photoLicence')"
@@ -355,20 +351,15 @@
               <p>
                 <mat-form-field>
                   <mat-label>Letter Receiver</mat-label>
-                  <mat-select formControlName="letterReceiver">
-                    <ng-container>
-                      <mat-option
-                        [(value)]="selectedLetterReceiver"
-                        *ngFor="let item of letterReceiverList"
-                        [value]="item"
-                        >{{ item.name }}</mat-option
-                      >
-                    </ng-container>
-                    <!-- <ng-container *ngIf="mode !== 'add'">
-                      <mat-option [value]="letterRec">{{
-                        letterRec.name
-                      }}</mat-option>
-                    </ng-container> -->
+                  <mat-select
+                    formControlName="letterReceiver"
+                    [compareWith]="compareFn"
+                  >
+                    <mat-option
+                      *ngFor="let item of letterReceiverList"
+                      [value]="item"
+                      >{{ item.name }}</mat-option
+                    >
                   </mat-select>
                   <mat-hint align="end">Select letter receiver</mat-hint>
                 </mat-form-field>
