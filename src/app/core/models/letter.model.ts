@@ -32,4 +32,6 @@ export class Letter {
 
   affiliationCollege: AffiliationCollege;
   letterReceiver: LetterReceicer;
+  // test
+  letterReceiver2: LetterReceicer;
 }

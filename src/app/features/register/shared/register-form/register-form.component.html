@@ -4,6 +4,7 @@
   <div class="row">
     <div class="col searchBar">
       <mat-search-bar
+        aria-autocomplete="false"
         style="margin-left: 300px"
         class="mb-2"
         placeholder="search by RegNo"
@@ -241,6 +242,8 @@
               </mat-form-field>
             </div>
             <!--/
+                 Registered Number -->
+            <!--
                  letterReceiver -->
 
             <div class="col-md-4">
@@ -249,6 +252,7 @@
                 <mat-select
                   formControlName="letterReceiver"
                   [compareWith]="compareFn"
+                  (selectionChange)="selectDropDown2Data($event.value.id)"
                 >
                   <mat-option
                     *ngFor="let item of letterReceiverList"
@@ -262,15 +266,15 @@
             <!-- letter receiver -->
             <div class="col-md-4">
               <mat-form-field>
-                <mat-label>Letter Receiver</mat-label>
+                <mat-label>Selected College</mat-label>
                 <mat-select
-                  formControlName="letterReceiver"
+                  formControlName="letterReceiver2"
                   [compareWith]="compareFn"
                 >
                   <mat-option
-                    *ngFor="let item of letterReceiverList"
+                    *ngFor="let item of selectedCollegeList"
                     [value]="item"
-                    >{{ item.name }}</mat-option
+                    >{{ item.postal }}, {{ item.address1 }}</mat-option
                   >
                 </mat-select>
                 <mat-hint align="end">Select letter receiver</mat-hint>

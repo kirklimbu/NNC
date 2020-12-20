@@ -1,3 +1,4 @@
+import { LetterReceicer } from './../../../../core/models/letter-receicer.model';
 import { Letter } from '../../../../core/models/letter.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -43,6 +44,61 @@ export class RegisterFormComponent implements OnInit {
   button1Status: string;
   button2Status: string;
 
+  /* fake data for dropdown 2 */
+  dropDown2Data = [
+    {
+      id: 1,
+      letterReceiverId: 1,
+      postal: 123456,
+      address1: 'Pulchowk',
+      address2: 'pulchok Area',
+      address3: 'House number fg',
+    },
+    {
+      id: 2,
+      letterReceiverId: 1,
+      postal: 123789,
+      address1: 'Dharan',
+      address2: 'dharan tole',
+      address3: 'House number a',
+    },
+    {
+      id: 3,
+      letterReceiverId: 1,
+      postal: 147963,
+      address1: 'Pokhara',
+      address2: 'pokhara line',
+      address3: 'House number s',
+    },
+    {
+      id: 4,
+      letterReceiverId: 1,
+      postal: 159753,
+      address1: 'Thapathali',
+      address2: 'thapatahali area',
+      address3: 'House number df',
+    },
+    {
+      id: 5,
+      letterReceiverId: 2,
+      postal: 469873,
+      address1: 'Biratnagar',
+      address2: 'biratnagar area',
+      address3: 'House number sd',
+    },
+    {
+      id: 6,
+      letterReceiverId: 2,
+      postal: 164379,
+      address1: 'Dhankuta',
+      address2: 'dhankuta area',
+      address3: 'House number 77',
+    },
+  ];
+  // fake data end
+
+  selectedCollegeList = [];
+
   constructor(
     private registerService: RegisterService,
     private formBuilder: FormBuilder,
@@ -78,15 +134,18 @@ export class RegisterFormComponent implements OnInit {
   }
 
   onSearch(regId: number) {
+    console.log('inside serarch');
+
     // this.spinner.show();
     /* this.registerForm.reset();
      this.mode = 'edit'; */
-    this.registerService
+    /* this.registerService
       .getSearchDetails(regId)
       // .pipe(finalize(() => this.spinner.hide()))
       .subscribe((data) => {
         if (data.form.id !== 0) {
           this.mode = 'edit';
+
           this.letter = data.form;
           this.licenceImage = data.form.photoLicence;
           this.billImage1 = data.form.photoBill1;
@@ -99,7 +158,82 @@ export class RegisterFormComponent implements OnInit {
         } else {
           this.toastr.error('You are not Registered.');
         }
-      });
+      }); */
+
+    /* fake response for edit form */
+
+    var data: any = {
+      form: {
+        id: 119,
+        regNo: '1234',
+        name: 'krishna',
+        address: 'illam',
+        wardNo: 3,
+        collegeName: 'pulchowk',
+        collegeAddress: 'adsf',
+        dob: '2020-12-17T18:15:00.000Z',
+        photoLicence:
+          'http://18.219.113.193:8084/nnc/image/licence@L_119_1608288834843.jpg',
+        email: 'asdfdsaf',
+        mobileNo: 'dsafdsf',
+        affiliationCollege: {
+          id: 1,
+          name: 'TU',
+        },
+        letterReceiver: {
+          id: 2,
+          name: 'Company  B',
+        },
+        letterReceiver2: {
+          id: 6,
+          letterReceiverId: 2,
+          postal: 164379,
+          address1: 'Dhankuta',
+          address2: 'dhankuta area',
+          address3: 'House number 77',
+        },
+        photoBill1:
+          'http://18.219.113.193:8084/nnc/image/bill@B_119_1608288834844.jpg',
+        status1: 'V',
+        print1: false,
+        letterReceiverId1: 1,
+        letterReceiverName1: 'Company A',
+        photoBill2: null,
+        status2: null,
+        print2: false,
+        letterReceiverId2: null,
+        letterReceiverName2: null,
+        photoBillChange1: false,
+        photoBillChange2: false,
+      },
+      affiliationCollegeList: [
+        {
+          id: 1,
+          name: 'TU',
+        },
+        {
+          id: 2,
+          name: 'PU',
+        },
+      ],
+      letterReceiverList: [
+        {
+          id: 1,
+          name: 'Company A',
+        },
+        {
+          id: 2,
+          name: 'Company B',
+        },
+      ],
+    };
+    this.letter = data.form;
+    // this.letterReceiverList = this.letter.letterReceiver2;
+    this.disablePhotoUpload();
+    this.selectDropDown2Data(this.letter.letterReceiver.id);
+    this.buildRegisterForm();
+
+    /* fake response for edit form end */
   }
 
   buildRegisterForm() {
@@ -121,6 +255,7 @@ export class RegisterFormComponent implements OnInit {
         photoBillChange1: [this.letter.photoBillChange1],
         photoBillChange2: [this.letter.photoBillChange2],
         letterReceiver: [this.letter.letterReceiver],
+        letterReceiver2: [this.letter.letterReceiver2],
         affiliationCollege: [this.letter.affiliationCollege],
         letterReceiverId1: [this.letter.letterReceiverId1],
         letterReceiverId2: [this.letter.letterReceiverId2],
@@ -150,6 +285,7 @@ export class RegisterFormComponent implements OnInit {
         photoBillChange1: [this.letter.photoBillChange1],
         photoBillChange2: [this.letter.photoBillChange2],
         letterReceiver: [this.letter.letterReceiver],
+        letterReceiver2: [this.letter.letterReceiver2],
         affiliationCollege: [this.letter.affiliationCollege],
       });
     }
@@ -283,5 +419,30 @@ export class RegisterFormComponent implements OnInit {
   /* comparing the dropdown values & setting the selected value in edit form */
   compareFn(optionOne, optionTwo): boolean {
     return optionOne.id === optionTwo.id;
+  }
+
+  selectDropDown2Data(letterReceiver: any) {
+    console.log(letterReceiver);
+    this.selectedCollegeList = this.dropDown2Data.filter(
+      (f) => f.letterReceiverId === letterReceiver
+    );
+
+    /* if (typeof letterReceiver === 'number') {
+      console.log('number type ho');
+      this.selectedCollegeList = this.dropDown2Data.filter(
+        (f) => f.letterReceiverId === letterReceiver
+      );
+      const id = letterReceiver;
+      this.selectedCollegeList = this.dropDown2Data.filter(
+        (f) => f.letterReceiverId === id
+      );
+    } else {
+      console.log('number type hoina');
+
+      const id = letterReceiver.id;
+      this.selectedCollegeList = this.dropDown2Data.filter(
+        (f) => f.letterReceiverId === id
+      );
+    } */
   }
 }
