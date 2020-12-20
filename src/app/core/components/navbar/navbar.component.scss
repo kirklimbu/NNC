@@ -8,18 +8,20 @@ img {
   .nav-link {
     font-size: 14px;
     text-transform: titlecase;
-    padding-left: 1em;
-    padding-right: 1em;
+    // padding-left: 1em;
+    // padding-right: 1em;
   }
 }
-a:link { /* Essentially means a[href], or that the link actually goes somewhere */
+a:link {
+  /* Essentially means a[href], or that the link actually goes somewhere */
   color: blue;
 }
-.a:active {
-  border-bottom: red 2px solid;
-}
+
 .nav-item:hover {
   border-bottom: #008fd6 2px solid;
+}
+.nav-item a.active {
+  border-bottom: #ff75f0 1px solid;
 }
 
 .navbar {
@@ -27,23 +29,13 @@ a:link { /* Essentially means a[href], or that the link actually goes somewhere 
   border-bottom: lightgray;
   box-shadow: lightgray 3px 1px;
   position: relative;
-
 }
 
-.nav-line {
+nav-item a.active {
   margin: 1rem;
   color: red;
-
 }
 
-#sub-nav {
-  height: 17px;
-
-}
-
-#main-nav{
+#main-nav {
   height: 6rem;
 }
-
-
-

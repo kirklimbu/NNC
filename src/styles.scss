@@ -36,15 +36,6 @@ $nepalNursingCouncil-theme: mat-light-theme(
 // that you are using.
 @include angular-material-theme($nepalNursingCouncil-theme);
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
 
@@ -52,22 +43,62 @@ body {
 
 html,
 body {
-  height: 100%;
-}
-body {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-body {
-  margin: 0;
-}
+
 .content-wrapper {
-  padding: 50px;
-  margin-left: 10%;
+  padding: 30px;
+  // margin-left: 10%;
+}
+/* side-bar/info-bar */
+.container {
+  display: grid;
+  /* side bar*/
+  grid-template-columns: minmax(150px, 25%) 1fr;
+  padding-left: 0;
+  margin-left: 0;
+  /* end side bar*/
 }
 
+navbar {
+  width: 975px;
+}
+
+.sidebar {
+  background-color: #5dbce2;
+  margin: 0.25rem 0 0.25rem 0.25rem;
+  border-radius: 0.5rem;
+  color: white;
+  position: sticky;
+}
+
+hr {
+  margin: 3rem 0.5rem 3rem 0.5rem;
+}
+
+.action-buttons button {
+  margin: 0.5rem 0.5rem 2rem 0.5rem;
+  float: right;
+}
+.label {
+  padding: 2rem 0 1rem 0;
+  text-decoration: underline;
+  text-align: center;
+}
+.main-content {
+  // display: grid;
+  /* one line center*/
+  // place-items: center;
+  /* end one line center*/
+}
+
+/* side-bar/info-bar */
+
 /* Responsive Styles */
-@media screen and (max-width: 767px) {
+/* @media screen and (max-width: 767px) {
   .card-container > *:not(.circle-link),
   .terminal {
     width: 100%;
@@ -86,10 +117,10 @@ body {
     right: 120px;
     transform: rotate(-5deg);
   }
-}
-@media screen and (max-width: 575px) {
+} */
+/* @media screen and (max-width: 575px) {
   svg#rocket-smoke {
     display: none;
     visibility: hidden;
   }
-}
+} */

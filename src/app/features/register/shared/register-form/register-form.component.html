@@ -1,13 +1,13 @@
 <!-- student form -->
 <div class="content-wrapper">
-  <legend class="scheduler-border text-center">Register</legend>
+  <legend class="scheduler-border label">Register</legend>
   <div class="row">
     <div class="col searchBar">
       <mat-search-bar
-        aria-autocomplete="false"
-        style="margin-left: 300px"
-        class="mb-2"
-        placeholder="search by RegNo"
+        [autocomplete]="false"
+        style="margin-left: 180px"
+        class="mb-2 mt-2"
+        placeholder="Search RegNo"
         (change)="onSearch($event.target.value)"
       ></mat-search-bar>
     </div>
@@ -316,7 +316,7 @@
               <mat-form-field>
                 <mat-toolbar>
                   <!-- Display files names -->
-                  <input [disabled]="button1Status === 'V'" matInput />
+                  <input readonly [disabled]="button1Status === 'V'" matInput />
                 </mat-toolbar>
 
                 <!-- Fetch selected filed on change -->
@@ -341,7 +341,7 @@
                 <mat-form-field>
                   <mat-toolbar>
                     <!-- Display files names -->
-                    <input only matInput />
+                    <input readonly matInput />
                   </mat-toolbar>
                   <input
                     class="form-control"
@@ -361,27 +361,49 @@
             </div>
             <!--/ bill imageupload-->
           </div>
+          <hr />
           <!-- fifth row end -->
+          <!-- photo preview end -->
+          <section>
+            <h2 class="label">Previous bills</h2>
+            <div class="row">
+              <div class="col gallery mt-3 mb-2">
+                <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
+
+                <div class="desc">Add a description of the image here</div>
+              </div>
+              <div class="col gallery mt-3 mb-2">
+                <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
+
+                <div class="desc">Add a description of the image here</div>
+              </div>
+              <div class="col gallery mt-3 mb-2">
+                <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
+
+                <div class="desc">Add a description of the image here</div>
+              </div>
+            </div>
+          </section>
+          <hr />
+
+          <!-- photo preview end -->
           <div class="row">
-            <hr />
-            <div class="col-md-12 mt-3 mb-2 mr-3">
+            <div class="col-md-12 action-buttons">
               <button
-                class="mr-3 float-right"
-                mat-raised-button
-                color="primary"
-                (click)="onRegister()"
-                [disabled]="!registerForm.valid"
-              >
-                Save
-              </button>
-              <button
-                class="mr-3 float-right"
                 type="button "
                 mat-raised-button
                 color="danger"
                 (click)="onCancel()"
               >
                 Cancel
+              </button>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="onRegister()"
+                [disabled]="!registerForm.valid"
+              >
+                Save
               </button>
             </div>
           </div>

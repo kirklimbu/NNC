@@ -139,7 +139,7 @@ export class RegisterFormComponent implements OnInit {
     // this.spinner.show();
     /* this.registerForm.reset();
      this.mode = 'edit'; */
-    /* this.registerService
+    this.registerService
       .getSearchDetails(regId)
       // .pipe(finalize(() => this.spinner.hide()))
       .subscribe((data) => {
@@ -158,11 +158,11 @@ export class RegisterFormComponent implements OnInit {
         } else {
           this.toastr.error('You are not Registered.');
         }
-      }); */
+      });
 
     /* fake response for edit form */
 
-    var data: any = {
+   /*  var data: any = {
       form: {
         id: 119,
         regNo: '1234',
@@ -226,8 +226,8 @@ export class RegisterFormComponent implements OnInit {
           name: 'Company B',
         },
       ],
-    };
-    this.letter = data.form;
+    }; */
+    // this.letter = data.form;
     // this.letterReceiverList = this.letter.letterReceiver2;
     this.disablePhotoUpload();
     this.selectDropDown2Data(this.letter.letterReceiver.id);
@@ -427,22 +427,5 @@ export class RegisterFormComponent implements OnInit {
       (f) => f.letterReceiverId === letterReceiver
     );
 
-    /* if (typeof letterReceiver === 'number') {
-      console.log('number type ho');
-      this.selectedCollegeList = this.dropDown2Data.filter(
-        (f) => f.letterReceiverId === letterReceiver
-      );
-      const id = letterReceiver;
-      this.selectedCollegeList = this.dropDown2Data.filter(
-        (f) => f.letterReceiverId === id
-      );
-    } else {
-      console.log('number type hoina');
-
-      const id = letterReceiver.id;
-      this.selectedCollegeList = this.dropDown2Data.filter(
-        (f) => f.letterReceiverId === id
-      );
-    } */
   }
 }

@@ -1,7 +1,7 @@
 .registerCard {
-  display: flex;
-  align-items: center;
-  width: 100%;
+  display: grid;
+  place-items: inherit;
+  width: 800px;
 }
 
 .form-control {
@@ -10,43 +10,18 @@
 
 .mat-form-field {
   display: grid;
-  align-items: center;
+  place-items: center;
   margin: 0.5rem 0;
-  width: 300px !important;
+  // width: 300px !important;
 }
-
 .mat-toolbar-single-row {
   height: auto !important;
   background: transparent;
 }
 
-.mat-toolbar-single-row button {
-  width: 200px;
-}
-
-.mat-form-field {
-  width: 100%;
-}
-
-#uploadFile,
-#uploadFileBill {
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  z-index: 9;
-  opacity: 0;
-  height: 100%;
-  cursor: pointer;
-  position: absolute;
-}
-
 img {
-  height: 300px;
-  width: 300px;
-}
-.mat-search_icons[_ngcontent-nuy-c283]
-  .mat-search_icon-search[_ngcontent-nuy-c283] {
-  left: 300px;
+  height: 200px;
+  width: 200px;
 }
 
 input:disabled,
@@ -54,59 +29,36 @@ input[disabled] {
   cursor: not-allowed !important;
 }
 
-.searchBar {
-  // margin-left: 25px;
+.photoPreview {
+  display: grid;
+  place-items: inherit;
+}
+div.gallery {
+  margin: 5px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 180px;
 }
 
-form {
-  display: inline-flex;
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
   width: 100%;
+  height: auto;
 }
 
-/* test */
-.mat-card {
-  text-align: -webkit-center;
-}
-
-.demo-toolbar {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.demo-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.demo-full-width {
-  width: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, sans-serif;
-}
-
-mat-card {
-  max-width: 80%;
-  margin: 2em auto;
+div.desc {
+  padding: 15px;
   text-align: center;
 }
 
-mat-toolbar-row {
-  justify-content: space-between;
+section {
+  display: grid;
+  align-items: center;
+  padding: 0 1rem 1rem 1rem;
+  margin: 3rem 0 3rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
 }
-
-.done {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  color: white;
-}
-
-.content-center {
-  text-align: -webkit-center;
-}
-/* test end */
