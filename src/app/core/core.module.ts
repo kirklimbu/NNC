@@ -1,3 +1,4 @@
+import { MaterialLibModule } from './material-lib/material-lib.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -13,7 +14,7 @@ const DECLARATIONS = [
 ];
 @NgModule({
   declarations: [...DECLARATIONS],
-  imports: [CommonModule, CoreRoutingModule],
+  imports: [CommonModule, CoreRoutingModule, MaterialLibModule],
   exports: [...DECLARATIONS],
 })
 export class CoreModule {}

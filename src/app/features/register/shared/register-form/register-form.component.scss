@@ -1,7 +1,7 @@
 .registerCard {
-  display: grid;
+  display: flex;
   align-items: center;
-  width: 50%;
+  width: 100%;
 }
 
 .form-control {
@@ -9,6 +9,8 @@
 }
 
 .mat-form-field {
+  display: grid;
+  align-items: center;
   margin: 0.5rem 0;
   width: 300px !important;
 }
@@ -51,3 +53,60 @@ input:disabled,
 input[disabled] {
   cursor: not-allowed !important;
 }
+
+.searchBar {
+  // margin-left: 25px;
+}
+
+form {
+  display: inline-flex;
+  width: 100%;
+}
+
+/* test */
+.mat-card {
+  text-align: -webkit-center;
+}
+
+.demo-toolbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.demo-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.demo-full-width {
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+mat-card {
+  max-width: 80%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+mat-toolbar-row {
+  justify-content: space-between;
+}
+
+.done {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+}
+
+.content-center {
+  text-align: -webkit-center;
+}
+/* test end */

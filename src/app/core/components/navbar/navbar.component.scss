@@ -1,6 +1,7 @@
 img {
   // margin-bottom: 5px;
   height: 6rem;
+  margin-left: 8%;
 }
 
 .navbar-nav {
@@ -11,7 +12,9 @@ img {
     padding-right: 1em;
   }
 }
-
+a:link { /* Essentially means a[href], or that the link actually goes somewhere */
+  color: blue;
+}
 .a:active {
   border-bottom: red 2px solid;
 }

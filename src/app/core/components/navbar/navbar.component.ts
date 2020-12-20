@@ -1,3 +1,4 @@
+import { LoginService } from './../../../features/login/services/login.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { faBars, faCoffee } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +10,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../guards/auth/authentication.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar',
@@ -17,28 +19,22 @@ import { AuthenticationService } from '../../guards/auth/authentication.service'
 })
 export class NavbarComponent implements OnInit {
   // props
-  fabars = faBars;
-  active = 1;
-  faCoffee = faCoffee;
-  faTwitter = faTwitter;
-  token: any;
-  isLoggedIn$: Observable<boolean>; // {1}
 
-  constructor(
-    private router: Router,
-    private authService: AuthenticationService
-  ) {}
+  token = '';
+  isLoggedIn$: Observable<boolean>;
+  constructor(private router: Router, private loginService: LoginService) {}
 
   ngOnInit(): void {
     this.fetchToken();
-    this.isLoggedIn$ = this.authService.isLoggedIn;
-    console.log(this.isLoggedIn$);
+
+    this.isLoggedIn$ = this.loginService.isLoggedIn;
+    console.log(JSON.stringify(this.isLoggedIn$));
   }
   fetchToken() {
     this.token = localStorage.getItem('token');
   }
 
   onLogout() {
-    this.authService.logout();
+    this.loginService.logout();
   }
 }

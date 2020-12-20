@@ -1,4 +1,4 @@
-@import '~ngx-toastr/toastr';
+@import "~ngx-toastr/toastr";
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
@@ -62,7 +62,8 @@ body {
   margin: 0;
 }
 .content-wrapper {
-  padding: 30px;
+  padding: 50px;
+  margin-left: 10%;
 }
 
 /* Responsive Styles */

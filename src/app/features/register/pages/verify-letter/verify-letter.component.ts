@@ -27,10 +27,11 @@ export class VerifyLetterComponent implements OnInit {
   letterReceiver: LetterReceicer;
   affiliationCollege: AffiliationCollege;
   licenceImage: any;
-  billImage: any[];
+  billImageList: File | null;
   enableZoom: Boolean = true;
   previewImageSrc: any;
   zoomImageSrc: any;
+  mode = 'verify';
 
   constructor(
     private letterService: RegisterService,
@@ -41,8 +42,10 @@ export class VerifyLetterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.buildVerifyForm();
     this.fetchParamFromUrl();
     this.fetchLetterDetails();
+    this.disableVerifyDob();
   }
 
   fetchParamFromUrl() {
@@ -69,16 +72,16 @@ export class VerifyLetterComponent implements OnInit {
       this.letterReceiver = data.letterReceiver;
       this.affiliationCollege = data.affiliationCollege;
       this.licenceImage = data.photoLicence;
-      this.billImage = data.requestList;
+      this.billImageList = data.requestList;
       /* this.letterVerifyForm.patchValue({
         letterReceiver: this.letterReceiver.name,
       }); */
 
-      this.buildRegisterForm();
+      this.buildVerifyForm();
     });
   }
 
-  buildRegisterForm() {
+  buildVerifyForm() {
     this.letterVerifyForm = this.formBuilder.group({
       regNo: [this.letter.regNo],
       name: [this.letter.name],
@@ -105,7 +108,9 @@ export class VerifyLetterComponent implements OnInit {
         this.router.navigate(['/home/letter/letter-list']);
       },
       (err) => {
-        this.toastr.error(err.error);
+        err = err.error.message
+          ? this.toastr.error(err.error.message)
+          : this.toastr.error('Verification failed');
       }
     );
   }
@@ -118,8 +123,17 @@ export class VerifyLetterComponent implements OnInit {
         this.router.navigate(['/home/letter/letter-list']);
       },
       (err) => {
-        this.toastr.error(err.error);
+        err = err.error.message
+        ? this.toastr.error(err.error.message)
+        : this.toastr.error('Rejection failed');
       }
     );
+  }
+  /* comparing the dropdown values & setting the selected value in edit form */
+  compareFn(optionOne, optionTwo): boolean {
+    return optionOne.id === optionTwo.id;
+  }
+  disableVerifyDob() {
+    this.letterVerifyForm.get('dob').disable();
   }
 }

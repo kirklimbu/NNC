@@ -1,342 +1,349 @@
+<!-- student form -->
 <div class="content-wrapper">
+  <legend class="scheduler-border text-center">Register</legend>
   <div class="row">
-    <div class="col-md-10">
+    <div class="col searchBar">
       <mat-search-bar
         style="margin-left: 300px"
-        class="text-right ml-4"
+        class="mb-2"
         placeholder="search by RegNo"
         (change)="onSearch($event.target.value)"
       ></mat-search-bar>
-      <!-- <mat-form-field>
-        <ngx-mat-search-field
-          placeholder="Search by RegId"
-          prefetch="true"
-          [maxRows]="20"
-          [dataSource]="searchFieldDataSource"
-        ></ngx-mat-search-field>
-      </mat-form-field> -->
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-6">
-      <section
-        fxLayout="row wrap"
-        fxLayoutAlign="center center"
-        class="registerCard"
-      >
-        <mat-card fxFlex="200px" fxFlex.xs="100%" class="mt-4 mb-4">
-          <mat-card-title>Register</mat-card-title>
-          <mat-divider></mat-divider>
-          <form
-            [formGroup]="registerForm"
-            autocomplete="off"
-            novalidate
-            fxLayout="column wrap"
-            fxLayoutAlign="center center"
-            fxLayoutGap="10px"
-          >
-            <mat-card-content class="mt-4">
-              <p>
-                <mat-form-field class="=full-width">
-                  <input
-                    matInput
-                    type="text"
-                    placeholder="Full Name"
-                    formControlName="name"
-                    id="name"
-                  />
-                  <mat-hint align="end">Enter full name</mat-hint>
-                  <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
-            <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field>
-                  <input
-                    matInput
-                    type="text"
-                    placeholder="Address"
-                    formControlName="address"
-                    id="lname"
-                    fxlayoutalign="column"
-                  />
-                  <mat-hint align="end">Enter address</mat-hint>
-                  <!-- <mat-error *ngIf="hasError('address', 'required')"
+
+  <form novalidate role="form" [formGroup]="registerForm">
+    <div class="row mb-2">
+      <div class="card registerCard">
+        <div class="card-body">
+          <!-- first row  -->
+          <div class="row">
+            <!--  name -->
+            <div class="col-md-4">
+              <mat-form-field class="=full-width">
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Full Name"
+                  formControlName="name"
+                  id="name"
+                />
+                <mat-hint align="end">Enter full name</mat-hint>
+              </mat-form-field>
+            </div>
+            <!--/
+                 name -->
+
+            <!-- father name -->
+            <div class="col-md-4">
+              <mat-form-field>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Address"
+                  formControlName="address"
+                  id="lname"
+                  fxlayoutalign="column"
+                />
+                <mat-hint align="end">Enter address</mat-hint>
+                <!-- <mat-error *ngIf="hasError('address', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('address', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field>
-                  <input
-                    matInput
-                    type="number"
-                    placeholder=" Ward number"
-                    formControlName="wardNo"
-                    id="lname"
-                    fxlayoutalign="column"
-                  />
-                  <mat-hint align="end">Enter ward number</mat-hint>
-                  <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
-                >Last Name is required</mat-error
-              >
-              <mat-error *ngIf="hasError('wardNum', 'maxlength')"
-                >Enter last name</mat-error
-              > -->
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field>
-                  <input
-                    matInput
-                    type="text"
-                    placeholder=" Mobile number"
-                    formControlName="mobileNo"
-                    id="lname"
-                    fxlayoutalign="column"
-                    #input
-                    maxlength="10"
-                  />
-                  <mat-hint align="end"
-                    >{{ input.value?.length || 0 }}/10, Enter mobile
-                    number</mat-hint
-                  >
+              </mat-form-field>
+            </div>
+            <!-- / father name -->
 
-                  <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+            <!-- mother name -->
+            <div class="col-md-4">
+              <mat-form-field>
+                <input
+                  matInput
+                  type="number"
+                  placeholder=" Ward number"
+                  formControlName="wardNo"
+                  id="lname"
+                  fxlayoutalign="column"
+                />
+                <mat-hint align="end">Enter ward number</mat-hint>
+                <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('wardNum', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field>
-                  <input
-                    matInput
-                    type="text"
-                    placeholder=" Email"
-                    formControlName="email"
-                    id="lname"
-                    fxlayoutalign="column"
-                  />
-                  <mat-hint align="end">Enter e-mail address</mat-hint>
-                  <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- first row end -->
+
+          <!-- second row  -->
+          <div class="row">
+            <!--  name -->
+            <div class="col-md-4">
+              <mat-form-field>
+                <input
+                  matInput
+                  type="text"
+                  placeholder=" Mobile number"
+                  formControlName="mobileNo"
+                  id="lname"
+                  fxlayoutalign="column"
+                  #input
+                  maxlength="10"
+                />
+                <mat-hint align="end"
+                  >{{ input.value?.length || 0 }}/10, Enter mobile
+                  number</mat-hint
+                >
+
+                <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('wardNum', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field>
-                  <mat-label>Affiliation College</mat-label>
-                  <mat-select
-                    formControlName="affiliationCollege"
-                    [compareWith]="compareFn"
+              </mat-form-field>
+            </div>
+            <!--/
+                 name -->
+
+            <!-- Affiliation College -->
+            <div class="col-md-4">
+              <mat-form-field>
+                <input
+                  matInput
+                  type="text"
+                  placeholder=" Email"
+                  formControlName="email"
+                  id="lname"
+                  fxlayoutalign="column"
+                />
+                <mat-hint align="end">Enter e-mail address</mat-hint>
+                <!--  <mat-error *ngIf="hasError('wardNum', 'required')"
+                >Last Name is required</mat-error
+              >
+              <mat-error *ngIf="hasError('wardNum', 'maxlength')"
+                >Enter last name</mat-error
+              > -->
+              </mat-form-field>
+            </div>
+            <!-- / father name -->
+
+            <!-- College Name -->
+            <div class="col-md-4">
+              <mat-form-field>
+                <input
+                  [matDatepicker]="picker"
+                  matInput
+                  placeholder="Choose D.O.B"
+                  formControlName="dob"
+                  (click)="picker.open()"
+                  [(value)]="dob"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-hint align="end">Select Date of Birth(D.O.B)</mat-hint>
+              </mat-form-field>
+            </div>
+            <!-- College Name end -->
+          </div>
+          <!-- second row end -->
+
+          <!-- third row  -->
+          <div class="row">
+            <!--  College Address -->
+            <div class="col-md-4">
+              <mat-form-field>
+                <mat-label>Affiliation College</mat-label>
+                <mat-select
+                  formControlName="affiliationCollege"
+                  [compareWith]="compareFn"
+                >
+                  <mat-option
+                    *ngFor="let item of affiliationCollegeList"
+                    [value]="item"
+                    >{{ item.name }}</mat-option
                   >
-                    <mat-option
-                      *ngFor="let item of affiliationCollegeList"
-                      [value]="item"
-                      >{{ item.name }}</mat-option
-                    >
-                  </mat-select>
-                  <mat-hint align="end">Select college affiliation</mat-hint>
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field>
-                  <input
-                    matInput
-                    type="text"
-                    placeholder="College Name"
-                    formControlName="collegeName"
-                    id="college"
-                    fxlayoutalign="column"
-                  />
-                  <mat-hint align="end">Enter college name</mat-hint>
-                  <!--  <mat-error *ngIf="hasError('name', 'required')"
+                </mat-select>
+                <mat-hint align="end">Select college affiliation</mat-hint>
+              </mat-form-field>
+            </div>
+            <!--/
+                 College Address -->
+
+            <!-- dob-->
+            <div class="col-md-4">
+              <mat-form-field>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="College Name"
+                  formControlName="collegeName"
+                  id="college"
+                  fxlayoutalign="column"
+                />
+                <mat-hint align="end">Enter college name</mat-hint>
+                <!--  <mat-error *ngIf="hasError('name', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('name', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field>
-                  <input
-                    matInput
-                    type="text"
-                    placeholder="College Address"
-                    formControlName="collegeAddress"
-                    id="collegeAddress"
-                    fxlayoutalign="column"
-                  />
-                  <mat-hint align="end">Enter college address</mat-hint>
-                  <!--  <mat-error *ngIf="hasError('name', 'required')"
+              </mat-form-field>
+            </div>
+            <!-- / dob-->
+
+            <!-- Registered Number-->
+            <div class="col-md-4">
+              <mat-form-field>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="College Address"
+                  formControlName="collegeAddress"
+                  id="collegeAddress"
+                  fxlayoutalign="column"
+                />
+                <mat-hint align="end">Enter college address</mat-hint>
+                <!--  <mat-error *ngIf="hasError('name', 'required')"
                 >Last Name is required</mat-error
               >
               <mat-error *ngIf="hasError('name', 'maxlength')"
                 >Enter last name</mat-error
               > -->
-                </mat-form-field>
-              </p>
+              </mat-form-field>
+            </div>
+            <!-- College Name end -->
+          </div>
+          <!-- third row end -->
 
-              <p>
-                <mat-form-field>
-                  <input
-                    [matDatepicker]="picker"
-                    matInput
-                    placeholder="Choose D.O.B"
-                    formControlName="dob"
-                    (click)="picker.open()"
-                    [(value)]="dob"
-                  />
-                  <mat-datepicker-toggle
-                    matSuffix
-                    [for]="picker"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                  <mat-hint align="end">Select Date of Birth(D.O.B)</mat-hint>
-                </mat-form-field>
-              </p>
-              <!-- reg num -->
-              <p>
-                <mat-form-field class="=full-width">
-                  <input
-                    matInput
-                    type="text"
-                    placeholder="Registered Number"
-                    formControlName="regNo"
-                    id="fname"
-                  />
-                  <mat-hint align="end">Enter registered number</mat-hint>
-                  <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+          <!-- fourth row  -->
+          <div class="row">
+            <!--  letterReceiver -->
+            <div class="col-md-4">
+              <mat-form-field class="=full-width">
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Registered Number"
+                  formControlName="regNo"
+                  id="fname"
+                />
+                <mat-hint align="end">Enter registered number</mat-hint>
+                <!-- <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
             <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
-                </mat-form-field>
-              </p>
+              </mat-form-field>
+            </div>
+            <!--/
+                 letterReceiver -->
 
+            <div class="col-md-4">
+              <mat-form-field>
+                <mat-label>Letter Receiver</mat-label>
+                <mat-select
+                  formControlName="letterReceiver"
+                  [compareWith]="compareFn"
+                >
+                  <mat-option
+                    *ngFor="let item of letterReceiverList"
+                    [value]="item"
+                    >{{ item.name }}</mat-option
+                  >
+                </mat-select>
+                <mat-hint align="end">Select letter receiver</mat-hint>
+              </mat-form-field>
+            </div>
+            <!-- letter receiver -->
+            <div class="col-md-4">
+              <mat-form-field>
+                <mat-label>Letter Receiver</mat-label>
+                <mat-select
+                  formControlName="letterReceiver"
+                  [compareWith]="compareFn"
+                >
+                  <mat-option
+                    *ngFor="let item of letterReceiverList"
+                    [value]="item"
+                    >{{ item.name }}</mat-option
+                  >
+                </mat-select>
+                <mat-hint align="end">Select letter receiver</mat-hint>
+              </mat-form-field>
+            </div>
+            <!-- / letter receiver-->
+          </div>
+          <!-- fourth row end -->
+
+          <!-- fifth row  -->
+          <div class="row">
+            <!--  licence photo-->
+            <div class="col-md-4">
               <!-- upload licence photo  -->
               <mat-form-field>
-                <div>
-                  <mat-toolbar>
-                    <!-- Display files names -->
-                    <input
-                      readonly
-                      matInput
-                      name="name"
-                      [(value)]="selectedLicence"
-                      [ngStyle]="{
-                        'font-size': '14px',
-                        'font-weight': '400',
-
-                        color: 'light-grey',
-                        'padding-left': '0'
-                      }"
-                    />
-
-                    <!-- Browse Button -->
-                    <!--  <button mat-flat-button color="primary">
-                      Browse Image
-                    </button> -->
-                  </mat-toolbar>
-
-                  <!-- Fetch selected filed on change -->
-                  <input
-                    class="form-control"
-                    type="file"
-                    accept="image/*"
-                    style="
-                      border: none !important;
-                      border-color: transparent !important;
-                    "
-                    (change)="onImageChange($event, 'photoLicence')"
-                  />
-                  <img
-                    [src]="licenceImage"
-                    *ngIf="licenceImage"
-                    style="margin: 3px"
-                  />
-                </div>
+                <mat-toolbar>
+                  <!-- Display files names -->
+                  <input readonly matInput name="name" />
+                </mat-toolbar>
+                <!-- Fetch selected filed on change -->
+                <input
+                  class="form-control"
+                  type="file"
+                  accept="image/*"
+                  (change)="onImageChange($event, 'photoLicence')"
+                />
+                <img
+                  [src]="licenceImage"
+                  *ngIf="licenceImage"
+                  style="margin: 3px"
+                />
                 <mat-hint align="end">Upload licence photo</mat-hint>
               </mat-form-field>
               <!-- upload licence photo  -->
+            </div>
 
+            <div class="col-md-4">
               <!--upload bill image  1-->
-              <ng-container>
-                <mat-form-field>
-                  <div>
-                    <mat-toolbar>
-                      <!-- Display files names -->
-                      <input
-                        [disabled]="button1Status === 'V'"
-                        matInput
-                        name="name"
-                        [(value)]="selectedBill1"
-                        [ngStyle]="{
-                          'font-size': '14px',
-                          'font-weight': '400',
-                          color: 'light-grey'
-                        }"
-                      />
+              <mat-form-field>
+                <mat-toolbar>
+                  <!-- Display files names -->
+                  <input [disabled]="button1Status === 'V'" matInput />
+                </mat-toolbar>
 
-                      <!-- Browse Button -->
-                      <!--  <button
-                        mat-flat-button
-                        color="primary"
-                        [disabled]="button1Status === 'V'"
-                      >
-                        Browse Image
-                      </button> -->
-                    </mat-toolbar>
-
-                    <!-- Fetch selected filed on change -->
-                    <input
-                      class="form-control"
-                      type="file"
-                      accept="image/*"
-                      (change)="onImageChange($event, 'photoBill1')"
-                    />
-                    <img
-                      *ngIf="billImage1"
-                      [src]="billImage1"
-                      style="margin: 3px"
-                    />
-                  </div>
-                  <mat-hint align="end">Upload Bill photo 1</mat-hint>
-                </mat-form-field>
-              </ng-container>
-
+                <!-- Fetch selected filed on change -->
+                <input
+                  [disabled]="button1Status === 'V'"
+                  class="form-control"
+                  type="file"
+                  accept="image/*"
+                  (change)="onImageChange($event, 'photoBill1')"
+                />
+                <img
+                  *ngIf="billImage1"
+                  [src]="billImage1"
+                  style="margin: 3px"
+                />
+                <mat-hint align="end">Upload Bill photo 1</mat-hint>
+              </mat-form-field>
+            </div>
+            <!-- Registered Number-->
+            <div class="col-md-4">
               <ng-container *ngIf="mode !== 'add'">
                 <mat-form-field>
                   <mat-toolbar>
                     <!-- Display files names -->
-                    <input
-                      matInput
-                      name="name"
-                      [(value)]="selectedBill2"
-                      [ngStyle]="{
-                        'font-size': '14px',
-                        'font-weight': '400',
-                        color: 'light-grey'
-                      }"
-                    />
-
-                    <!-- Browse Button -->
-                    <!-- <button mat-flat-button color="primary">
-                      Browse Image
-                    </button> -->
+                    <input only matInput />
                   </mat-toolbar>
                   <input
                     class="form-control"
                     type="file"
                     accept="image/*"
-                    (change)="onImageChange($event, 'photoLicence')"
+                    (change)="onImageChange($event, 'photoBill2')"
                   />
                   <img
                     *ngIf="billImage2"
@@ -347,27 +354,15 @@
                   <mat-hint align="end">Upload Bill photo 2</mat-hint>
                 </mat-form-field>
               </ng-container>
-              <!--/ bill imageupload-->
-              <p>
-                <mat-form-field>
-                  <mat-label>Letter Receiver</mat-label>
-                  <mat-select
-                    formControlName="letterReceiver"
-                    [compareWith]="compareFn"
-                  >
-                    <mat-option
-                      *ngFor="let item of letterReceiverList"
-                      [value]="item"
-                      >{{ item.name }}</mat-option
-                    >
-                  </mat-select>
-                  <mat-hint align="end">Select letter receiver</mat-hint>
-                </mat-form-field>
-              </p>
-            </mat-card-content>
-
-            <mat-card-actions align="end">
+            </div>
+            <!--/ bill imageupload-->
+          </div>
+          <!-- fifth row end -->
+          <div class="row">
+            <hr />
+            <div class="col-md-12 mt-3 mb-2 mr-3">
               <button
+                class="mr-3 float-right"
                 mat-raised-button
                 color="primary"
                 (click)="onRegister()"
@@ -376,22 +371,19 @@
                 Save
               </button>
               <button
-                type="button"
+                class="mr-3 float-right"
+                type="button "
                 mat-raised-button
                 color="danger"
                 (click)="onCancel()"
               >
                 Cancel
               </button>
-            </mat-card-actions>
-          </form>
-        </mat-card>
-      </section>
-    </div>
-    <ng-container>
-      <div class="col-md-6">
-        <app-staff-login></app-staff-login>
+            </div>
+          </div>
+        </div>
       </div>
-    </ng-container>
-  </div>
+    </div>
+  </form>
 </div>
+<!-- test  -->

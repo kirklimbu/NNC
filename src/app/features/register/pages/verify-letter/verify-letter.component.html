@@ -159,7 +159,11 @@
               <p>
                 <mat-form-field>
                   <mat-label>Affiliation College</mat-label>
-                  <mat-select readonly formControlName="affiliationCollege">
+                  <mat-select
+                    readonly
+                    formControlName="affiliationCollege"
+                    [compareWith]="compareFn"
+                  >
                     <mat-option [value]="affiliationCollege">{{
                       affiliationCollege.name
                     }}</mat-option>
@@ -173,7 +177,11 @@
               <p>
                 <mat-form-field>
                   <mat-label>Letter Receiver</mat-label>
-                  <mat-select readonly formControlName="letterReceiver">
+                  <mat-select
+                    readonly
+                    formControlName="letterReceiver"
+                    [compareWith]="compareFn"
+                  >
                     <mat-option [value]="letterReceiver">{{
                       letterReceiver.name
                     }}</mat-option>
@@ -184,21 +192,17 @@
             <mat-error *ngIf="hasError('address', 'maxlength')">You have more than 100 characters</mat-error>-->
                 </mat-form-field>
               </p>
-              <p></p>
+
               <p>
                 <mat-form-field>
                   <input
-                    readonly
                     matInput
                     placeholder="Choose D.O.B"
                     formControlName="dob"
-                    readonly
+                    [matDatepicker]="picker"
                     (click)="picker.open()"
                   />
-                  <mat-datepicker-toggle
-                    matSuffix
-                    readonly
-                  ></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                   <mat-hint align="end">Select Date of Birth(D.O.B)</mat-hint>
                 </mat-form-field>
@@ -246,7 +250,7 @@
               <div class="row">
                 <div
                   class="col-md-6"
-                  *ngFor="let photo of billImage; index as i"
+                  *ngFor="let photo of billImageList; index as i"
                 >
                   <img
                     src="{{ photo.photoBill }}  "
@@ -262,7 +266,7 @@
               <!--/ bill imageupload-->
             </mat-card-content>
 
-            <mat-card-actions align="end" >
+            <mat-card-actions align="end">
               <button mat-raised-button color="primary" (click)="onVerify()">
                 Verify
               </button>

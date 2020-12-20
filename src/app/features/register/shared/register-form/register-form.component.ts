@@ -1,5 +1,3 @@
-import { LetterReceicer } from './../../../../core/models/letter-receicer.model';
-import { AffiliationCollege } from './../../../../core/models/affiliation-college.model';
 import { Letter } from '../../../../core/models/letter.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -38,10 +36,10 @@ export class RegisterFormComponent implements OnInit {
   selectedCollegeAff: string;
   dob: string;
 
-  selectedLicence = 'Licence';
+  /* selectedLicence = 'Licence';
   selectedBill1 = 'Bill 1';
   selectedBill2 = 'Bill 2';
-
+ */
   button1Status: string;
   button2Status: string;
 
@@ -130,8 +128,6 @@ export class RegisterFormComponent implements OnInit {
         letterReceiverName2: [this.letter.letterReceiverName2],
       });
     } else {
-
-
       this.registerForm = this.formBuilder.group({
         id: [this.letter.id],
         regNo: [this.letter.regNo],
@@ -209,7 +205,6 @@ export class RegisterFormComponent implements OnInit {
   } */
 
   onRegister() {
-
     this.isSubmitted = true;
     if (this.registerForm) {
       this.registerService.register(this.registerForm.value).subscribe(
@@ -240,21 +235,9 @@ export class RegisterFormComponent implements OnInit {
   }
 
   disablePhotoUpload() {
-
-
     this.mode === 'edit' && this.button1Status == 'V'
       ? this.registerForm.get('photoBill1').disable()
       : this.registerForm.get('photoBill1').enable();
-
-    /*  if (this.mode === 'edit' && this.button1Status == 'V') {
-      console.log('inside if disable');
-
-      this.registerForm.get('photoBill1').disable();
-    } else {
-      console.log('inside else disable');
-
-      this.registerForm.get('photoBill1').enable();
-    } */
   }
   /* img to base64 conversion */
   onImageChange($event, imageType) {

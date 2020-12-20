@@ -10,8 +10,9 @@
         class="navbar-toggler btn btn-primary"
         data-toggle="collapse "
         data-target="#main-nav"
+        routerLink="/home/letter"
       >
-        test
+        Home
         <!-- <fa-icon [class]="fabars"></fa-icon> -->
         <span class="navbar-toggle-icon"> </span>
       </button>
@@ -19,19 +20,10 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link active"
               routerLinkActive="active"
               routerLink="/home/letter"
               >Home</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-
-              routerLinkActive="active"
-              class="nav-link"
-              routerLink="/home/letter/letter-list"
-              >Letter List</a
             >
           </li>
 
@@ -39,60 +31,15 @@
             <a
               *ngIf="isLoggedIn$ | async"
               class="nav-link"
-              routerLink="/home/letter/print-letter"
-              routerLinkActive="active"
-              >Print Letter</a
-            >
-          </li>
-          <!--  <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active">About me</a>
-          </li> -->
-          <li class="nav-item">
-            <a
-
-              class="nav-link"
               routerLinkActive="active"
               (click)="onLogout()"
             >
               Logout
             </a>
           </li>
-          <!--  <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active">I have worked for</a>
-          </li> -->
         </ul>
       </div>
     </div>
   </nav>
 </div>
 <!-- nav bar -->
-<!-- test nav bar -->
-<!-- <mat-toolbar fxLayout="row" color="primary">
-  <button mat-button *ngFor="let item of menuItems"
-      [fxShow]="item.showOnDesktop"
-      [fxShow.xs]="item.showOnMobile"
-      [fxShow.sm]="item.showOnTablet"
-      >
-      <mat-icon class="mr">{{item.icon}}</mat-icon>
-      {{item.label}}
-  </button>
-  <ng-container>
-      <button mat-icon-button [matMenuTriggerFor]="dropMenu">
-          <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #dropMenu="matMenu">
-          <ng-container *ngFor="let item of menuItems">
-              <div [fxShow]="!item.showOnDesktop"
-                   [fxShow.sm]="!item.showOnTablet"
-                   [fxShow.xs]="!item.showOnMobile">
-                  <button mat-menu-item>
-                      <mat-icon class="mr">{{item.icon}}</mat-icon>
-                      {{item.label}}
-                  </button>
-                  <mat-divider></mat-divider>
-              </div>
-          </ng-container>
-      </mat-menu>
-  </ng-container>
-</mat-toolbar> -->
-<!-- / test nav bar -->

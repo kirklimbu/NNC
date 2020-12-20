@@ -12,11 +12,19 @@ const routes: Routes = [
         loadChildren: () =>
           import('../register/register.module').then((m) => m.RegisterModule),
       },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'letter',
+      },
+      {
+        path: '**',
+        pathMatch: 'full',
+        redirectTo: 'letter',
+      },
     ],
   },
 ];
-
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

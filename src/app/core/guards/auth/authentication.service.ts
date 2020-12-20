@@ -13,9 +13,13 @@ export class AuthenticationService {
     private router: Router,
     private http: HttpClient,
     private jwtHelper: JwtHelperService
-  ) {}
+  ) {
+
+  }
 
   get isLoggedIn() {
+    console.log(this.loggedIn.asObservable());
+
     return this.loggedIn.asObservable();
   }
 

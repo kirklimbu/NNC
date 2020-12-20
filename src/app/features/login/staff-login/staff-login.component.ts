@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { User } from 'src/app/core/models/user.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-staff-login',
@@ -19,6 +20,9 @@ export class StaffLoginComponent implements OnInit {
   hide = true;
   show = true;
   loading = false;
+  private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -56,6 +60,7 @@ export class StaffLoginComponent implements OnInit {
         .login(this.f.userName.value, this.f.passWord.value)
         .subscribe(
           (res) => {
+            this.loggedIn.next(true);
             this.router.navigate(['home/letter/letter-list']);
           },
           (err) => {
