@@ -19,9 +19,10 @@ export class RegisterFormComponent implements OnInit {
   registerForm: FormGroup;
   letter = new Letter();
 
-  licenceImage: File | null | string;
+  licenceImage: File | null;
   billImage1: File | null;
   billImage2: File | null;
+  altImage?: File | null;
 
   affiliationCollegeList: any[] = [];
   letterReceiverList: any[] = [];
@@ -99,6 +100,8 @@ export class RegisterFormComponent implements OnInit {
 
   selectedCollegeList = [];
 
+  showAltPhoto = false;
+  fileName: string;
   constructor(
     private registerService: RegisterService,
     private formBuilder: FormBuilder,
@@ -162,7 +165,7 @@ export class RegisterFormComponent implements OnInit {
 
     /* fake response for edit form */
 
-   /*  var data: any = {
+    /*  var data: any = {
       form: {
         id: 119,
         regNo: '1234',
@@ -252,6 +255,7 @@ export class RegisterFormComponent implements OnInit {
         photoLicence: [this.letter.photoLicence],
         photoBill1: [this.letter.photoBill1],
         photoBill2: [],
+        altPhoto: [],
         photoBillChange1: [this.letter.photoBillChange1],
         photoBillChange2: [this.letter.photoBillChange2],
         letterReceiver: [this.letter.letterReceiver],
@@ -278,6 +282,7 @@ export class RegisterFormComponent implements OnInit {
         photoLicenceChange: [this.letter.photoLicenceChange],
         photoBill1: [this.letter.photoBill1],
         photoBill2: [this.letter.photoBill2],
+        altPhoto: [],
         letterReceiverId1: [this.letter.letterReceiverId1],
         letterReceiverId2: [this.letter.letterReceiverId2],
         letterReceiverName1: [this.letter.letterReceiverName1],
@@ -378,6 +383,16 @@ export class RegisterFormComponent implements OnInit {
   /* img to base64 conversion */
   onImageChange($event, imageType) {
     const file = $event.target.files[0];
+    /* test  */
+    this.fileName = file.name;
+    if (this.fileName.length > 10) {
+      this.fileName = this.fileName.substring(0, 10);
+
+    }
+
+    console.log(this.fileName);
+    /* test end */
+
     this.convertToBase64(file, imageType);
   }
 
@@ -398,6 +413,10 @@ export class RegisterFormComponent implements OnInit {
         this.billImage2 = base64;
         this.registerForm.controls['photoBill2'].setValue(this.billImage2);
         this.registerForm.controls['photoBillChange2'].setValue(true);
+      } else if (imageType === 'altImage') {
+        this.altImage = base64;
+        this.registerForm.controls['altPhoto'].setValue(this.altImage);
+        // this.registerForm.controls['altPhtoto'].setValue(true);
       }
     });
   }
@@ -421,11 +440,13 @@ export class RegisterFormComponent implements OnInit {
     return optionOne.id === optionTwo.id;
   }
 
-  selectDropDown2Data(letterReceiver: any) {
+  selectDropDown2Data(letterReceiver: number) {
     console.log(letterReceiver);
+    this.showAltPhoto = false;
+    letterReceiver === 1 ? (this.showAltPhoto = true) : false;
+    console.log(this.showAltPhoto);
     this.selectedCollegeList = this.dropDown2Data.filter(
       (f) => f.letterReceiverId === letterReceiver
     );
-
   }
 }

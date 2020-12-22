@@ -1,44 +1,52 @@
 <div class="shadow-sm">
   <nav class="navbar navbar-expand-sm navbar-light sticky-top" id="main-nav">
     <!-- <div class="container"> -->
-      <img
-        class="navbar-brand"
-        src="assets/images/nnc_logo.png"
-        ngbTooltip="DigiChem Graphics"
-      />
-      <button
-        class="navbar-toggler btn btn-primary"
-        data-toggle="collapse "
-        data-target="#main-nav"
-        routerLink="/home/letter"
-      >
-        Home
-        <!-- <fa-icon [class]="fabars"></fa-icon> -->
-        <span class="navbar-toggle-icon"> </span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a
-              class="nav-link active"
-              routerLinkActive="active"
-              routerLink="/home/letter"
-              >Home</a
-            >
-          </li>
+    <img
+      class="navbar-brand"
+      src="assets/images/nnc_logo.png"
+      ngbTooltip="DigiChem Graphics"
+    />
+    <button
+      class="navbar-toggler btn btn-primary"
+      data-toggle="collapse "
+      data-target="#main-nav"
+      routerLink="/home/letter"
+    >
+      Home
+      <!-- <fa-icon [class]="fabars"></fa-icon> -->
+      <span class="navbar-toggle-icon"> </span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            routerLinkActive="active"
+            routerLink="/home/letter"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item" *ngIf="!isLoggedIn$ | async">
+          <a
+            class="nav-link  "
+            routerLinkActive="active"
+            routerLink="/staff/login"
+            >Staff Login</a
+          >
+        </li>
 
-          <li class="nav-item">
-            <a
-              *ngIf="isLoggedIn$ | async"
-              class="nav-link"
-              routerLinkActive="active"
-              (click)="onLogout()"
-            >
-              Logout
-            </a>
-          </li>
-        </ul>
-      </div>
+        <li class="nav-item">
+          <a
+            *ngIf="isLoggedIn$ | async"
+            class="nav-link"
+            routerLinkActive="active"
+            (click)="onLogout()"
+          >
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
     <!-- </div> -->
   </nav>
 </div>

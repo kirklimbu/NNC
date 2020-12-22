@@ -30,6 +30,8 @@ export class Letter {
   letterReceiverId2: number;
   letterReceiverName2: string;
 
+  altPhoto: string;
+
   affiliationCollege: AffiliationCollege;
   letterReceiver: LetterReceicer;
   // test

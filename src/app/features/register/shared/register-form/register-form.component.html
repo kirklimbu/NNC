@@ -287,7 +287,7 @@
           <!-- fifth row  -->
           <div class="row">
             <!--  licence photo-->
-            <div class="col-md-4">
+            <div class="col form-group">
               <!-- upload licence photo  -->
               <mat-form-field>
                 <mat-toolbar>
@@ -310,8 +310,30 @@
               </mat-form-field>
               <!-- upload licence photo  -->
             </div>
+            <!--  alt photo-->
+            <ng-container *ngIf="showAltPhoto">
+              <div class="col">
+                <!-- upload licence photo  -->
+                <mat-form-field>
+                  <mat-toolbar>
+                    <!-- Display files names -->
+                    <input id="txtFile" readonly matInput name="name" />
+                  </mat-toolbar>
+                  <!-- Fetch selected filed on change -->
+                  <input
+                    class="form-control"
+                    type="file"
+                    accept="image/*"
+                    (change)="onImageChange($event, 'altImage')"
+                  />
+                  <img [src]="altImage" *ngIf="altImage" style="margin: 3px" />
+                  <mat-hint align="end">Upload Alt photo</mat-hint>
+                </mat-form-field>
+                <!-- upload alt photo  -->
+              </div>
+            </ng-container>
 
-            <div class="col-md-4">
+            <div class="col">
               <!--upload bill image  1-->
               <mat-form-field>
                 <mat-toolbar>
@@ -336,7 +358,7 @@
               </mat-form-field>
             </div>
             <!-- Registered Number-->
-            <div class="col-md-4">
+            <div class="col">
               <ng-container *ngIf="mode !== 'add'">
                 <mat-form-field>
                   <mat-toolbar>

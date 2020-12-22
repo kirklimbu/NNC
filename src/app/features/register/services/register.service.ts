@@ -13,7 +13,7 @@ export class RegisterService {
   constructor(private http: HttpClient) {}
 
   register(register): any {
-    console.log(register);
+    console.log(JSON.stringify(register));
 
     /* const formData = new FormData();
     formData.append('regNum', this.registerForm.value.regNum);
