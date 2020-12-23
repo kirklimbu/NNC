@@ -296,7 +296,9 @@
                 <mat-select
                   formControlName="letterReceiver"
                   [compareWith]="compareFn"
-                  (selectionChange)="selectDropDown2Data($event.value.id)"
+                  (selectionChange)="
+                    selectPostalAddress($event.value.id)
+                  "
                 >
                   <mat-option
                     *ngFor="let item of letterReceiverList"
@@ -310,15 +312,15 @@
             <!-- letter receiver -->
             <div class="col-md-4">
               <mat-form-field>
-                <mat-label>Selected College</mat-label>
+                <mat-label>Postal Address</mat-label>
                 <mat-select
-                  formControlName="letterReceiver2"
+                  formControlName="postalAddress"
                   [compareWith]="compareFn"
                 >
                   <mat-option
-                    *ngFor="let item of selectedCollegeList"
+                    *ngFor="let item of postalAddressList"
                     [value]="item"
-                    >{{ item.postal }}, {{ item.address1 }}</mat-option
+                    >{{ item.name }}, {{ item.address1 }}</mat-option
                   >
                 </mat-select>
                 <mat-hint align="end">Select letter receiver</mat-hint>

@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-registered-list',
@@ -91,9 +92,9 @@ export class RegisteredListComponent implements OnInit {
         };
     } else {
       this.isVerified = true;
-      (this.letterListDataSource$ = this.registerService.getFilteredLetters(
-        status
-      )),
+      (this.letterListDataSource$ = this.registerService
+        .getFilteredLetters(status)
+        .pipe(map((data: any) => data.filter((p) => p.id == 3)))),
         (err) => {
           this.toastr.error(err.message);
         };
@@ -105,5 +106,9 @@ export class RegisteredListComponent implements OnInit {
     this.router.navigate(['/home/register/print-letter'], {
       queryParams: { id: letter.id },
     });
+  }
+
+  doFilter(value: string) {
+    this.letterListDataSource.filter = value.trim().toLocaleLowerCase();
   }
 }

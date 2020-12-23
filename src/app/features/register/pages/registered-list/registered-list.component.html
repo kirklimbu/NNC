@@ -1,23 +1,36 @@
 <div class="content-wrapper">
   <mat-card-actions>
-    <form [formGroup]="filterForm">
-      <mat-form-field appearance="fill">
-        <mat-label>Filter table information</mat-label>
-        <mat-select
-          name="food"
-          formControlName="status"
-          (selectionChange)="onFilter($event.value)"
-        >
-          <mat-option
-            *ngFor="let status of letterStatuses"
-            [value]="status.value"
+    <div>
+      <form [formGroup]="filterForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Filter table information</mat-label>
+          <mat-select
+            formControlName="status"
+            (selectionChange)="onFilter($event.value)"
           >
-            {{ status.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </form>
+            <mat-option
+              *ngFor="let status of letterStatuses"
+              [value]="status.value"
+            >
+              {{ status.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- test filter -->
+        <mat-form-field>
+          <input
+            class="search"
+            matInput
+            type="text"
+            (keyup)="doFilter($event.target.value)"
+            placeholder="Filter"
+          />
+        </mat-form-field>
+        <!-- test filter end -->
+      </form>
+    </div>
   </mat-card-actions>
+
   <div class="col p-0 y-auto list-template">
     <!-- student table -->
     <table
