@@ -13,10 +13,14 @@ export class LoginService {
   /* props */
   // we can now access environment.apiUrl
   API_URL = environment.apiUrl;
-  isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // user gareko xuina
 
   constructor(private http: HttpClient, private router: Router) {
     // console.log(environment.production); // Logs false for default environment
+  }
+  /* use greko xuina  */
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
   }
 
   login(userName: string, passWord: string): any {
@@ -29,7 +33,8 @@ export class LoginService {
         map((res) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('token', res.token);
-          this.isLoggedIn.next(true);
+          this.loggedIn.next(true);
+          localStorage.setItem('loggedIn', 'true');
         })
       );
   }
@@ -38,8 +43,9 @@ export class LoginService {
     // remove user from local storage to log user out
     // localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
-    this.isLoggedIn.next(false);
+    localStorage.removeItem('loggedIn');
+    this.loggedIn.next(false);
     // this.userSubject.next(null);
-    this.router.navigate(['/home/letter']);
+    this.router.navigate(['/staff/login']);
   }
 }

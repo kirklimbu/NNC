@@ -22,16 +22,18 @@ export class NavbarComponent implements OnInit {
 
   token = '';
   isLoggedIn$: Observable<boolean>;
+  isLoggedIn;
   constructor(private router: Router, private loginService: LoginService) {}
 
   ngOnInit(): void {
     this.fetchToken();
-
     this.isLoggedIn$ = this.loginService.isLoggedIn;
     console.log(JSON.stringify(this.isLoggedIn$));
   }
   fetchToken() {
     this.token = localStorage.getItem('token');
+    this.isLoggedIn = localStorage.getItem('loggedIn');
+    console.log('islogged  in  ' + this.isLoggedIn);
   }
 
   onLogout() {

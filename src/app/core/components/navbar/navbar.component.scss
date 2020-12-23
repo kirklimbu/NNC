@@ -1,24 +1,17 @@
 img {
-  // margin-bottom: 5px;
   height: 6rem;
-  margin-left: 8%;
+  margin-left: 7%;
 }
 
 .navbar-nav {
   .nav-link {
     font-size: 14px;
     text-transform: titlecase;
-    // padding-left: 1em;
-    // padding-right: 1em;
   }
-}
-a:link {
-  /* Essentially means a[href], or that the link actually goes somewhere */
-  color: blue;
 }
 
 .nav-item:hover {
-  border-bottom: #ff75f0 3px solid;
+  border-bottom: coral 3px solid;
 }
 .nav-item a.active {
   border-bottom: #008fd6 1px solid;
@@ -29,11 +22,6 @@ a:link {
   border-bottom: lightgray;
   box-shadow: lightgray 3px 1px;
   position: relative;
-}
-
-nav-item a.active {
-  margin: 1rem;
-  color: red;
 }
 
 #main-nav {

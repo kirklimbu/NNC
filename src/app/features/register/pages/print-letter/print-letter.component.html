@@ -2,29 +2,29 @@
 <div class="content-wrapper">
   <div id="print-section">
     <div class="container-fluid">
-      <div class="row no-gutters">
+      <div class="row no-gutters" id="header">
         <div class="col-md-3 mt-2 mb-2">
-          <!-- <img
+          <img
             src="/assets/images/nnc_logo.png"
             alt="logotipo"
             class="logotipo"
-          /> -->
+          />
         </div>
 
         <div class="col-md-7">
-         <!--  <h2 class="text-center mt-2">Nepal Nursing Council</h2>
+          <h2 class="text-center mt-2">Nepal Nursing Council</h2>
           <h6 class="text-center mt-2">
             Estd. Under Nepal Nursing Council Act, 2053,(1996)
-          </h6> -->
+          </h6>
         </div>
       </div>
       <hr class="divider" />
 
-      <div class="row no-gutters">
+      <div class="row no-gutters ">
         <!-- <div class="col-md-1">
           <p>Date:</p>
         </div> -->
-        <div class="col-md-11">
+        <div class="col-md-11 dateSection">
           <p>{{ myDate | date: "mediumDate" }}</p>
         </div>
       </div>
@@ -33,10 +33,10 @@
         <!-- <div class="col-1 mb-2">Ref:</div> -->
 
         <div class="col-10 mb-2">
-         <!--  <p>TEXAS BOARD OF NURSING</p>
+           <p>TEXAS BOARD OF NURSING</p>
           <p>333 Gaudalupe - Suite 3-460</p>
           <p>Austin, Texas 78701</p>
-          <p>USA</p> -->
+          <p>USA</p>
         </div>
       </div>
 
@@ -94,7 +94,7 @@
           <p class="disclaimer">Registar</p>
         </div>
       </div>
-      <div class="row no-gutters">
+      <div class="row no-gutters" id="footer">
         <div class="col">
           <p class="signature-field text-center mt-3">
             Bansbari, Kathmandu, Nepal, Tel. No.: +977-1-4372521, Fax.No:
@@ -118,7 +118,7 @@
     >
       Print
     </button>
-   <!--  <button mat-raised-button class="mr-2" (click)="onPrintSave()" color="warn">
+    <!--  <button mat-raised-button class="mr-2" (click)="onPrintSave()" color="warn">
       Save
     </button> -->
   </div>

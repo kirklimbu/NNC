@@ -1,6 +1,6 @@
 <!-- student form -->
 <div class="content-wrapper">
-  <legend class="scheduler-border label">Register</legend>
+  <legend class="scheduler-border label">Register Form:</legend>
   <div class="row">
     <div class="col searchBar">
       <mat-search-bar
@@ -243,9 +243,53 @@
             </div>
             <!--/
                  Registered Number -->
+            <!-- date of issue -->
+            <div class="col-md-4">
+              <mat-form-field>
+                <input
+                  [matDatepicker]="picker2"
+                  matInput
+                  placeholder="Choose  Issued Date"
+                  formControlName="issueDate"
+                  (click)="picker2.open()"
+                  [(value)]="issueDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker2"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+                <mat-hint align="end">Select Licence Issued Date </mat-hint>
+              </mat-form-field>
+            </div>
+            <!-- date of issue end -->
+            <!-- exp date -->
+            <div class="col-md-4">
+              <mat-form-field>
+                <input
+                  [matDatepicker]="picker3"
+                  matInput
+                  placeholder="Choose  Expiry Date"
+                  formControlName="expDate"
+                  (click)="picker3.open()"
+                  [(value)]="expDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker3"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+                <mat-hint align="end">Select Licence Expiry date</mat-hint>
+              </mat-form-field>
+            </div>
+            <!-- exp date end -->
             <!--
                  letterReceiver -->
+          </div>
+          <!-- fourth row end -->
 
+          <!-- fifth row -->
+          <div class="row">
             <div class="col-md-4">
               <mat-form-field>
                 <mat-label>Letter Receiver</mat-label>
@@ -282,9 +326,73 @@
             </div>
             <!-- / letter receiver-->
           </div>
-          <!-- fourth row end -->
+          <!-- fifth row end -->
+          <!-- conditional row display -->
+          <ng-container *ngIf="addOtherFields">
+            <section>
+              <h2 class="label">For Others</h2>
 
-          <!-- fifth row  -->
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field>
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Address1"
+                      formControlName="address1"
+                      fxlayoutalign="column"
+                    />
+                    <mat-hint align="end">Enter address 1</mat-hint>
+                    <!--  <mat-error *ngIf="hasError('name', 'required')"
+        >Last Name is required</mat-error
+      >
+      <mat-error *ngIf="hasError('name', 'maxlength')"
+        >Enter last name</mat-error
+      > -->
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field>
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Address 2"
+                      formControlName="address2"
+                      fxlayoutalign="column"
+                    />
+                    <mat-hint align="end">Enter address 2</mat-hint>
+                    <!--  <mat-error *ngIf="hasError('name', 'required')"
+        >Last Name is required</mat-error
+      >
+      <mat-error *ngIf="hasError('name', 'maxlength')"
+        >Enter last name</mat-error
+      > -->
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field>
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Address 3"
+                      formControlName="address3"
+                      fxlayoutalign="column"
+                    />
+                    <mat-hint align="end">Enter address 3</mat-hint>
+                    <!--  <mat-error *ngIf="hasError('name', 'required')"
+        >Last Name is required</mat-error
+      >
+      <mat-error *ngIf="hasError('name', 'maxlength')"
+        >Enter last name</mat-error
+      > -->
+                  </mat-form-field>
+                </div>
+                <!-- College Name end -->
+              </div>
+            </section>
+          </ng-container>
+          <!-- conditional row display end-->
+          <!-- sixth row  -->
           <div class="row">
             <!--  licence photo-->
             <div class="col form-group">
@@ -311,8 +419,8 @@
               <!-- upload licence photo  -->
             </div>
             <!--  alt photo-->
-            <ng-container *ngIf="showAltPhoto">
-              <div class="col">
+            <ng-container *ngIf="addOptionalPhoto">
+              <div class="col form-group">
                 <!-- upload licence photo  -->
                 <mat-form-field>
                   <mat-toolbar>
@@ -327,13 +435,13 @@
                     (change)="onImageChange($event, 'altImage')"
                   />
                   <img [src]="altImage" *ngIf="altImage" style="margin: 3px" />
-                  <mat-hint align="end">Upload Alt photo</mat-hint>
+                  <mat-hint align="end">Upload Optional photo</mat-hint>
                 </mat-form-field>
                 <!-- upload alt photo  -->
               </div>
             </ng-container>
 
-            <div class="col">
+            <div class="col form-group">
               <!--upload bill image  1-->
               <mat-form-field>
                 <mat-toolbar>
@@ -347,22 +455,17 @@
                   class="form-control"
                   type="file"
                   accept="image/*"
-                  (change)="onImageChange($event, 'photoBill1')"
+                  (change)="onImageChange($event, 'photoBill')"
                 />
-                <img
-                  *ngIf="billImage1"
-                  [src]="billImage1"
-                  style="margin: 3px"
-                />
-                <mat-hint align="end">Upload Bill photo 1</mat-hint>
+                <img *ngIf="billImage" [src]="billImage" style="margin: 3px" />
+                <mat-hint align="end">Upload Bill photo </mat-hint>
               </mat-form-field>
             </div>
             <!-- Registered Number-->
-            <div class="col">
+            <!--  <div class="col">
               <ng-container *ngIf="mode !== 'add'">
                 <mat-form-field>
                   <mat-toolbar>
-                    <!-- Display files names -->
                     <input readonly matInput />
                   </mat-toolbar>
                   <input
@@ -380,33 +483,35 @@
                   <mat-hint align="end">Upload Bill photo 2</mat-hint>
                 </mat-form-field>
               </ng-container>
-            </div>
+            </div> -->
             <!--/ bill imageupload-->
           </div>
           <hr />
           <!-- fifth row end -->
           <!-- photo preview end -->
-          <section>
-            <h2 class="label">Previous bills</h2>
-            <div class="row">
-              <div class="col gallery mt-3 mb-2">
-                <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
+          <ng-container *ngIf="showOldBills">
+            <section>
+              <h2 class="label">Previous bills</h2>
+              <div class="row">
+                <div class="col gallery mt-3 mb-2">
+                  <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
 
-                <div class="desc">Add a description of the image here</div>
-              </div>
-              <div class="col gallery mt-3 mb-2">
-                <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
+                  <div class="desc">Add a description of the image here</div>
+                </div>
+                <div class="col gallery mt-3 mb-2">
+                  <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
 
-                <div class="desc">Add a description of the image here</div>
-              </div>
-              <div class="col gallery mt-3 mb-2">
-                <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
+                  <div class="desc">Add a description of the image here</div>
+                </div>
+                <div class="col gallery mt-3 mb-2">
+                  <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
 
-                <div class="desc">Add a description of the image here</div>
+                  <div class="desc">Add a description of the image here</div>
+                </div>
               </div>
-            </div>
-          </section>
-          <hr />
+            </section>
+            <hr />
+          </ng-container>
 
           <!-- photo preview end -->
           <div class="row">

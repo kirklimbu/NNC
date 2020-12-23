@@ -8,19 +8,19 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
-        path: 'letter',
+        path: 'register',
         loadChildren: () =>
           import('../register/register.module').then((m) => m.RegisterModule),
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'letter',
+        redirectTo: 'register/letter-list',
       },
       {
         path: '**',
         pathMatch: 'full',
-        redirectTo: 'letter',
+        redirectTo: 'register/letter-list',
       },
     ],
   },

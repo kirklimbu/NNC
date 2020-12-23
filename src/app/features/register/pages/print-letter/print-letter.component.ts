@@ -31,7 +31,7 @@ export class PrintLetterComponent implements OnInit {
   letterId: number;
 
   printDetails$: Observable<Letter>;
-  printDetails: Letter;
+  printDetails: any;
 
   constructor(
     private datePipe: DatePipe,
@@ -80,5 +80,11 @@ export class PrintLetterComponent implements OnInit {
           : this.toastr.error('Error saving print details.');
       }
     );
+  }
+
+  print() {
+    console.log('print');
+
+    window.print();
   }
 }

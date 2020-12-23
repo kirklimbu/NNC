@@ -20,12 +20,25 @@ export class RegisterFormComponent implements OnInit {
   letter = new Letter();
 
   licenceImage: File | null;
-  billImage1: File | null;
-  billImage2: File | null;
+  billImage: File | null;
+  // billImage2: File | null;
   altImage?: File | null;
 
   affiliationCollegeList: any[] = [];
-  letterReceiverList: any[] = [];
+  letterReceiverList: any[] = [
+    {
+      id: 1,
+      name: 'Company A',
+    },
+    {
+      id: 2,
+      name: 'Company B',
+    },
+    {
+      id: 3,
+      name: 'Other',
+    },
+  ];
 
   letterFormValues$: Observable<Letter>;
 
@@ -37,6 +50,8 @@ export class RegisterFormComponent implements OnInit {
   selectedLetterReceiver: string;
   selectedCollegeAff: string;
   dob: string;
+  expDate: string;
+  issueDate: string;
 
   /* selectedLicence = 'Licence';
   selectedBill1 = 'Bill 1';
@@ -100,8 +115,12 @@ export class RegisterFormComponent implements OnInit {
 
   selectedCollegeList = [];
 
-  showAltPhoto = false;
+  addOptionalPhoto = false;
   fileName: string;
+  otherId = 3;
+  letterReciverId: any;
+  addOtherFields = false;
+  showOldBills = false;
   constructor(
     private registerService: RegisterService,
     private formBuilder: FormBuilder,
@@ -124,7 +143,7 @@ export class RegisterFormComponent implements OnInit {
       (data) => {
         this.letter = data.form;
         this.affiliationCollegeList = data.affiliationCollegeList;
-        this.letterReceiverList = data.letterReceiverList;
+        // this.letterReceiverList = data.letterReceiverList;
 
         this.buildRegisterForm();
       },
@@ -151,11 +170,12 @@ export class RegisterFormComponent implements OnInit {
 
           this.letter = data.form;
           this.licenceImage = data.form.photoLicence;
-          this.billImage1 = data.form.photoBill1;
-          this.billImage2 = data.form.photoBill2;
+          this.billImage = data.form.photoBill1;
+          // this.billImage2 = data.form.photoBill2;
           this.button1Status = this.letter.status1;
-          this.button2Status = this.letter.status2;
+          // this.button2Status = this.letter.status2;
 
+          this.letterReciverId = this.letter.letterReceiverId1;
           this.disablePhotoUpload();
           this.buildRegisterForm();
         } else {
@@ -232,7 +252,7 @@ export class RegisterFormComponent implements OnInit {
     }; */
     // this.letter = data.form;
     // this.letterReceiverList = this.letter.letterReceiver2;
-    this.disablePhotoUpload();
+    // this.disablePhotoUpload();
     this.selectDropDown2Data(this.letter.letterReceiver.id);
     this.buildRegisterForm();
 
@@ -243,6 +263,8 @@ export class RegisterFormComponent implements OnInit {
     if (this.mode == 'add') {
       this.registerForm = this.formBuilder.group({
         regNo: [this.letter.regNo],
+        issueDate: [this.letter.issueDate],
+        expDate: [this.letter.regNo],
         name: [this.letter.name],
         address: [this.letter.address],
         wardNo: [this.letter.wardNo],
@@ -253,23 +275,31 @@ export class RegisterFormComponent implements OnInit {
         mobileNo: [this.letter.mobileNo],
         photoLicenceChange: [true],
         photoLicence: [this.letter.photoLicence],
-        photoBill1: [this.letter.photoBill1],
-        photoBill2: [],
-        altPhoto: [],
-        photoBillChange1: [this.letter.photoBillChange1],
-        photoBillChange2: [this.letter.photoBillChange2],
+        photoBill: [this.letter.photoBill],
+        photoBillChange: [this.letter.photoBillChange],
+        photoOption: [this.letter.photoOption],
+        lastBillEdit: [this.letter.lastBillEdit],
+        address1: [this.letter.address1],
+        address2: [this.letter.address2],
+        address3: [this.letter.address3],
+
+        // photoBill2: [],
+        /* photoBillChange1: [this.letter.photoBillChange1],
+        photoBillChange2: [this.letter.photoBillChange2], */
         letterReceiver: [this.letter.letterReceiver],
         letterReceiver2: [this.letter.letterReceiver2],
         affiliationCollege: [this.letter.affiliationCollege],
-        letterReceiverId1: [this.letter.letterReceiverId1],
-        letterReceiverId2: [this.letter.letterReceiverId2],
-        letterReceiverName1: [this.letter.letterReceiverName1],
-        letterReceiverName2: [this.letter.letterReceiverName2],
+        // letterReceiverId1: [this.letter.letterReceiverId1],
+        // letterReceiverId2: [this.letter.letterReceiverId2],
+        // letterReceiverName1: [this.letter.letterReceiverName1],
+        // letterReceiverName2: [this.letter.letterReceiverName2],
       });
     } else {
       this.registerForm = this.formBuilder.group({
         id: [this.letter.id],
         regNo: [this.letter.regNo],
+        issueDate: [this.letter.issueDate],
+        expDate: [this.letter.regNo],
         name: [this.letter.name],
         address: [this.letter.address],
         wardNo: [this.letter.wardNo],
@@ -280,15 +310,20 @@ export class RegisterFormComponent implements OnInit {
         mobileNo: [this.letter.mobileNo],
         photoLicence: [this.letter.photoLicence],
         photoLicenceChange: [this.letter.photoLicenceChange],
-        photoBill1: [this.letter.photoBill1],
-        photoBill2: [this.letter.photoBill2],
-        altPhoto: [],
-        letterReceiverId1: [this.letter.letterReceiverId1],
-        letterReceiverId2: [this.letter.letterReceiverId2],
-        letterReceiverName1: [this.letter.letterReceiverName1],
-        letterReceiverName2: [this.letter.letterReceiverName2],
-        photoBillChange1: [this.letter.photoBillChange1],
-        photoBillChange2: [this.letter.photoBillChange2],
+        photoBill: [this.letter.photoBill],
+        // photoBill1: [this.letter.photoBill1],
+        // photoBill2: [this.letter.photoBill2],
+        photoOption: [this.letter.photoOption],
+        lastBillEdit: [this.letter.lastBillEdit],
+        address1: [this.letter.address1],
+        address2: [this.letter.address2],
+        address3: [this.letter.address3],
+        // letterReceiverId1: [this.letter.letterReceiverId1],
+        // letterReceiverId2: [this.letter.letterReceiverId2],
+        // letterReceiverName1: [this.letter.letterReceiverName1],
+        // letterReceiverName2: [this.letter.letterReceiverName2],
+        photoBillChange: [this.letter.photoBillChange],
+        // photoBillChange2: [this.letter.photoBillChange2],
         letterReceiver: [this.letter.letterReceiver],
         letterReceiver2: [this.letter.letterReceiver2],
         affiliationCollege: [this.letter.affiliationCollege],
@@ -372,7 +407,8 @@ export class RegisterFormComponent implements OnInit {
   hasError(name: string, required: string) {}
 
   onCancel() {
-    this.resetRegisterForm();
+    // this.resetRegisterForm();
+    location.reload();
   }
 
   disablePhotoUpload() {
@@ -387,9 +423,7 @@ export class RegisterFormComponent implements OnInit {
     this.fileName = file.name;
     if (this.fileName.length > 10) {
       this.fileName = this.fileName.substring(0, 10);
-
     }
-
     console.log(this.fileName);
     /* test end */
 
@@ -405,17 +439,18 @@ export class RegisterFormComponent implements OnInit {
         this.licenceImage = base64;
         this.registerForm.controls['photoLicence'].setValue(this.licenceImage);
         this.registerForm.controls['photoLicenceChange'].setValue(true);
-      } else if (imageType === 'photoBill1') {
-        this.billImage1 = base64;
-        this.registerForm.controls['photoBill1'].setValue(this.billImage1);
-        this.registerForm.controls['photoBillChange1'].setValue(true);
-      } else if (imageType === 'photoBill2') {
+      } else if (imageType === 'photoBill') {
+        this.billImage = base64;
+        this.registerForm.controls['photoBill'].setValue(this.billImage);
+        this.registerForm.controls['photoBillChange'].setValue(true);
+      } else if (imageType === 'altImage') {
+        /*  else if (imageType === 'photoBill2') {
         this.billImage2 = base64;
         this.registerForm.controls['photoBill2'].setValue(this.billImage2);
         this.registerForm.controls['photoBillChange2'].setValue(true);
-      } else if (imageType === 'altImage') {
+      }  */
         this.altImage = base64;
-        this.registerForm.controls['altPhoto'].setValue(this.altImage);
+        this.registerForm.controls['photoAlt'].setValue(this.altImage);
         // this.registerForm.controls['altPhtoto'].setValue(true);
       }
     });
@@ -442,11 +477,25 @@ export class RegisterFormComponent implements OnInit {
 
   selectDropDown2Data(letterReceiver: number) {
     console.log(letterReceiver);
-    this.showAltPhoto = false;
-    letterReceiver === 1 ? (this.showAltPhoto = true) : false;
-    console.log(this.showAltPhoto);
-    this.selectedCollegeList = this.dropDown2Data.filter(
-      (f) => f.letterReceiverId === letterReceiver
-    );
+
+    if (letterReceiver === this.otherId) {
+      this.addOtherFields = true;
+      this.addOptionalPhoto = false;
+      this.selectedCollegeList = [];
+      return;
+    } else if (letterReceiver === 1) {
+      this.addOptionalPhoto = true;
+      this.addOtherFields = false;
+      console.log(this.addOptionalPhoto);
+      this.selectedCollegeList = this.dropDown2Data.filter(
+        (f) => f.letterReceiverId === letterReceiver
+      );
+    } else {
+      this.addOptionalPhoto = false;
+      this.addOtherFields = false;
+      this.selectedCollegeList = this.dropDown2Data.filter(
+        (f) => f.letterReceiverId === letterReceiver
+      );
+    }
   }
 }

@@ -10,7 +10,7 @@
       class="navbar-toggler btn btn-primary"
       data-toggle="collapse "
       data-target="#main-nav"
-      routerLink="/home/letter"
+      routerLink="/home/register"
     >
       Home
       <!-- <fa-icon [class]="fabars"></fa-icon> -->
@@ -20,30 +20,39 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a
+          *ngIf="!isLoggedIn"
             class="nav-link active"
             routerLinkActive="active"
-            routerLink="/home/letter"
+            routerLink="/home/register/letter-list"
             >Home</a
           >
         </li>
-        <li class="nav-item" *ngIf="!isLoggedIn$ | async">
-          <a
-            class="nav-link  "
-            routerLinkActive="active"
-            routerLink="/staff/login"
-            >Staff Login</a
-          >
-        </li>
-
         <li class="nav-item">
           <a
-            *ngIf="isLoggedIn$ | async"
+            *ngIf="isLoggedIn"
             class="nav-link"
             routerLinkActive="active"
             (click)="onLogout()"
           >
             Logout
           </a>
+        </li>
+        <!-- <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            routerLink="/home/register"
+            >Register</a
+          >
+        </li> -->
+        <li class="nav-item">
+          <a
+            *ngIf="!isLoggedIn"
+            class="nav-link"
+            routerLinkActive="active"
+            routerLink="/staff/login"
+            >Staff Login</a
+          >
         </li>
       </ul>
     </div>

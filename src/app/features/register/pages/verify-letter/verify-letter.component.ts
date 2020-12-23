@@ -105,7 +105,7 @@ export class VerifyLetterComponent implements OnInit {
     const id = this.letterId;
     this.letterService.isVerfied(id).subscribe(
       (res) => {
-        this.router.navigate(['/home/letter/letter-list']);
+        this.router.navigate(['/home/register/letter-list']);
       },
       (err) => {
         err = err.error.message
@@ -120,7 +120,7 @@ export class VerifyLetterComponent implements OnInit {
     const id = this.letterId;
     this.letterService.isRejected(id).subscribe(
       (res) => {
-        this.router.navigate(['/home/letter/letter-list']);
+        this.router.navigate(['/home/register/letter-list']);
       },
       (err) => {
         err = err.error.message

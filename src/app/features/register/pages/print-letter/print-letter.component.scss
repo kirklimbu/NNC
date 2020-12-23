@@ -8,11 +8,7 @@ p,
 img {
   margin: 0;
 } /* margin reset*/
-h1 {
-  font-size: 18pt;
-  font-weight: 500;
-  margin-bottom: 0.5cm;
-}
+
 h2 {
   font-size: 30pt;
   font-weight: 600;
@@ -43,7 +39,81 @@ p {
   padding-left: 1rem;
 }
 .content-wrapper {
-  padding: 10%;
   font-family: "Times New Roman", Times, serif;
-  // font-weight: 300;
+}
+
+#print-section {
+  margin: 2rem;
+}
+#header {
+  white-space: pre;
+  height: 10rem;
+}
+
+.date-section,
+.ref,
+.address {
+  height: 2rem;
+  padding: 1rem 0 1rem 5rem;
+}
+.subject {
+  padding: 5rem 0 1rem 5rem;
+}
+.subA {
+  padding-right: 2rem;
+}
+
+/* test */
+/* Styles go here */
+
+.page-header,
+.page-header-space {
+  display: inline;
+  padding: 5rem;
+  // height: 150px;
+}
+
+.page-footer,
+.page-footer-space {
+  height: 50px;
+}
+
+.page {
+  page-break-after: always;
+}
+
+@page {
+  margin: 20mm;
+}
+
+@media print {
+  #footer {
+    display: none;
+  }
+  #header {
+    height: 5rem;
+    display: none;
+  }
+  .container-fluid {
+    margin-left: 10%;
+
+  }
+  /* .date-section {
+    margin-top: 20px;
+    margin-bottom: 100px;
+  } */
+}
+/* test end */
+@page {
+  size: A4;
+}
+@page {
+  size: A4 portrait;
+}
+@page :left {
+  margin-left: 3cm;
+}
+
+@page :right {
+  margin-left: 14cm;
 }

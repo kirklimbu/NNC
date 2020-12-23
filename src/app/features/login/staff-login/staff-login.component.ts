@@ -61,7 +61,7 @@ export class StaffLoginComponent implements OnInit {
         .subscribe(
           (res) => {
             this.loggedIn.next(true);
-            this.router.navigate(['home/letter/letter-list']);
+            this.router.navigate(['home/register/letter-list']);
           },
           (err) => {
             err.status == 400

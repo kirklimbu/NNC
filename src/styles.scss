@@ -56,11 +56,9 @@ body {
 /* side-bar/info-bar */
 .container {
   display: grid;
-  /* side bar*/
   grid-template-columns: minmax(150px, 25%) 1fr;
   padding-left: 0;
   margin-left: 0;
-  /* end side bar*/
 }
 
 navbar {
@@ -68,6 +66,8 @@ navbar {
 }
 
 .sidebar {
+  display: block;
+  align-items: center;
   min-height: 100vh;
   background-color: #5dbce2;
   margin: 0.25rem 0 0.25rem 0.25rem;
@@ -77,15 +77,15 @@ navbar {
 }
 
 hr {
-  margin: 3rem 0.5rem 3rem 0.5rem;
+  margin: 2rem 0.5rem 1rem 0.5rem;
 }
 
 .action-buttons button {
-  margin: 0.5rem 0.5rem 2rem 0.5rem;
+  margin: 0.5rem 0.5rem 0.25rem 0.5rem;
   float: right;
 }
 .label {
-  padding: 2rem 0 1rem 0;
+  padding: 1rem 0 1rem 0;
   text-decoration: underline;
   text-align: center;
 }

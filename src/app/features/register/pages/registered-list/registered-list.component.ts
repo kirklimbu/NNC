@@ -65,7 +65,7 @@ export class RegisteredListComponent implements OnInit {
   }
 
   onEdit(letter: Letter) {
-    this.router.navigate(['/home/letter'], {
+    this.router.navigate(['/home/register'], {
       queryParams: { regNo: letter.regNo },
     });
   }
@@ -75,7 +75,7 @@ export class RegisteredListComponent implements OnInit {
   onVerifyDetails(mode: string, letter: Letter) {
     this.isVerified = true;
     console.log('show data ' + JSON.stringify(letter));
-    this.router.navigate(['/home/letter/verify/detail'], {
+    this.router.navigate(['/home/register/verify/detail'], {
       queryParams: { id: letter.id },
     });
   }
@@ -102,7 +102,7 @@ export class RegisteredListComponent implements OnInit {
 
   onPrint(letter: Letter) {
     console.log(letter);
-    this.router.navigate(['/home/letter/print-letter'], {
+    this.router.navigate(['/home/register/print-letter'], {
       queryParams: { id: letter.id },
     });
   }
