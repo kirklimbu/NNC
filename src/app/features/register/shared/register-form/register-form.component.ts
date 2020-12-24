@@ -29,6 +29,9 @@ export class RegisterFormComponent implements OnInit {
   isSubmitted = false;
   addOptionalPhoto = false;
 
+  /* test */
+  selectedLetterReceiverId: number;
+  /* test end */
   dob: string;
   fileName: string;
   expDate: string;
@@ -87,7 +90,7 @@ export class RegisterFormComponent implements OnInit {
   }
 
   onSearch(regId: number) {
-    console.log('inside serarch');
+    console.log('inside serarch' + regId);
 
     // this.spinner.show();
     /* this.registerForm.reset();
@@ -191,23 +194,70 @@ export class RegisterFormComponent implements OnInit {
 
   onRegister() {
     this.isSubmitted = true;
-    if (this.registerForm) {
-      this.registerService.register(this.registerForm.value).subscribe(
-        (data) => {
-          data = data.message
-            ? this.toastr.success(data.message)
-            : this.toastr.success('Student saved successfully');
-          location.reload();
-        },
-        (err) => {
-          err = err.error.message
-            ? this.toastr.error(err.error.message)
-            : this.toastr.error('Error while saving letter.');
+    if (this.registerForm.valid) {
+      if (this.mode === 'add') {
+        this.registerService.register(this.registerForm.value).subscribe(
+          (data) => {
+            data = data.message
+              ? this.toastr.success(data.message)
+              : this.toastr.success('Student saved successfully');
+            location.reload();
+          },
+          (err) => {
+            err = err.error.message
+              ? this.toastr.error(err.error.message)
+              : this.toastr.error('Error while saving letter.');
+          }
+        );
+      } else {
+        /* edit case ma postal address pani check garne  */
+        // selected letterReceiver Other ho vane postalAddress formControl lai reset garne
+        // if id=3 vayo vane reset garne
+        console.log('inside edit letterRecId ' + this.selectedLetterReceiverId);
+        if (this.selectedLetterReceiverId === 1) {
+          console.log('inside other edit ');
+
+          // reset previous postalAddress formControl Value and save the form
+
+          this.registerForm.controls['postalAddress'].reset();
+
+          /* test */
+          this.registerService.register(this.registerForm.value).subscribe(
+            (data) => {
+              data = data.message
+                ? this.toastr.success(data.message)
+                : this.toastr.success('Student saved successfully');
+              location.reload();
+            },
+            (err) => {
+              err = err.error.message
+                ? this.toastr.error(err.error.message)
+                : this.toastr.error('Error while saving letter.');
+            }
+          );
+          /* test end */
+        } else {
+          console.log('outside other edit ');
+
+          // save the form
+          this.registerService.register(this.registerForm.value).subscribe(
+            (data) => {
+              data = data.message
+                ? this.toastr.success(data.message)
+                : this.toastr.success('Student saved successfully');
+              location.reload();
+            },
+            (err) => {
+              err = err.error.message
+                ? this.toastr.error(err.error.message)
+                : this.toastr.error('Error while saving letter.');
+            }
+          );
         }
-      );
-    } /* else {
+      }
+    } else {
       console.log('invalid register form');
-    } */
+    }
   }
   resetRegisterForm() {
     this.registerForm.reset();
@@ -280,6 +330,7 @@ export class RegisterFormComponent implements OnInit {
   }
 
   selectPostalAddress(id: number) {
+    this.selectedLetterReceiverId = id;
     if (id === this.otherId) {
       this.addOtherFields = true;
       this.addOptionalPhoto = false;

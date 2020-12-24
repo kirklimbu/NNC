@@ -49,6 +49,8 @@ export class RegisterService {
   }
 
   getSearchDetails(regNo): any {
+    console.log('service vitra ' + regNo);
+
     return this.http.get(`${this.API_URL}letter/form?regNo=${regNo}`).pipe(
       catchError((err) => {
         return throwError(err);
