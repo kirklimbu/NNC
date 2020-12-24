@@ -28,6 +28,8 @@ export class RegisterFormComponent implements OnInit {
   showOldBills = false;
   isSubmitted = false;
   addOptionalPhoto = false;
+  isChecked = true;
+  isLastBillEdited = 'Edit Bill';
 
   /* test */
   selectedLetterReceiverId: number;
@@ -349,5 +351,9 @@ export class RegisterFormComponent implements OnInit {
         (f) => f.letterReceiverId === id
       );
     }
+  }
+
+  lastBillEdited(checked) {
+    this.isLastBillEdited = checked ? 'Edit Bill' : 'Add New Bill';
   }
 }

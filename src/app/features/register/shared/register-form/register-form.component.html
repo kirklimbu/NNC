@@ -325,16 +325,6 @@
               </mat-form-field>
             </div>
             <!-- / letter receiver-->
-
-            <!-- lastBillEdit -->
-            <div class="col-md-4">
-              <mat-checkbox color="warn" formControlName="lastBillEdit"
-                >Last Bill Edited</mat-checkbox
-              >
-
-              <!-- <mat-hint align="end">Check if last bill is edited</mat-hint> -->
-            </div>
-            <!-- / lastBillEdit-->
           </div>
           <!-- fifth row end -->
           <!-- conditional row display -->
@@ -467,34 +457,18 @@
                   accept="image/*"
                   (change)="onImageChange($event, 'photoBill')"
                 />
-                <img *ngIf="billImage" [src]="billImage" style="margin: 3px" />
-                <mat-hint align="end">Upload Bill photo </mat-hint>
+                <img *ngIf="billImage" [src]="billImage" />
+                <mat-hint align="end">Upload Bill Photo </mat-hint>
+
+                <mat-checkbox
+                  [(ngModel)]="isChecked"
+                  color="warn"
+                  formControlName="lastBillEdit"
+                  (change)="lastBillEdited($event.checked)"
+                  >{{ isLastBillEdited }}</mat-checkbox
+                >
               </mat-form-field>
             </div>
-            <!-- Registered Number-->
-            <!--  <div class="col">
-              <ng-container *ngIf="mode !== 'add'">
-                <mat-form-field>
-                  <mat-toolbar>
-                    <input readonly matInput />
-                  </mat-toolbar>
-                  <input
-                    class="form-control"
-                    type="file"
-                    accept="image/*"
-                    (change)="onImageChange($event, 'photoBill2')"
-                  />
-                  <img
-                    *ngIf="billImage2"
-                    [src]="billImage2"
-                    style="margin: 3px"
-                  />
-
-                  <mat-hint align="end">Upload Bill photo 2</mat-hint>
-                </mat-form-field>
-              </ng-container>
-            </div> -->
-            <!--/ bill imageupload-->
           </div>
           <hr />
           <!-- fifth row end -->
