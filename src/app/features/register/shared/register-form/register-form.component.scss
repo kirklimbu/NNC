@@ -11,7 +11,7 @@
 .form-group {
   display: flex;
   align-items: flex-start;
-  margin-left:1.5rem ;
+  margin-left: 1.5rem;
 }
 
 .mat-form-field {
@@ -67,4 +67,10 @@ section {
   margin: 3rem 0 3rem 1rem;
   border: 1px solid #ccc;
   border-radius: 0.5rem;
+}
+
+mat-checkbox {
+  margin:1rem;
+  display: flex;
+  align-items: center;
 }
