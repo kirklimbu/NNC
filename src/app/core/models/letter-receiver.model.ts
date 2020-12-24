@@ -1,4 +1,4 @@
-export class LetterReceicer {
+export class LetterReceiver {
   id: number;
   name: string;
 }

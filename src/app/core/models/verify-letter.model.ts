@@ -1,5 +1,5 @@
 import { AffiliationCollege } from './affiliation-college.model';
-import { LetterReceicer } from './letter-receicer.model';
+import { LetterReceiver } from './letter-receiver.model';
 export class LetterVerify {
   id: number;
   regNo: number;
@@ -17,7 +17,7 @@ export class LetterVerify {
   email: string;
   mobileNo: string;
   affiliationCollege: AffiliationCollege;
-  letterReceiver: LetterReceicer;
+  letterReceiver: LetterReceiver;
   requestList: any[];
   collegeAddress: any;
   // letterReceiverList: any[];

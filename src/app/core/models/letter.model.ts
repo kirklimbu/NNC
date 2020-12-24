@@ -1,41 +1,38 @@
 import { AffiliationCollege } from './affiliation-college.model';
-import { LetterReceicer } from './letter-receicer.model';
+import { LetterReceiver } from './letter-receiver.model';
+import { PostalAddress } from './postal-address.model';
 export class Letter {
   id: number;
-  regNo: number;
-  name: string;
-  address: string;
   wardNo: number;
-  collegeName: string;
-  program: string;
-  affiliate: string;
-  photoLicence: string;
-  photoLicenceChange: boolean;
-  dob: string;
-  issueDate: string;
-  expDate: string;
-  email: string;
-  mobileNo: string;
-  collegeAddress: string;
 
-  photoBill: string;
+  print: boolean;
+  lastBillEdit: boolean;
   photoBillChange: boolean;
-  status1: string;
-  print1: boolean;
-  letterReceiverId1: number;
+  photoOptionChange: boolean;
+  photoLicenceChange: boolean;
 
-
-  print2: boolean;
-
+  regNo: string;
+  status: string;
+  address: string;
   address1: string;
   address2: string;
   address3: string;
 
+  dob: string;
+  email: string;
+  expDate: string;
+  issueDate: string;
+  mobileNo: string;
+  name: string;
+  photoBill: string;
+  photoLicence: string;
   photoOption: string;
-  lastBillEdit: boolean;
+  collegeAddress: string;
+  collegeName: string;
 
+  postalAddress: PostalAddress;
+  letterReceiver: LetterReceiver;
   affiliationCollege: AffiliationCollege;
-  letterReceiver: LetterReceicer;
 
-  postalAddress: LetterReceicer;
+  requestList: [];
 }

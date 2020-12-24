@@ -1,5 +1,3 @@
-import { AffiliationCollege } from './../../../../core/models/affiliation-college.model';
-import { LetterReceicer } from './../../../../core/models/letter-receicer.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Letter } from 'src/app/core/models/letter.model';
 import { LetterVerify } from 'src/app/core/models/verify-letter.model';
+import { LetterReceiver } from 'src/app/core/models/letter-receiver.model';
+import { AffiliationCollege } from 'src/app/core/models/affiliation-college.model';
 
 @Component({
   selector: 'app-verify-letter',
@@ -24,7 +24,7 @@ export class VerifyLetterComponent implements OnInit {
   letter = new LetterVerify();
   affiliationCollegeList = [];
   letterReceiverList = [];
-  letterReceiver: LetterReceicer;
+  letterReceiver: LetterReceiver;
   affiliationCollege: AffiliationCollege;
   licenceImage: any;
   billImageList: File | null;
@@ -124,8 +124,8 @@ export class VerifyLetterComponent implements OnInit {
       },
       (err) => {
         err = err.error.message
-        ? this.toastr.error(err.error.message)
-        : this.toastr.error('Rejection failed');
+          ? this.toastr.error(err.error.message)
+          : this.toastr.error('Rejection failed');
       }
     );
   }

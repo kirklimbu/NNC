@@ -1,4 +1,3 @@
-import { LetterReceicer } from './../../../../core/models/letter-receicer.model';
 import { Letter } from '../../../../core/models/letter.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,45 +14,42 @@ import { finalize } from 'rxjs/operators';
 })
 export class RegisterFormComponent implements OnInit {
   // props
+
+  letterFormValues$: Observable<Letter>;
+  letterDetails$: Observable<Letter>;
+
   mode = 'add';
+  otherId = 1;
+  letterStatus = 'V' || 'P' || 'R';
+
+  // letterReciverId: any;
+
+  addOtherFields = false;
+  showOldBills = false;
+  isSubmitted = false;
+  addOptionalPhoto = false;
+
+  dob: string;
+  fileName: string;
+  expDate: string;
+  issueDate: string;
+  button1Status: string;
+  button2Status: string;
+  selectedLetterReceiver: string;
+  selectedCollegeAff: string;
+
   registerForm: FormGroup;
   letter = new Letter();
 
   licenceImage: File | null;
   billImage: File | null;
-  // billImage2: File | null;
   altImage?: File | null;
 
   affiliationCollegeList: any[] = [];
   postalAddressList: any[] = [];
   letterReceiverList: any[] = [];
-
-  letterFormValues$: Observable<Letter>;
-
-  letterStatus = 'V' || 'P' || 'R';
-
-  letterDetails$: Observable<Letter>;
-
-  isSubmitted = false;
-  selectedLetterReceiver: string;
-  selectedCollegeAff: string;
-  dob: string;
-  expDate: string;
-  issueDate: string;
-
-  button1Status: string;
-  button2Status: string;
-
-  addOptionalPhoto = false;
-  fileName: string;
-  otherId = 1;
-  letterReciverId: any;
-  addOtherFields = false;
-  showOldBills = false;
-
-  /* test */
   addressList = [];
-  /* test end */
+
   constructor(
     private registerService: RegisterService,
     private formBuilder: FormBuilder,
@@ -99,30 +95,34 @@ export class RegisterFormComponent implements OnInit {
     this.registerService
       .getSearchDetails(regId)
       // .pipe(finalize(() => this.spinner.hide()))
-      .subscribe((data) => {
-        if (data.form.id !== 0) {
-          this.mode = 'edit';
+      .subscribe(
+        (data) => {
+          if (data.form.id !== 0) {
+            this.mode = 'edit';
 
-          this.letter = data.form;
-          this.licenceImage = data.form.photoLicence;
-          this.billImage = data.form.photoBill1;
-          this.button1Status = this.letter.status1;
+            this.letter = data.form;
+            this.licenceImage = data.form.photoLicence;
+            this.billImage = data.form.photoBill;
+            this.button1Status = this.letter.status;
 
-          this.letterReciverId = this.letter.letterReceiverId1;
-          this.disablePhotoUpload();
-          this.buildRegisterForm();
-        } else {
-          this.toastr.error('You are not Registered.');
+            // this.disablePhotoUpload();
+            this.buildRegisterForm();
+          } else {
+            // this.toastr.error('You are not Registered.');
+          }
+        },
+        (err) => {
+          err = err.error.message
+            ? this.toastr.error(err.error.message)
+            : this.toastr.error('Record no found');
         }
-      });
+      );
 
     // this.letter = data.form;
     // this.letterReceiverList = this.letter.postalAddress;
     // this.disablePhotoUpload();
-    this.selectPostalAddress(this.letter.letterReceiver.id);
+    // this.selectPostalAddress(this.letter.letterReceiver.id);
     this.buildRegisterForm();
-
-    /* fake response for edit form end */
   }
 
   buildRegisterForm() {
@@ -144,6 +144,7 @@ export class RegisterFormComponent implements OnInit {
         photoBill: [this.letter.photoBill],
         photoBillChange: [this.letter.photoBillChange],
         photoOption: [this.letter.photoOption],
+        photoOptionChange: [this.letter.photoOptionChange],
         lastBillEdit: [this.letter.lastBillEdit],
         address1: [this.letter.address1],
         address2: [this.letter.address2],
@@ -157,7 +158,7 @@ export class RegisterFormComponent implements OnInit {
         id: [this.letter.id],
         regNo: [this.letter.regNo],
         issueDate: [this.letter.issueDate],
-        expDate: [this.letter.regNo],
+        expDate: [this.letter.expDate],
         name: [this.letter.name],
         address: [this.letter.address],
         wardNo: [this.letter.wardNo],
@@ -170,6 +171,7 @@ export class RegisterFormComponent implements OnInit {
         photoLicenceChange: [this.letter.photoLicenceChange],
         photoBill: [this.letter.photoBill],
         photoOption: [this.letter.photoOption],
+        photoOptionChange: [this.letter.photoOptionChange],
         lastBillEdit: [this.letter.lastBillEdit],
         address1: [this.letter.address1],
         address2: [this.letter.address2],
@@ -220,8 +222,8 @@ export class RegisterFormComponent implements OnInit {
 
   disablePhotoUpload() {
     this.mode === 'edit' && this.button1Status == 'V'
-      ? this.registerForm.get('photoBill1').disable()
-      : this.registerForm.get('photoBill1').enable();
+      ? this.registerForm.get('photoBill').disable()
+      : this.registerForm.get('photoBill').enable();
   }
   /* img to base64 conversion */
   onImageChange($event, imageType) {
