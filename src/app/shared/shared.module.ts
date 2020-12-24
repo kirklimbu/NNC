@@ -8,7 +8,7 @@ import { TableActionButtonsComponent } from './components/table-action-buttons/t
 const DECLARATIONS: any[] = [TableActionButtonsComponent];
 
 @NgModule({
-  declarations: [...DECLARATIONS],
+  declarations: [...DECLARATIONS, ],
   imports: [
     CommonModule,
     SharedRoutingModule,

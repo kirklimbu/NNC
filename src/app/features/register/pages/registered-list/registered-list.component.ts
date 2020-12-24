@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { map } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-registered-list',
@@ -47,19 +47,25 @@ export class RegisteredListComponent implements OnInit {
   }
 
   buildFilterForm() {
-    // this.spinner.show()
+    // this.spinner.show();
     this.filterForm = this.fb.group({
       status: ['P'],
     });
   }
   fetchLetterList() {
-    this.letterListDataSource$ = this.registerService.getLetterList();
+    this.spinner.show();
+
+    this.letterListDataSource$ = this.registerService
+      .getLetterList()
+      .pipe(finalize(() => this.spinner.hide()));
   }
   fetchPendingLetterList() {
+    this.spinner.show();
+
     const status = 'P';
-    (this.letterListDataSource$ = this.registerService.getFilteredLetters(
-      status
-    )),
+    (this.letterListDataSource$ = this.registerService
+      .getFilteredLetters(status)
+      .pipe(finalize(() => this.spinner.hide()))),
       (err) => {
         this.toastr.error(err.message);
       };

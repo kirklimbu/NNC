@@ -10,6 +10,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { JtwTokenInterceptorService } from './core/interceptor/jtw-token-interceptor.service';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxSpinnerComponent } from './shared/components/ngx-spinner/ngx-spinner.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome/fontawesome.module';
 
 export function tokenGetter() {
@@ -17,7 +19,7 @@ export function tokenGetter() {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NgxSpinnerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -25,6 +27,8 @@ export function tokenGetter() {
     NgbModule,
     // FontAwesomeModule,
     HttpClientModule,
+    NgxSpinnerModule,
+
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',
