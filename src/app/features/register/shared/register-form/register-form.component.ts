@@ -44,14 +44,16 @@ export class RegisterFormComponent implements OnInit {
   button1Status: string;
   button2Status: string;
 
-  selectedCollegeList = [];
-
   addOptionalPhoto = false;
   fileName: string;
   otherId = 1;
   letterReciverId: any;
   addOtherFields = false;
   showOldBills = false;
+
+  /* test */
+  addressList = [];
+  /* test end */
   constructor(
     private registerService: RegisterService,
     private formBuilder: FormBuilder,
@@ -75,7 +77,8 @@ export class RegisterFormComponent implements OnInit {
         this.letter = data.form;
         this.affiliationCollegeList = data.affiliationCollegeList;
         this.letterReceiverList = data.letterReceiverList;
-        this.postalAddressList = data.postalAddressList;
+        this.postalAddressList = data.postalAddressList; // for drop-down display
+        this.addressList = data.postalAddressList; // for changing drop-down values display
 
         this.buildRegisterForm();
       },
@@ -136,7 +139,7 @@ export class RegisterFormComponent implements OnInit {
         dob: [this.letter.dob],
         email: [this.letter.email],
         mobileNo: [this.letter.mobileNo],
-        photoLicenceChange: [true],
+        photoLicenceChange: [this.letter.photoLicenceChange],
         photoLicence: [this.letter.photoLicence],
         photoBill: [this.letter.photoBill],
         photoBillChange: [this.letter.photoBillChange],
@@ -222,19 +225,14 @@ export class RegisterFormComponent implements OnInit {
   }
   /* img to base64 conversion */
   onImageChange($event, imageType) {
+    console.log('image type ' + imageType);
     const file = $event.target.files[0];
-    /* test  */
-    this.fileName = file.name;
-    if (this.fileName.length > 10) {
-      this.fileName = this.fileName.substring(0, 10);
-    }
-    console.log(this.fileName);
-    /* test end */
-
     this.convertToBase64(file, imageType);
   }
 
   convertToBase64(file: File, imageType: string) {
+    console.log('image type ' + imageType);
+
     const observable = new Observable((subscriber: Subscriber<any>) => {
       this.readFile(file, subscriber);
     });
@@ -279,27 +277,23 @@ export class RegisterFormComponent implements OnInit {
     return optionOne.id === optionTwo.id;
   }
 
-  selectPostalAddress(letterReceiver: number) {
-    console.log(letterReceiver);
-
-    if (letterReceiver === this.otherId) {
+  selectPostalAddress(id: number) {
+    if (id === this.otherId) {
       this.addOtherFields = true;
       this.addOptionalPhoto = false;
       this.postalAddressList = [];
       return;
-    } else if (letterReceiver === 2) {
+    } else if (id === 2) {
       this.addOptionalPhoto = true;
       this.addOtherFields = false;
-      console.log(this.addOptionalPhoto);
-      this.postalAddressList = this.postalAddressList.filter(
-        (f) => f.letterReceiverId === letterReceiver
-
-      /* YAHA SAMASYA XA START FROM HERE TOMORROW */);
+      this.postalAddressList = this.addressList.filter(
+        (f) => f.letterReceiverId === id
+      );
     } else {
       this.addOptionalPhoto = false;
       this.addOtherFields = false;
-      this.postalAddressList = this.postalAddressList.filter(
-        (f) => f.letterReceiverId === letterReceiver
+      this.postalAddressList = this.addressList.filter(
+        (f) => f.letterReceiverId === id
       );
     }
   }
