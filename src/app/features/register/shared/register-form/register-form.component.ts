@@ -27,13 +27,13 @@ export class RegisterFormComponent implements OnInit {
   addOtherFields = false;
   showOldBills = false;
   isSubmitted = false;
+  loading = false;
   addOptionalPhoto = false;
   isChecked = true;
   isLastBillEdited = 'Edit Bill';
 
-  /* test */
   selectedLetterReceiverId: number;
-  /* test end */
+
   dob: string;
   fileName: string;
   expDate: string;
@@ -63,18 +63,17 @@ export class RegisterFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.spinner.show();
-    // setTimeout(() => {
-    //   /** spinner ends after 5 seconds */
-    //   this.spinner.hide();
-    // }, 5000);
     this.buildRegisterForm();
     this.fetchLetterFormValues();
   }
 
   fetchLetterFormValues() {
+    console.log('fetching default fom values');
+
     this.letterFormValues$ = this.registerService.getLetterForm().subscribe(
       (data) => {
+        console.log('default form valuuuuse ' + data);
+
         this.letter = data.form;
         this.affiliationCollegeList = data.affiliationCollegeList;
         this.letterReceiverList = data.letterReceiverList;
@@ -94,12 +93,12 @@ export class RegisterFormComponent implements OnInit {
   onSearch(regId: number) {
     console.log('inside serarch' + regId);
 
-    // this.spinner.show();
+    this.spinner.show();
     /* this.registerForm.reset();
      this.mode = 'edit'; */
     this.registerService
       .getSearchDetails(regId)
-      // .pipe(finalize(() => this.spinner.hide()))
+      .pipe(finalize(() => this.spinner.hide()))
       .subscribe(
         (data) => {
           if (data.form.id !== 0) {
@@ -195,11 +194,14 @@ export class RegisterFormComponent implements OnInit {
   }
 
   onRegister() {
+    this.loading = true;
+
     this.isSubmitted = true;
     if (this.registerForm.valid) {
       if (this.mode === 'add') {
         this.registerService.register(this.registerForm.value).subscribe(
           (data) => {
+            this.loading = false;
             data = data.message
               ? this.toastr.success(data.message)
               : this.toastr.success('Student saved successfully');
@@ -209,6 +211,7 @@ export class RegisterFormComponent implements OnInit {
             err = err.error.message
               ? this.toastr.error(err.error.message)
               : this.toastr.error('Error while saving letter.');
+            this.loading = false;
           }
         );
       } else {

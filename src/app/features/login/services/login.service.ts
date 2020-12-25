@@ -24,6 +24,8 @@ export class LoginService {
   }
 
   login(userName: string, passWord: string): any {
+    console.log('login service called' + userName + passWord);
+
     return this.http
       .post<User>(this.API_URL + 'staff/login', {
         userName,

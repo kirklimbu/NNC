@@ -8,6 +8,8 @@ import { Letter } from 'src/app/core/models/letter.model';
 import { LetterVerify } from 'src/app/core/models/verify-letter.model';
 import { LetterReceiver } from 'src/app/core/models/letter-receiver.model';
 import { AffiliationCollege } from 'src/app/core/models/affiliation-college.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-verify-letter',
@@ -29,6 +31,7 @@ export class VerifyLetterComponent implements OnInit {
   licenceImage: any;
   billImageList: File | null;
   enableZoom: Boolean = true;
+  loading = false;
   previewImageSrc: any;
   zoomImageSrc: any;
   mode = 'verify';
@@ -36,6 +39,7 @@ export class VerifyLetterComponent implements OnInit {
   constructor(
     private letterService: RegisterService,
     private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder
@@ -49,10 +53,14 @@ export class VerifyLetterComponent implements OnInit {
   }
 
   fetchParamFromUrl() {
-    this.route.queryParamMap.subscribe((params) => {
-      this.letterId = +params.get('id');
-      console.log(this.letterId);
-    }),
+    this.spinner.show();
+
+    this.route.queryParamMap
+      .pipe(finalize(() => this.spinner.hide()))
+      .subscribe((params) => {
+        this.letterId = +params.get('id');
+        console.log(this.letterId);
+      }),
       (err) => {
         err = err.error.message
           ? this.toastr.error(err.error.message)
@@ -61,24 +69,26 @@ export class VerifyLetterComponent implements OnInit {
   }
 
   fetchLetterDetails() {
+    this.spinner.show();
     var id: number = this.letterId;
-
     // this.letterDetails$ = this.letterService.getLetterDetails(id);
     // console.log(JSON.stringify(this.letterDetails$));
-    this.letterService.getLetterDetails(id).subscribe((data) => {
-      this.letter = data;
-      console.log(data);
-
-      this.letterReceiver = data.letterReceiver;
-      this.affiliationCollege = data.affiliationCollege;
-      this.licenceImage = data.photoLicence;
-      this.billImageList = data.requestList;
-      /* this.letterVerifyForm.patchValue({
+    this.letterService
+      .getLetterDetails(id)
+      .pipe(finalize(() => this.spinner.hide()))
+      .subscribe((data) => {
+        this.letter = data;
+        console.log(data);
+        this.letterReceiver = data.letterReceiver;
+        this.affiliationCollege = data.affiliationCollege;
+        this.licenceImage = data.photoLicence;
+        this.billImageList = data.requestList;
+        /* this.letterVerifyForm.patchValue({
         letterReceiver: this.letterReceiver.name,
       }); */
 
-      this.buildVerifyForm();
-    });
+        this.buildVerifyForm();
+      });
   }
 
   buildVerifyForm() {
@@ -102,30 +112,36 @@ export class VerifyLetterComponent implements OnInit {
   }
 
   onVerify() {
+    this.loading = true;
     const id = this.letterId;
     this.letterService.isVerfied(id).subscribe(
       (res) => {
+        this.loading = false;
         this.router.navigate(['/home/register/letter-list']);
       },
       (err) => {
         err = err.error.message
           ? this.toastr.error(err.error.message)
           : this.toastr.error('Verification failed');
+        this.loading = false;
       }
     );
   }
   onReject() {
     console.log('reject clicked');
+    this.loading = true;
 
     const id = this.letterId;
     this.letterService.isRejected(id).subscribe(
       (res) => {
+        this.loading = false;
         this.router.navigate(['/home/register/letter-list']);
       },
       (err) => {
         err = err.error.message
           ? this.toastr.error(err.error.message)
           : this.toastr.error('Rejection failed');
+        this.loading = false;
       }
     );
   }

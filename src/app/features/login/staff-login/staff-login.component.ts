@@ -60,6 +60,8 @@ export class StaffLoginComponent implements OnInit {
         .login(this.f.userName.value, this.f.passWord.value)
         .subscribe(
           (res) => {
+            this.loading = false;
+
             this.loggedIn.next(true);
             this.router.navigate(['home/register/letter-list']);
           },
@@ -67,6 +69,7 @@ export class StaffLoginComponent implements OnInit {
             err.status == 400
               ? (this.errorMsg = err.error.message || err.error.errors[0])
               : (this.errorMsg = 'Login Failed');
+            this.loading = false;
           }
         );
     }
