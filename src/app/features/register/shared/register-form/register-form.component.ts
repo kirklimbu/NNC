@@ -45,6 +45,7 @@ export class RegisterFormComponent implements OnInit {
   button2Status: string;
   selectedLetterReceiver: string;
   selectedCollegeAff: string;
+  toggle = 'Show old bills';
 
   licenceImage: File | null;
   billImage: File | null;
@@ -54,6 +55,7 @@ export class RegisterFormComponent implements OnInit {
   postalAddressList: any[] = [];
   letterReceiverList: any[] = [];
   addressList = [];
+  oldBills: any = [];
 
   constructor(
     private registerService: RegisterService,
@@ -100,9 +102,11 @@ export class RegisterFormComponent implements OnInit {
             this.mode = 'edit';
             this.letter = data.form;
             this.formId = data.form.id; // enabling checkbox
+            this.affiliatedOtherId = data.form.affiliatedOtherId; // enabling checkbox
             this.licenceImage = data.form.photoLicence;
             this.billImage = data.form.photoBill;
-            this.button1Status = this.letter.status;
+            this.oldBills = data.form.requestList;
+            // this.button1Status = this.letter.status;
 
             // this.disablePhotoUpload();
             this.buildRegisterForm();
@@ -380,5 +384,11 @@ export class RegisterFormComponent implements OnInit {
 
   lastBillEdited(checked) {
     this.isLastBillEdited = checked ? 'Edit Bill' : 'Add New Bill';
+  }
+
+  toggleGallary(e) {
+    this.showOldBills = !this.showOldBills;
+    this.toggle =
+      this.showOldBills !== true ? 'Show old bills' : 'Hide old bills';
   }
 }

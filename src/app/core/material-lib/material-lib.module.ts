@@ -28,6 +28,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { NgMatSearchBarModule } from 'ng-mat-search-bar';
 import { SearchFieldModule } from 'ngx-mat-search-field';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const material = [
   MatTableModule,
@@ -56,6 +57,7 @@ const material = [
   MatExpansionModule,
   NgMatSearchBarModule,
   SearchFieldModule,
+  MatSlideToggleModule,
 ];
 
 @NgModule({

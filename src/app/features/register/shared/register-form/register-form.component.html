@@ -357,11 +357,11 @@
           <!-- fifth row end -->
           <!-- conditional row display -->
           <ng-container *ngIf="addOtherFields">
-            <section>
+            <section class="otherPostalAddress">
               <h2 class="label">Postal Address for others:</h2>
 
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 otherPostalAddress">
                   <mat-form-field>
                     <input
                       matInput
@@ -397,6 +397,7 @@
       > -->
                   </mat-form-field>
                 </div>
+
                 <div class="col-md-4">
                   <mat-form-field>
                     <input
@@ -501,30 +502,29 @@
           <hr />
           <!-- fifth row end -->
           <!-- photo preview end -->
-          <ng-container *ngIf="showOldBills">
+          <mat-slide-toggle
+          class="toggle"
+            [disabled]="oldBills.length === 0"
+            (click)="toggleGallary($event.target.value)"
+            >{{ toggle }}</mat-slide-toggle
+          >
+
+          <ng-container *ngIf="oldBills.length !== 0 && showOldBills">
             <section>
               <h2 class="label">Previous bills</h2>
-              <div class="row">
-                <div class="col gallery mt-3 mb-2">
-                  <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
+              <div class="row photoGallary">
+                <div
+                  class="col gallery mt-3 mb-2"
+                  *ngFor="let bill of oldBills; index as i"
+                >
+                  <img [src]="bill.photoBill" alt="Cinque Terre" />
 
-                  <div class="desc">Add a description of the image here</div>
-                </div>
-                <div class="col gallery mt-3 mb-2">
-                  <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
-
-                  <div class="desc">Add a description of the image here</div>
-                </div>
-                <div class="col gallery mt-3 mb-2">
-                  <img src="assets/images/nnc_logo.png" alt="Cinque Terre" />
-
-                  <div class="desc">Add a description of the image here</div>
+                  <div class="desc">Bill {{ i + 1 }}</div>
                 </div>
               </div>
             </section>
-            <hr />
           </ng-container>
-
+          <hr />
           <!-- photo preview end -->
           <div class="row">
             <div class="col-md-12 action-buttons">

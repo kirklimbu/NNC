@@ -1,3 +1,6 @@
+:root {
+  --gutter: 20px;
+}
 .registerCard {
   display: grid;
   place-items: inherit;
@@ -26,8 +29,13 @@
 }
 
 img {
+  display: grid;
+  grid-template-columns: 20px 1fr 20px;
   height: 200px;
   width: 200px;
+  max-height: 200px;
+  max-width: 200px;
+  padding: 0.5rem;
 }
 
 input:disabled,
@@ -62,7 +70,6 @@ div.desc {
 
 section {
   display: grid;
-  align-items: center;
   padding: 0 1rem 1rem 1rem;
   margin: 3rem 0 3rem 1rem;
   border: 1px solid #ccc;
@@ -70,7 +77,24 @@ section {
 }
 
 mat-checkbox {
-  margin:.25rem;
+  margin: 0.25rem;
   display: flex;
   align-items: center;
+}
+.otherPostalAddress {
+  display: grid;
+}
+
+.photoGallary {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  .gallary {
+    display: inline-block;
+  }
+
+  .toggle {
+    margin-top: 5rem;
+  }
 }
