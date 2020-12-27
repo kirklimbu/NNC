@@ -4,18 +4,14 @@ import { CommonModule } from '@angular/common';
 
 import { SharedRoutingModule } from './shared-routing.module';
 import { TableActionButtonsComponent } from './components/table-action-buttons/table-action-buttons.component';
+import { DeletePopupComponent } from './components/delete-popup/delete-popup.component';
 
-const DECLARATIONS: any[] = [TableActionButtonsComponent];
+const DECLARATIONS: any[] = [TableActionButtonsComponent, DeletePopupComponent];
 
 @NgModule({
-  declarations: [...DECLARATIONS, ],
-  imports: [
-    CommonModule,
-    SharedRoutingModule,
-    MaterialLibModule,
+  declarations: [...DECLARATIONS],
+  imports: [CommonModule, SharedRoutingModule, MaterialLibModule],
 
-  ],
-
-  exports: [ MaterialLibModule, ...DECLARATIONS],
+  exports: [MaterialLibModule, ...DECLARATIONS],
 })
 export class SharedModule {}

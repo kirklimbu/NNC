@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { Letter } from 'src/app/core/models/letter.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize } from 'rxjs/operators';
+import { DeletePopupComponent } from 'src/app/shared/components/delete-popup/delete-popup.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-print-letter',
@@ -38,6 +40,7 @@ export class PrintLetterComponent implements OnInit {
   constructor(
     private datePipe: DatePipe,
     private router: Router,
+    private dialog: MatDialog,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -86,9 +89,20 @@ export class PrintLetterComponent implements OnInit {
     );
   }
 
-  print() {
-    console.log('print');
+  testModal() {
+    console.log('popup modal button pressed');
+    const dialogRef = this.dialog.open(DeletePopupComponent, {
+      width: '450px',
+      data: {},
+    });
 
-    window.print();
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed ' + result);
+      if (result === 'Yes') {
+        console.log('yes');
+      } else {
+        console.log('no');
+      }
+    });
   }
 }

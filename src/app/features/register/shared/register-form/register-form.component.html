@@ -194,7 +194,7 @@
                     id="college"
                     fxlayoutalign="column"
                   />
-                  <mat-hint align="end">Enter college name</mat-hint>
+                  <mat-hint align="end">Enter University name</mat-hint>
                   <!--  <mat-error *ngIf="hasError('name', 'required')"
       >Last Name is required</mat-error
     >
@@ -503,7 +503,8 @@
           <!-- fifth row end -->
           <!-- photo preview end -->
           <mat-slide-toggle
-          class="toggle"
+            class="toggle"
+            color="warn"
             [disabled]="oldBills.length === 0"
             (click)="toggleGallary($event.target.value)"
             >{{ toggle }}</mat-slide-toggle
