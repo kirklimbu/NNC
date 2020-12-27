@@ -1,19 +1,23 @@
 <!-- test print section -->
 <div class="content-wrapper">
-  <div class="row no-gutters" id="header">
-    <div class="col-md-3 mt-2 mb-2 ml-3">
-      <img src="/assets/images/nnc_logo.png" alt="logotipo" class="logotipo" />
-    </div>
-
-    <div class="col-md-7">
-      <h2 class="text-center mt-2">Nepal Nursing Council</h2>
-      <h6 class="text-center mt-2">
-        Estd. Under Nepal Nursing Council Act, 2053,(1996)
-      </h6>
-    </div>
-  </div>
   <div id="print-section">
-    <div class="container-fluid">
+    <div class="row no-gutters" id="header">
+      <div class="col-md-3">
+        <img
+          src="/assets/images/nnc_logo.png"
+          alt="logotipo"
+          class="logotipo"
+        />
+      </div>
+
+      <div class="col-md-7 name">
+        <h2 class="text-center mt-2">Nepal Nursing Council</h2>
+        <h6 class="text-center mt-2">
+          Estd. Under Nepal Nursing Council Act, 2053,(1996)
+        </h6>
+      </div>
+    </div>
+    <div class="container-fluid mr-3">
       <hr class="divider" />
 
       <div class="row no-gutters">
@@ -25,9 +29,7 @@
         </div>
       </div>
 
-      <div class="row no-gutters mt-2">
-        <!-- <div class="col-1 mb-2">Ref:</div> -->
-
+      <div class="row mt-2">
         <div class="col-10 mb-2">
           <p>TEXAS BOARD OF NURSING</p>
           <p>333 Gaudalupe - Suite 3-460</p>
@@ -36,18 +38,18 @@
         </div>
       </div>
 
-      <div class="row no-gutters disclaimer mt-3 mb-3">
-        <div class="col-md-1">Subject:</div>
-        <div class="col-md-11">
+      <div class="row no-gutters disclaimer mt-2 mb-3">
+        <div class="col-md-1 mr-3">Subject:</div>
+        <div class="col-md-9">
           <u> Verification of Registration and Good Standing </u>
         </div>
       </div>
 
       <div class="row no-gutters">
-        <div class="col-md-12 mt-3">
+        <div class="col-md-12 mt-2">
           <p class="disclaimer">Dear Sir/Madam,</p>
         </div>
-        <div class="col-md-12 mt-3">
+        <div class="col-md-12 mt-2">
           <p class="disclaimer mt-3 mb-3">
             This is to certify that Ms.
             <b>{{ printDetails.name | titlecase }}</b
