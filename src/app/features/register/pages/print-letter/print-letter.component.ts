@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Letter } from 'src/app/core/models/letter.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-print-letter',
@@ -38,6 +40,7 @@ export class PrintLetterComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
     private letterService: RegisterService
   ) {}
 
@@ -51,14 +54,15 @@ export class PrintLetterComponent implements OnInit {
   }
 
   fetchParamFromUrl() {
+    this.spinner.show();
     this.route.queryParamMap.subscribe((params) => {
       this.letterId = +params.get('id');
-      // this.printDetails$ = this.letterService.getPrintDetails(this.letterId);
+      // this.printDetails$ = this.letterService.getPrintDetails(this.letterId); //async method
       this.printDetails$ = this.letterService
         .getPrintDetails(this.letterId)
+        .pipe(finalize(() => this.spinner.hide()))
         .subscribe((data) => {
           this.printDetails = data;
-          console.log(this.printDetails);
         });
     }),
       (err) => {

@@ -20,21 +20,35 @@ export class VerifyLetterComponent implements OnInit {
   // props
   letterVerifyForm: FormGroup;
   letterDetails$: Observable<Letter>;
+  letterFormValues$: Observable<Letter>;
+
   letterDetails: LetterVerify;
   letterId: number;
+  postalAddressId: number;
   selected: string;
-  letter = new LetterVerify();
+  letter = new Letter();
   affiliationCollegeList = [];
+  postalAddressList = [];
   letterReceiverList = [];
+  addressList = [];
   letterReceiver: LetterReceiver;
   affiliationCollege: AffiliationCollege;
   licenceImage: any;
   billImageList: File | null;
+  billImage: File | null;
+  altImage: any;
   enableZoom: Boolean = true;
+  addOptionalPhoto: Boolean = true;
   loading = false;
+  showOldBills = false;
+  lastBillStatus
+
   previewImageSrc: any;
   zoomImageSrc: any;
   mode = 'verify';
+  expDate: string;
+  issueDate: string;
+  dob: string;
 
   constructor(
     private letterService: RegisterService,
@@ -46,10 +60,28 @@ export class VerifyLetterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.fetchLetterFormValues();
     this.buildVerifyForm();
     this.fetchParamFromUrl();
-    this.fetchLetterDetails();
     this.disableVerifyDob();
+  }
+  fetchLetterFormValues() {
+    this.letterFormValues$ = this.letterService.getLetterForm().subscribe(
+      (data) => {
+        console.log('default form valuuuuse ' + data);
+        this.letter = data.form;
+        this.affiliationCollegeList = data.affiliationCollegeList;
+        this.letterReceiverList = data.letterReceiverList;
+        this.postalAddressList = data.postalAddressList; // for drop-down display
+        this.addressList = data.postalAddressList; // for changing drop-down values display
+        // this.buildRegisterForm();
+      },
+      (err) => {
+        err = err.message
+          ? this.toastr.error(err.message)
+          : this.toastr.error('Error fetching form values.');
+      }
+    );
   }
 
   fetchParamFromUrl() {
@@ -60,6 +92,30 @@ export class VerifyLetterComponent implements OnInit {
       .subscribe((params) => {
         this.letterId = +params.get('id');
         console.log(this.letterId);
+        /* test */
+        this.letterService
+          .getLetterDetails(this.letterId)
+          .pipe(finalize(() => this.spinner.hide()))
+          .subscribe(
+            (data) => {
+              this.letter = data;
+              console.log(data);
+              this.licenceImage = data.photoLicence;
+
+              this.altImage = data.photoOption;
+              this.billImage = data.photoBill;
+              this.billImageList = data.requestList;
+              this.lastBillStatus = data.lastBillEdit;
+              this.postalAddressId = data.postalAddress.letterReceiverId;
+              this.buildVerifyForm();
+            },
+            (err) => {
+              err.error.message = err.error.message
+                ? this.toastr.error(err.error.message)
+                : this.toastr.error('Error in fetching data.');
+            }
+          );
+        /* test end */
       }),
       (err) => {
         err = err.error.message
@@ -68,32 +124,11 @@ export class VerifyLetterComponent implements OnInit {
       };
   }
 
-  fetchLetterDetails() {
-    this.spinner.show();
-    var id: number = this.letterId;
-    // this.letterDetails$ = this.letterService.getLetterDetails(id);
-    // console.log(JSON.stringify(this.letterDetails$));
-    this.letterService
-      .getLetterDetails(id)
-      .pipe(finalize(() => this.spinner.hide()))
-      .subscribe((data) => {
-        this.letter = data;
-        console.log(data);
-        this.letterReceiver = data.letterReceiver;
-        this.affiliationCollege = data.affiliationCollege;
-        this.licenceImage = data.photoLicence;
-        this.billImageList = data.requestList;
-        /* this.letterVerifyForm.patchValue({
-        letterReceiver: this.letterReceiver.name,
-      }); */
-
-        this.buildVerifyForm();
-      });
-  }
-
   buildVerifyForm() {
     this.letterVerifyForm = this.formBuilder.group({
       regNo: [this.letter.regNo],
+      issueDate: [this.letter.issueDate],
+      expDate: [this.letter.expDate],
       name: [this.letter.name],
       address: [this.letter.address],
       wardNo: [this.letter.wardNo],
@@ -106,12 +141,21 @@ export class VerifyLetterComponent implements OnInit {
       photoLicence: [this.letter.photoLicence],
       photoBill: [this.letter.photoBill],
       photoBillChange: [this.letter.photoBillChange],
+      photoOption: [this.letter.photoOption],
+      photoOptionChange: [this.letter.photoOptionChange],
+      lastBillEdit: [this.letter.lastBillEdit],
+      address1: [this.letter.address1],
+      address2: [this.letter.address2],
+      address3: [this.letter.address3],
       letterReceiver: [this.letter.letterReceiver],
+      postalAddress: [this.letter.postalAddress],
       affiliationCollege: [this.letter.affiliationCollege],
     });
   }
 
   onVerify() {
+    console.log(this.letterVerifyForm.value);
+
     this.loading = true;
     const id = this.letterId;
     this.letterService.isVerfied(id).subscribe(
@@ -149,7 +193,13 @@ export class VerifyLetterComponent implements OnInit {
   compareFn(optionOne, optionTwo): boolean {
     return optionOne.id === optionTwo.id;
   }
+
   disableVerifyDob() {
     this.letterVerifyForm.get('dob').disable();
+    this.letterVerifyForm.get('letterReceiver').disable();
+    this.letterVerifyForm.get('postalAddress').disable();
+
+    // this.letterVerifyForm.get('lastBillEdit').disable();
+    // this.letterVerifyForm.disable();
   }
 }

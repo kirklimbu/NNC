@@ -1,14 +1,88 @@
-/* input:read-only:hover {
-  pointer-events: none;
-  color: coral;
+.registerCard {
+  display: grid;
+  place-items: inherit;
+  width: 800px;
 }
- */
+
+.form-control {
+  border: 0;
+  padding: 0;
+}
+.form-group {
+  display: flex;
+  align-items: flex-start;
+  margin-left: 1.5rem;
+}
+
+.mat-form-field {
+  display: grid;
+  place-items: center;
+  margin: 0.5rem 0;
+  // width: 300px !important;
+}
+.mat-toolbar-single-row {
+  height: auto !important;
+  background: transparent;
+}
 
 img {
-  height: 300px;
-  width: 300px;
+  max-height: 250px;
+  max-width: 250px;
+   height: 200px;
+  width: 200px;
 }
-.mat-form-field {
-  margin: 0.5rem 0;
-  width: 300px !important;
+
+input:disabled,
+input[disabled] {
+  cursor: not-allowed !important;
 }
+
+.photoPreview {
+  display: grid;
+  place-items: inherit;
+}
+div.gallery {
+  margin: 5px;
+  // border: 1px solid #ccc;
+  float: left;
+  // width: 180px;
+}
+
+div.gallery:hover {
+  // border: 1px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+}
+
+section {
+  display: grid;
+  align-items: center;
+  padding: 0 1rem 1rem 1rem;
+  margin: 3rem 0 3rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+mat-checkbox {
+  margin: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+/*disable input fields */
+/* input:-moz-read-only {
+  background-color: #f17517;
+}
+
+input:read-only {
+  background-color: #f17517;
+}
+ */

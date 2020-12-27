@@ -5,6 +5,14 @@
       <li>Select your updated licence photo</li>
       <li>Select your updated licence photo</li>
       <li>Select your updated licence photo</li>
+      <li>Select your updated licence photo</li>
+      <li>Select your updated licence photo</li>
+    </ol>
+    <h3 class="label">Recently Added students:</h3>
+    <ol>
+      <li *ngFor="let item of recentStudents; index as i">
+        {{ item.name | titlecase }}
+      </li>
     </ol>
   </aside>
 </div>

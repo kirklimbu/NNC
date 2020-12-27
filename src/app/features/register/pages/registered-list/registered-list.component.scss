@@ -10,13 +10,19 @@
 }
 
 mat-form-field {
-  padding: 1rem;
+  padding: 0.25rem;
 }
 mat-form-field {
   .search {
-    float: right;
+    padding: 0.25rem;
+    // margin-left: 12rem;
+    // float: right;
   }
 }
 .top-bar-items {
   display: inline;
+}
+
+form {
+  margin-top: 2rem;
 }

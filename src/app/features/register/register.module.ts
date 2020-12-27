@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPrintModule } from 'ngx-print';
 import { VerifyLetterComponent } from './pages/verify-letter/verify-letter.component';
 import { PrintLetterComponent } from './pages/print-letter/print-letter.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { PrintLetterComponent } from './pages/print-letter/print-letter.componen
     SharedModule,
     LoginModule,
     NgxPrintModule,
+    NgbModule,
   ],
   providers: [DatePipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

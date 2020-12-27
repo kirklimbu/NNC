@@ -23,7 +23,7 @@
             matInput
             type="text"
             (keyup)="doFilter($event.target.value)"
-            placeholder="Filter"
+            placeholder="Search"
           />
         </mat-form-field>
         <!-- test filter end -->
@@ -76,14 +76,16 @@
             (delete)="onDelete(element)"
             (viewDetails)="onVerifyDetails('verify', element)"
           >
+            <mat-icon ngbTooltip="View Details">details</mat-icon>
           </app-table-action-buttons>
           <mat-card-actions *ngIf="isVerified">
             <button
-              mat-raised-button
+              mat-button
               color="primary"
+              ngbTooltip="Print page"
               (click)="onPrint(element)"
             >
-              Goto Print
+              <mat-icon color="warn">print</mat-icon>
             </button>
           </mat-card-actions>
         </td>

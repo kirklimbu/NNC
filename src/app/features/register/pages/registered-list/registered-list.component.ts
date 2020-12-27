@@ -86,7 +86,7 @@ export class RegisteredListComponent implements OnInit {
       queryParams: { id: letter.id },
     });
   }
-
+// START FROM HERE AFTER BREAK
   onFilter(status) {
     if (status !== 'V') {
       this.isVerified = false;
@@ -100,7 +100,8 @@ export class RegisteredListComponent implements OnInit {
       this.isVerified = true;
       (this.letterListDataSource$ = this.registerService
         .getFilteredLetters(status)
-        .pipe(map((data: any) => data.filter((p) => p.id == 3)))),
+        // .pipe(map((data: any) => data.filter((p) => p.id == 3)))
+        ),
         (err) => {
           this.toastr.error(err.message);
         };

@@ -111,7 +111,7 @@
             <!--/
                  name -->
 
-            <!-- Affiliation College -->
+            <!-- email -->
             <div class="col-md-4">
               <mat-form-field>
                 <input
@@ -131,9 +131,9 @@
               > -->
               </mat-form-field>
             </div>
-            <!-- / father name -->
+            <!-- / email -->
 
-            <!-- College Name -->
+            <!-- dob -->
             <div class="col-md-4">
               <mat-form-field>
                 <input
@@ -152,34 +152,62 @@
                 <mat-hint align="end">Select Date of Birth(D.O.B)</mat-hint>
               </mat-form-field>
             </div>
-            <!-- College Name end -->
+            <!-- dob end -->
           </div>
           <!-- second row end -->
 
           <!-- third row  -->
-          <div class="row">
+          <div class="row" style="display: flex; align-items: center">
             <!--  College Address -->
-            <div class="col-md-4">
+            <div class="col">
               <mat-form-field>
                 <mat-label>Affiliation College</mat-label>
                 <mat-select
                   formControlName="affiliationCollege"
                   [compareWith]="compareFn"
+                  (selectionChange)="seletAffiliationCollege($event.value.id)"
                 >
                   <mat-option
                     *ngFor="let item of affiliationCollegeList"
                     [value]="item"
                     >{{ item.name }}</mat-option
                   >
+                  <!-- temp option-->
+                  <mat-option [value]="1">Other</mat-option>
+
+                  <!-- temp option end -->
                 </mat-select>
                 <mat-hint align="end">Select college affiliation</mat-hint>
               </mat-form-field>
             </div>
             <!--/
                  College Address -->
-
-            <!-- dob-->
-            <div class="col-md-4">
+            <!-- university  -->
+            <ng-container *ngIf="affiliatedOtherId === undefined">
+              <div class="col">
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="University"
+                    formControlName="university"
+                    id="college"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter college name</mat-hint>
+                  <!--  <mat-error *ngIf="hasError('name', 'required')"
+      >Last Name is required</mat-error
+    >
+    <mat-error *ngIf="hasError('name', 'maxlength')"
+      >Enter last name</mat-error
+    > -->
+                </mat-form-field>
+              </div>
+              <!-- / collegeName-->
+            </ng-container>
+            <!-- university end -->
+            <!-- collegeName-->
+            <div class="col">
               <mat-form-field>
                 <input
                   matInput
@@ -198,10 +226,10 @@
               > -->
               </mat-form-field>
             </div>
-            <!-- / dob-->
+            <!-- / collegeName-->
 
             <!-- Registered Number-->
-            <div class="col-md-4">
+            <div class="col">
               <mat-form-field>
                 <input
                   matInput
@@ -446,12 +474,11 @@
               <mat-form-field>
                 <mat-toolbar>
                   <!-- Display files names -->
-                  <input readonly [disabled]="button1Status === 'V'" matInput />
+                  <input readonly matInput />
                 </mat-toolbar>
 
                 <!-- Fetch selected filed on change -->
                 <input
-                  [disabled]="button1Status === 'V'"
                   class="form-control"
                   type="file"
                   accept="image/*"
@@ -461,6 +488,7 @@
                 <mat-hint align="end">Upload Bill Photo </mat-hint>
 
                 <mat-checkbox
+                  [disabled]="formId === 0 || null"
                   [(ngModel)]="isChecked"
                   color="warn"
                   formControlName="lastBillEdit"
@@ -512,7 +540,8 @@
                 mat-raised-button
                 color="primary"
                 (click)="onRegister()"
-                [class.spinner]="loading" [disabled]="loading"
+                [class.spinner]="loading"
+                [disabled]="loading"
                 [disabled]="!registerForm.valid"
               >
                 Save

@@ -29,6 +29,7 @@ export class Letter {
   photoOption: string;
   collegeAddress: string;
   collegeName: string;
+  university: string;
 
   postalAddress: PostalAddress;
   letterReceiver: LetterReceiver;

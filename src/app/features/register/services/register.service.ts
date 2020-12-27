@@ -108,7 +108,7 @@ export class RegisterService {
   }
   // print
   getPrintDetails(id: number): any {
-    return this.http.get(`${this.API_URL}auth/letter/print?id=${id}`).pipe(
+    return this.http.get(`${this.API_URL}auth/letter/verify/detail?id=${id}`).pipe(
       catchError((err) => {
         return throwError(err);
       })

@@ -15,13 +15,10 @@ import { finalize } from 'rxjs/operators';
 export class RegisterFormComponent implements OnInit {
   // props
 
+  registerForm: FormGroup;
+  letter = new Letter();
   letterFormValues$: Observable<Letter>;
   letterDetails$: Observable<Letter>;
-
-  mode = 'add';
-  otherId = 1;
-  letterStatus = 'V' || 'P' || 'R';
-
   // letterReciverId: any;
 
   addOtherFields = false;
@@ -30,9 +27,15 @@ export class RegisterFormComponent implements OnInit {
   loading = false;
   addOptionalPhoto = false;
   isChecked = true;
-  isLastBillEdited = 'Edit Bill';
 
+  postalOtherId = 1;
+  affiliatedOtherId: number = 1;
+  formId: number;
   selectedLetterReceiverId: number;
+
+  mode = 'add';
+  isLastBillEdited = 'Edit Bill';
+  letterStatus = 'V' || 'P' || 'R';
 
   dob: string;
   fileName: string;
@@ -42,9 +45,6 @@ export class RegisterFormComponent implements OnInit {
   button2Status: string;
   selectedLetterReceiver: string;
   selectedCollegeAff: string;
-
-  registerForm: FormGroup;
-  letter = new Letter();
 
   licenceImage: File | null;
   billImage: File | null;
@@ -68,13 +68,12 @@ export class RegisterFormComponent implements OnInit {
   }
 
   fetchLetterFormValues() {
-    console.log('fetching default fom values');
-
     this.letterFormValues$ = this.registerService.getLetterForm().subscribe(
       (data) => {
         console.log('default form valuuuuse ' + data);
 
         this.letter = data.form;
+        this.formId = data.form.id;
         this.affiliationCollegeList = data.affiliationCollegeList;
         this.letterReceiverList = data.letterReceiverList;
         this.postalAddressList = data.postalAddressList; // for drop-down display
@@ -91,11 +90,7 @@ export class RegisterFormComponent implements OnInit {
   }
 
   onSearch(regId: number) {
-    console.log('inside serarch' + regId);
-
     this.spinner.show();
-    /* this.registerForm.reset();
-     this.mode = 'edit'; */
     this.registerService
       .getSearchDetails(regId)
       .pipe(finalize(() => this.spinner.hide()))
@@ -103,8 +98,8 @@ export class RegisterFormComponent implements OnInit {
         (data) => {
           if (data.form.id !== 0) {
             this.mode = 'edit';
-
             this.letter = data.form;
+            this.formId = data.form.id; // enabling checkbox
             this.licenceImage = data.form.photoLicence;
             this.billImage = data.form.photoBill;
             this.button1Status = this.letter.status;
@@ -132,12 +127,13 @@ export class RegisterFormComponent implements OnInit {
   buildRegisterForm() {
     if (this.mode == 'add') {
       this.registerForm = this.formBuilder.group({
-        regNo: [this.letter.regNo],
+        regNo: [this.letter.regNo], //EDIT SAVED WITH REGNO
         issueDate: [this.letter.issueDate],
-        expDate: [this.letter.regNo],
+        expDate: [this.letter.expDate],
         name: [this.letter.name],
         address: [this.letter.address],
         wardNo: [this.letter.wardNo],
+        university: [this.letter.university],
         collegeName: [this.letter.collegeName],
         collegeAddress: [this.letter.collegeAddress],
         dob: [this.letter.dob],
@@ -198,35 +194,54 @@ export class RegisterFormComponent implements OnInit {
 
     this.isSubmitted = true;
     if (this.registerForm.valid) {
-      if (this.mode === 'add') {
-        this.registerService.register(this.registerForm.value).subscribe(
-          (data) => {
-            this.loading = false;
-            data = data.message
-              ? this.toastr.success(data.message)
-              : this.toastr.success('Student saved successfully');
-            location.reload();
-          },
-          (err) => {
-            err = err.error.message
-              ? this.toastr.error(err.error.message)
-              : this.toastr.error('Error while saving letter.');
-            this.loading = false;
-          }
-        );
-      } else {
-        /* edit case ma postal address pani check garne  */
+      if (this.mode) {
+        if (this.selectedLetterReceiverId === 1) {
+          this.registerForm.controls['postalAddress'].reset();
+          this.registerService.register(this.registerForm.value).subscribe(
+            (data) => {
+              this.loading = false;
+              data = data.message
+                ? this.toastr.success(data.message)
+                : this.toastr.success('Student saved successfully');
+              location.reload();
+            },
+            (err) => {
+              err = err.error.message
+                ? this.toastr.error(err.error.message)
+                : this.toastr.error('Error while saving letter.');
+              this.loading = false;
+            }
+          );
+        } else {
+          this.registerForm.controls['address1'].reset();
+          this.registerForm.controls['address2'].reset();
+          this.registerForm.controls['address3'].reset();
+
+          this.registerService.register(this.registerForm.value).subscribe(
+            (data) => {
+              this.loading = false;
+              data = data.message
+                ? this.toastr.success(data.message)
+                : this.toastr.success('Student saved successfully');
+              location.reload();
+            },
+            (err) => {
+              err = err.error.message
+                ? this.toastr.error(err.error.message)
+                : this.toastr.error('Error while saving letter.');
+              this.loading = false;
+            }
+          );
+        }
+      }
+      /*   else {
         // selected letterReceiver Other ho vane postalAddress formControl lai reset garne
         // if id=3 vayo vane reset garne
         console.log('inside edit letterRecId ' + this.selectedLetterReceiverId);
         if (this.selectedLetterReceiverId === 1) {
-          console.log('inside other edit ');
-
           // reset previous postalAddress formControl Value and save the form
-
           this.registerForm.controls['postalAddress'].reset();
 
-          /* test */
           this.registerService.register(this.registerForm.value).subscribe(
             (data) => {
               data = data.message
@@ -240,11 +255,12 @@ export class RegisterFormComponent implements OnInit {
                 : this.toastr.error('Error while saving letter.');
             }
           );
-          /* test end */
+
         } else {
           console.log('outside other edit ');
-
-          // save the form
+          this.registerForm.controls['address1'].reset();
+          this.registerForm.controls['address2'].reset();
+          this.registerForm.controls['address3'].reset();
           this.registerService.register(this.registerForm.value).subscribe(
             (data) => {
               data = data.message
@@ -259,7 +275,7 @@ export class RegisterFormComponent implements OnInit {
             }
           );
         }
-      }
+      } */
     } else {
       console.log('invalid register form');
     }
@@ -275,11 +291,11 @@ export class RegisterFormComponent implements OnInit {
     location.reload();
   }
 
-  disablePhotoUpload() {
-    this.mode === 'edit' && this.button1Status == 'V'
-      ? this.registerForm.get('photoBill').disable()
-      : this.registerForm.get('photoBill').enable();
-  }
+  // disablePhotoUpload() {
+  //   this.mode === 'edit' && this.button1Status == 'V'
+  //     ? this.registerForm.get('photoBill').disable()
+  //     : this.registerForm.get('photoBill').enable();
+  // }
   /* img to base64 conversion */
   onImageChange($event, imageType) {
     console.log('image type ' + imageType);
@@ -336,7 +352,7 @@ export class RegisterFormComponent implements OnInit {
 
   selectPostalAddress(id: number) {
     this.selectedLetterReceiverId = id;
-    if (id === this.otherId) {
+    if (id === this.postalOtherId) {
       this.addOtherFields = true;
       this.addOptionalPhoto = false;
       this.postalAddressList = [];
@@ -354,6 +370,12 @@ export class RegisterFormComponent implements OnInit {
         (f) => f.letterReceiverId === id
       );
     }
+  }
+
+  seletAffiliationCollege(id: number) {
+    console.log(id);
+
+    this.affiliatedOtherId = id;
   }
 
   lastBillEdited(checked) {

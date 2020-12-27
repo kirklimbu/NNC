@@ -1,26 +1,22 @@
 <!-- test print section -->
 <div class="content-wrapper">
+  <div class="row no-gutters" id="header">
+    <div class="col-md-3 mt-2 mb-2 ml-3">
+      <img src="/assets/images/nnc_logo.png" alt="logotipo" class="logotipo" />
+    </div>
+
+    <div class="col-md-7">
+      <h2 class="text-center mt-2">Nepal Nursing Council</h2>
+      <h6 class="text-center mt-2">
+        Estd. Under Nepal Nursing Council Act, 2053,(1996)
+      </h6>
+    </div>
+  </div>
   <div id="print-section">
     <div class="container-fluid">
-      <div class="row no-gutters" id="header">
-        <div class="col-md-3 mt-2 mb-2">
-          <img
-            src="/assets/images/nnc_logo.png"
-            alt="logotipo"
-            class="logotipo"
-          />
-        </div>
-
-        <div class="col-md-7">
-          <h2 class="text-center mt-2">Nepal Nursing Council</h2>
-          <h6 class="text-center mt-2">
-            Estd. Under Nepal Nursing Council Act, 2053,(1996)
-          </h6>
-        </div>
-      </div>
       <hr class="divider" />
 
-      <div class="row no-gutters ">
+      <div class="row no-gutters">
         <!-- <div class="col-md-1">
           <p>Date:</p>
         </div> -->
@@ -33,7 +29,7 @@
         <!-- <div class="col-1 mb-2">Ref:</div> -->
 
         <div class="col-10 mb-2">
-           <p>TEXAS BOARD OF NURSING</p>
+          <p>TEXAS BOARD OF NURSING</p>
           <p>333 Gaudalupe - Suite 3-460</p>
           <p>Austin, Texas 78701</p>
           <p>USA</p>
@@ -53,7 +49,8 @@
         </div>
         <div class="col-md-12 mt-3">
           <p class="disclaimer mt-3 mb-3">
-            This is to certify that Ms. <b>{{ printDetails.name }}</b
+            This is to certify that Ms.
+            <b>{{ printDetails.name | titlecase }}</b
             >, a resident of {{ printDetails.address }},ward num {{ wardNo }} is
             a Registered Nurse.Her Registration number according to the record
             of this council is <b>{{ printDetails.regNo }}</b
@@ -61,16 +58,16 @@
           </p>
           <p class="disclaimer mt-4">
             She completed her 3 Years Proficiency Certificate Level in Nursing
-            from {{ printDetails.collegeName }},{{
-              printDetails.collegeAddress
+            from {{ printDetails.collegeName | titlecase }},{{
+              printDetails.collegeAddress | titlecase
             }}
             dated {{ regDate }}, which is affiliated to
-            {{ printDetails.affiliationCollege.name }}.
+            {{ printDetails.affiliationCollege.name | titlecase }}.
           </p>
           <p class="mt-4 mb-1 disclaimer">Other informations are as follows:</p>
 
           <ul class="info-list disclaimer">
-            <li>Date of birth:{{ printDetails.dob }}</li>
+            <li>Date of birth:{{ printDetails.dob | date }}</li>
             <li>Registration issued date:{{ regIssueDate }}</li>
             <li>Registration expiry date:{{ regExpDate }}</li>
             <li>Registration: {{ Registration }}</li>
