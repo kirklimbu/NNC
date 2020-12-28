@@ -17,6 +17,8 @@ import { finalize, map } from 'rxjs/operators';
 })
 export class RegisteredListComponent implements OnInit {
   // props
+  startDate = new Date();
+  endDate = new Date();
   filterForm: FormGroup;
   displayedColumns: string[] = ['Id', 'name', 'regNo', 'Action'];
   letterListDataSource: MatTableDataSource<any>;
@@ -27,6 +29,7 @@ export class RegisteredListComponent implements OnInit {
     { name: 'Verified', value: 'V' },
     { name: 'Pending', value: 'P' },
     { name: 'Rejected', value: 'R' },
+    { name: 'Print', value: 'PR' },
   ];
   isVerified = false;
 
@@ -49,7 +52,10 @@ export class RegisteredListComponent implements OnInit {
   buildFilterForm() {
     // this.spinner.show();
     this.filterForm = this.fb.group({
-      status: ['P'],
+      status: [],
+      fromDate: [],
+      toDate: [],
+      dateRange: [],
     });
   }
   fetchLetterList() {
@@ -86,7 +92,7 @@ export class RegisteredListComponent implements OnInit {
       queryParams: { id: letter.id },
     });
   }
-// START FROM HERE AFTER BREAK
+  // START FROM HERE AFTER BREAK
   onFilter(status) {
     if (status !== 'V') {
       this.isVerified = false;
@@ -98,10 +104,10 @@ export class RegisteredListComponent implements OnInit {
         };
     } else {
       this.isVerified = true;
-      (this.letterListDataSource$ = this.registerService
-        .getFilteredLetters(status)
+      (this.letterListDataSource$ = this.registerService.getFilteredLetters(
+        status
+      )),
         // .pipe(map((data: any) => data.filter((p) => p.id == 3)))
-        ),
         (err) => {
           this.toastr.error(err.message);
         };
@@ -117,5 +123,17 @@ export class RegisteredListComponent implements OnInit {
 
   doFilter(value: string) {
     this.letterListDataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  onSearch() {
+    console.log(JSON.stringify(this.filterForm.value));
+
+    this.spinner.show();
+    (this.letterListDataSource$ = this.registerService
+      .getSearchStudent(this.filterForm.value)
+      .pipe(finalize(() => this.spinner.hide()))),
+      (err) => {
+        this.toastr.error(err.message);
+      };
   }
 }

@@ -2,27 +2,8 @@
   width: 100%;
 }
 
-.list-template {
-  background-color: #e9ecef;
-  // height: 40px;
-  // margin-bottom: 16px;
-  // margin: 30px;
-}
-
-mat-form-field {
-  padding: 0.25rem;
-}
-mat-form-field {
-  .search {
-    padding: 0.25rem;
-    // margin-left: 12rem;
-    // float: right;
-  }
-}
 .top-bar-items {
-  display: inline;
-}
-
-form {
-  margin-top: 2rem;
+  display: grid;
+  gap: 0.25rem;
+  grid-auto-flow: column;
 }

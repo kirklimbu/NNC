@@ -8,7 +8,11 @@ import { LoginService } from 'src/app/features/login/services/login.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  // props
+  isLoggedIn$: Observable<boolean>;
+  constructor(private loginService: LoginService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isLoggedIn$ = this.loginService.isLoggedIn;
+  }
 }

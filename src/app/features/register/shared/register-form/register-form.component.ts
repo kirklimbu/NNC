@@ -34,7 +34,7 @@ export class RegisterFormComponent implements OnInit {
   selectedLetterReceiverId: number;
 
   mode = 'add';
-  isLastBillEdited = 'Edit Bill';
+  isLastBillEdited = 'Add new bill';
   letterStatus = 'V' || 'P' || 'R';
 
   dob: string;
@@ -149,7 +149,7 @@ export class RegisterFormComponent implements OnInit {
         photoBillChange: [this.letter.photoBillChange],
         photoOption: [this.letter.photoOption],
         photoOptionChange: [this.letter.photoOptionChange],
-        lastBillEdit: [this.letter.lastBillEdit],
+        addNewBill: [this.letter.addNewBill],
         address1: [this.letter.address1],
         address2: [this.letter.address2],
         address3: [this.letter.address3],
@@ -176,7 +176,7 @@ export class RegisterFormComponent implements OnInit {
         photoBill: [this.letter.photoBill],
         photoOption: [this.letter.photoOption],
         photoOptionChange: [this.letter.photoOptionChange],
-        lastBillEdit: [this.letter.lastBillEdit],
+        addNewBill: [this.letter.addNewBill],
         address1: [this.letter.address1],
         address2: [this.letter.address2],
         address3: [this.letter.address3],
@@ -383,7 +383,7 @@ export class RegisterFormComponent implements OnInit {
   }
 
   lastBillEdited(checked) {
-    this.isLastBillEdited = checked ? 'Edit Bill' : 'Add New Bill';
+    this.isLastBillEdited = checked ? 'Add New Bill' : ' Edit Bill';
   }
 
   toggleGallary(e) {

@@ -35,7 +35,9 @@ $nepalNursingCouncil-theme: mat-light-theme(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($nepalNursingCouncil-theme);
+@import "mat-daterangepicker/mat-daterangepicker.theme.scss";
 
+// @include mat-daterangepicker-theme($theme);
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
 

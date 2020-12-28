@@ -143,7 +143,7 @@ export class VerifyLetterComponent implements OnInit {
       photoBillChange: [this.letter.photoBillChange],
       photoOption: [this.letter.photoOption],
       photoOptionChange: [this.letter.photoOptionChange],
-      lastBillEdit: [this.letter.lastBillEdit],
+      addNewBill: [this.letter.addNewBill],
       address1: [this.letter.address1],
       address2: [this.letter.address2],
       address3: [this.letter.address3],
@@ -199,7 +199,7 @@ export class VerifyLetterComponent implements OnInit {
     this.letterVerifyForm.get('letterReceiver').disable();
     this.letterVerifyForm.get('postalAddress').disable();
 
-    // this.letterVerifyForm.get('lastBillEdit').disable();
+    // this.letterVerifyForm.get('addNewBill').disable();
     // this.letterVerifyForm.disable();
   }
 }

@@ -6,7 +6,8 @@ export class Letter {
   wardNo: number;
 
   print: boolean;
-  lastBillEdit: boolean;
+  // lastBillEdit: boolean;
+  addNewBill: boolean;
   photoBillChange: boolean;
   photoOptionChange: boolean;
   photoLicenceChange: boolean;

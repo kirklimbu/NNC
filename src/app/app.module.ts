@@ -30,7 +30,7 @@ export function tokenGetter() {
     NgxSpinnerModule,
 
     ToastrModule.forRoot({
-      timeOut: 10000,
+      timeOut: 7000,
       positionClass: 'toast-bottom-right',
       autoDismiss: true,
       closeButton: true,

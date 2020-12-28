@@ -29,6 +29,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { NgMatSearchBarModule } from 'ng-mat-search-bar';
 import { SearchFieldModule } from 'ngx-mat-search-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+// import { MatDaterangepickerModule } from 'mat-daterangepicker';
 
 const material = [
   MatTableModule,
@@ -58,6 +59,7 @@ const material = [
   NgMatSearchBarModule,
   SearchFieldModule,
   MatSlideToggleModule,
+  // MatDaterangepickerModule,
 ];
 
 @NgModule({
