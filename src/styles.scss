@@ -124,6 +124,10 @@ input:disabled,
 input[disabled] {
   cursor: not-allowed !important;
 }
+
+mat-icon {
+  padding-top: 0.25rem;
+}
 /* side-bar/info-bar */
 
 /* Responsive Styles */

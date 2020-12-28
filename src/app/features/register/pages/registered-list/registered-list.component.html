@@ -1,23 +1,23 @@
 <div class="content-wrapper">
   <mat-card-actions>
-    <form [formGroup]="filterForm">
-      <div class="row top-bar-items">
-        <div class="col-md-3">
-          <mat-form-field appearance="fill">
-            <mat-label>Filter table information</mat-label>
-            <mat-select disableOptionCentering="true" formControlName="status">
-              <mat-option
-                *ngFor="let status of letterStatuses"
-                [value]="status.value"
-              >
-                {{ status.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-md-3">
-          <!-- test filter -->
-          <!-- <mat-form-field>
+    <!-- <form [formGroup]="filterForm"> -->
+    <div class="row top-bar-items">
+      <div class="col-md-3">
+        <mat-form-field appearance="fill">
+          <mat-label>Filter table information</mat-label>
+          <mat-select disableOptionCentering="true" [(ngModel)]="status">
+            <mat-option
+              *ngFor="let status of letterStatuses"
+              [value]="status.value"
+            >
+              {{ status.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <!-- test filter -->
+        <!-- <mat-form-field>
             <input
               class="search"
               matInput
@@ -26,53 +26,46 @@
               placeholder="Search"
             />
           </mat-form-field> -->
-          <!-- test filter end -->
-        </div>
-        <div class="col-md-3">
-          <!-- date1 filter -->
-          <mat-form-field appearance="fill" disableOptionCentering="true">
-            <mat-label>From Date</mat-label>
-            <input
-              matInput
-              [matDatepicker]="picker"
-              formControlName="fromDate"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-
-          <!-- date1 filter end -->
-        </div>
-        <div class="col-md-3">
-          <!-- date2 filter -->
-          <mat-form-field appearance="fill">
-            <mat-label>To date</mat-label>
-            <input
-              matInput
-              [matDatepicker]="picker2"
-              formControlName="toDate"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker2"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker>
-          </mat-form-field>
-
-          <!-- date2 filter end -->
-        </div>
-        <button mat-icon-button (click)="onSearch()">
-          <mat-icon>search</mat-icon>
-        </button>
+        <!-- test filter end -->
       </div>
-    </form>
+      <div class="col-md-3">
+        <!-- date1 filter -->
+        <mat-form-field appearance="fill" disableOptionCentering="true">
+          <mat-label>From Date</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="fromDate" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- date1 filter end -->
+      </div>
+      <div class="col-md-3">
+        <!-- date2 filter -->
+        <mat-form-field appearance="fill">
+          <mat-label>To date</mat-label>
+          <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+        <!-- date2 filter end -->
+      </div>
+      <button mat-icon-button (click)="searchFor()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+    <!-- </form> -->
   </mat-card-actions>
 
   <div class="col p-0 y-auto list-template">
     <!-- student table -->
+
     <table
       [dataSource]="letterListDataSource$ | async"
       mat-table
@@ -134,6 +127,12 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <mat-toolbar
+      align="center"
+      *ngIf="!(letterListDataSource$ | async)?.length"
+    >
+      <mat-icon>report_problem</mat-icon>No Data Available
+    </mat-toolbar>
     <!-- / student table -->
   </div>
 </div>

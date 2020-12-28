@@ -448,7 +448,7 @@
               <!-- upload licence photo  -->
             </div>
             <!--  alt photo-->
-            <ng-container *ngIf="addOptionalPhoto">
+            <ng-container *ngIf="letterReceiverOption[0].option === true">
               <div class="col form-group">
                 <!-- upload licence photo  -->
                 <mat-form-field>
@@ -492,7 +492,7 @@
                   [disabled]="formId === 0 || null"
                   [(ngModel)]="isChecked"
                   color="warn"
-                  formControlName="lastBillEdit"
+                  formControlName="addNewBill"
                   (change)="lastBillEdited($event.checked)"
                   >{{ isLastBillEdited }}</mat-checkbox
                 >

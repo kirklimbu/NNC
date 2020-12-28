@@ -27,6 +27,8 @@ export class RegisterFormComponent implements OnInit {
   loading = false;
   addOptionalPhoto = false;
   isChecked = true;
+  addNewBillStatus: boolean;
+  letterReceiverOption: any;
 
   postalOtherId = 1;
   affiliatedOtherId: number = 1;
@@ -72,14 +74,19 @@ export class RegisterFormComponent implements OnInit {
   fetchLetterFormValues() {
     this.letterFormValues$ = this.registerService.getLetterForm().subscribe(
       (data) => {
-        console.log('default form valuuuuse ' + data);
-
         this.letter = data.form;
         this.formId = data.form.id;
         this.affiliationCollegeList = data.affiliationCollegeList;
         this.letterReceiverList = data.letterReceiverList;
+        this.letterReceiverOption = data.letterReceiverList.filter(
+          (f) => f.option === true
+        ); // loop lagaunu perxa
+        console.log(this.letterReceiverOption);
+        console.log(this.letterReceiverOption[0].option);
+
         this.postalAddressList = data.postalAddressList; // for drop-down display
         this.addressList = data.postalAddressList; // for changing drop-down values display
+        this.addNewBillStatus = this.letter.addNewBill; // for changing drop-down values display
 
         this.buildRegisterForm();
       },
@@ -106,6 +113,7 @@ export class RegisterFormComponent implements OnInit {
             this.licenceImage = data.form.photoLicence;
             this.billImage = data.form.photoBill;
             this.oldBills = data.form.requestList;
+            this.addNewBillStatus = data.form.addNewBill;
             // this.button1Status = this.letter.status;
 
             // this.disablePhotoUpload();
@@ -353,12 +361,12 @@ export class RegisterFormComponent implements OnInit {
   compareFn(optionOne, optionTwo): boolean {
     return optionOne.id === optionTwo.id;
   }
-
+// START FROM HERE
   selectPostalAddress(id: number) {
     this.selectedLetterReceiverId = id;
     if (id === this.postalOtherId) {
       this.addOtherFields = true;
-      this.addOptionalPhoto = false;
+      this.addOptionalPhoto = false; //YESLAI HATAYERA OPTION STATUS KO ANUSAR OPTINALpHOTO SHOW GARNE
       this.postalAddressList = [];
       return;
     } else if (id === 2) {

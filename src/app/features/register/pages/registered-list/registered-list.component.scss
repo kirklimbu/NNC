@@ -7,3 +7,7 @@
   gap: 0.25rem;
   grid-auto-flow: column;
 }
+mat-toolbar {
+  display: flex;
+  flex-direction: column;
+}

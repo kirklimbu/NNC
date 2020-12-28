@@ -116,9 +116,13 @@ export class RegisterService {
       );
   }
 
-  getSearchStudent(search: Letter) {
+  getSearchStudent(status, fromDate, toDate) {
+    console.log('calling search service');
+
     return this.http
-      .post(`${this.API_URL}auth/letter/verify/list`, { ...search })
+      .get(
+        `${this.API_URL}auth/letter/verify/list?status=${status}&fromDate=${fromDate}&toDate=${toDate}`
+      )
       .pipe(
         catchError((err) => {
           return throwError(err);

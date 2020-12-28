@@ -19,6 +19,9 @@ export class RegisteredListComponent implements OnInit {
   // props
   startDate = new Date();
   endDate = new Date();
+  fromDate = new Date();
+  toDate = new Date();
+  status: any;
   filterForm: FormGroup;
   displayedColumns: string[] = ['Id', 'name', 'regNo', 'Action'];
   letterListDataSource: MatTableDataSource<any>;
@@ -46,7 +49,7 @@ export class RegisteredListComponent implements OnInit {
     // this.fetchLetterList();
     this.fetchLetterList();
     this.fetchPendingLetterList();
-    this.buildFilterForm();
+    // this.buildFilterForm();
   }
 
   buildFilterForm() {
@@ -125,15 +128,16 @@ export class RegisteredListComponent implements OnInit {
     this.letterListDataSource.filter = value.trim().toLocaleLowerCase();
   }
 
-  onSearch() {
-    console.log(JSON.stringify(this.filterForm.value));
+  searchFor() {
+    console.log(this.status, this.fromDate, this.toDate);
 
     this.spinner.show();
     (this.letterListDataSource$ = this.registerService
-      .getSearchStudent(this.filterForm.value)
+      .getSearchStudent(this.status, this.fromDate, this.toDate)
       .pipe(finalize(() => this.spinner.hide()))),
       (err) => {
         this.toastr.error(err.message);
       };
+    console.log(this.letterListDataSource$);
   }
 }
