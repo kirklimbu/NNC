@@ -87,7 +87,7 @@
               <mat-form-field>
                 <input
                   matInput
-                  type="text"
+                  type="number"
                   placeholder=" Mobile number"
                   formControlName="mobileNo"
                   id="lname"
@@ -182,30 +182,7 @@
             </div>
             <!--/
                  College Address -->
-            <!-- university  -->
-            <ng-container *ngIf="affiliatedOtherId === undefined">
-              <div class="col">
-                <mat-form-field>
-                  <input
-                    matInput
-                    type="text"
-                    placeholder="University"
-                    formControlName="university"
-                    id="college"
-                    fxlayoutalign="column"
-                  />
-                  <mat-hint align="end">Enter University name</mat-hint>
-                  <!--  <mat-error *ngIf="hasError('name', 'required')"
-      >Last Name is required</mat-error
-    >
-    <mat-error *ngIf="hasError('name', 'maxlength')"
-      >Enter last name</mat-error
-    > -->
-                </mat-form-field>
-              </div>
-              <!-- / collegeName-->
-            </ng-container>
-            <!-- university end -->
+
             <!-- collegeName-->
             <div class="col">
               <mat-form-field>
@@ -228,7 +205,7 @@
             </div>
             <!-- / collegeName-->
 
-            <!-- Registered Number-->
+            <!-- collegeAddress-->
             <div class="col">
               <mat-form-field>
                 <input
@@ -248,13 +225,39 @@
               > -->
               </mat-form-field>
             </div>
-            <!-- College Name end -->
+            <!-- collegeAddress end -->
+            <!-- university  -->
+            <ng-container
+              *ngIf="addUniversity === true || affiliationCollegeId === 1"
+            >
+              <div class="col">
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="University"
+                    formControlName="university"
+                    id="college"
+                    fxlayoutalign="column"
+                  />
+                  <mat-hint align="end">Enter University name</mat-hint>
+                  <!--  <mat-error *ngIf="hasError('name', 'required')"
+      >Last Name is required</mat-error
+    >
+    <mat-error *ngIf="hasError('name', 'maxlength')"
+      >Enter last name</mat-error
+    > -->
+                </mat-form-field>
+              </div>
+              <!-- / collegeName-->
+            </ng-container>
+            <!-- university end -->
           </div>
           <!-- third row end -->
 
           <!-- fourth row  -->
           <div class="row">
-            <!--  letterReceiver -->
+            <!--  Registered Number -->
             <div class="col-md-4">
               <mat-form-field class="=full-width">
                 <input
@@ -324,7 +327,7 @@
                 <mat-select
                   formControlName="letterReceiver"
                   [compareWith]="compareFn"
-                  (selectionChange)="selectPostalAddress($event.value.id)"
+                  (selectionChange)="selectPostalAddress($event.value)"
                 >
                   <mat-option
                     *ngFor="let item of letterReceiverList"
@@ -336,7 +339,10 @@
               </mat-form-field>
             </div>
             <!-- letter receiver -->
-            <div class="col-md-4">
+            <div
+              class="col-md-4"
+              *ngIf="selectedLetterReceiverId !== 1 || hidePostalAddress"
+            >
               <mat-form-field>
                 <mat-label>Postal Address</mat-label>
                 <mat-select
@@ -346,7 +352,7 @@
                   <mat-option
                     *ngFor="let item of postalAddressList"
                     [value]="item"
-                    >{{ item.name }}, {{ item.address1 }}</mat-option
+                    >{{ item.address2 }}, {{ item.address1 }}</mat-option
                   >
                 </mat-select>
                 <mat-hint align="end">Select letter receiver</mat-hint>
@@ -448,7 +454,7 @@
               <!-- upload licence photo  -->
             </div>
             <!--  alt photo-->
-            <ng-container *ngIf="letterReceiverOption[0].option === true">
+            <ng-container *ngIf="letterReceiverOption === true">
               <div class="col form-group">
                 <!-- upload licence photo  -->
                 <mat-form-field>
@@ -489,7 +495,6 @@
                 <mat-hint align="end">Upload Bill Photo </mat-hint>
 
                 <mat-checkbox
-                  [disabled]="formId === 0 || null"
                   [(ngModel)]="isChecked"
                   color="warn"
                   formControlName="addNewBill"

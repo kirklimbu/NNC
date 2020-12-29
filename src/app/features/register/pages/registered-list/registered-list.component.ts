@@ -64,9 +64,12 @@ export class RegisteredListComponent implements OnInit {
   fetchLetterList() {
     this.spinner.show();
 
-    this.letterListDataSource$ = this.registerService
+    (this.letterListDataSource$ = this.registerService
       .getLetterList()
-      .pipe(finalize(() => this.spinner.hide()));
+      .pipe(finalize(() => this.spinner.hide()))),
+      (err) => {
+        this.toastr.error(err.message);
+      };
   }
   fetchPendingLetterList() {
     this.spinner.show();

@@ -1,3 +1,4 @@
+import { LetterReceiver } from './../../../../core/models/letter-receiver.model';
 import { Letter } from '../../../../core/models/letter.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -28,11 +29,15 @@ export class RegisterFormComponent implements OnInit {
   addOptionalPhoto = false;
   isChecked = true;
   addNewBillStatus: boolean;
+  hidePostalAddress: boolean;
+  addUniversity = false;
   letterReceiverOption: any;
 
   postalOtherId = 1;
   affiliatedOtherId: number = 1;
+  letterReceiverId: number;
   formId: number;
+  affiliationCollegeId: number;
   selectedLetterReceiverId: number;
 
   mode = 'add';
@@ -80,10 +85,7 @@ export class RegisterFormComponent implements OnInit {
         this.letterReceiverList = data.letterReceiverList;
         this.letterReceiverOption = data.letterReceiverList.filter(
           (f) => f.option === true
-        ); // loop lagaunu perxa
-        console.log(this.letterReceiverOption);
-        console.log(this.letterReceiverOption[0].option);
-
+        ); // for optionPhoto
         this.postalAddressList = data.postalAddressList; // for drop-down display
         this.addressList = data.postalAddressList; // for changing drop-down values display
         this.addNewBillStatus = this.letter.addNewBill; // for changing drop-down values display
@@ -114,12 +116,12 @@ export class RegisterFormComponent implements OnInit {
             this.billImage = data.form.photoBill;
             this.oldBills = data.form.requestList;
             this.addNewBillStatus = data.form.addNewBill;
-            // this.button1Status = this.letter.status;
-
-            // this.disablePhotoUpload();
+            // START FROM HERE... EDIT CASE MA UNIVERSITY RA ADDRESS1 2 3 AAKO XAENA
+            this.letterReceiverId = this.letter.letterReceiver.id;
+            this.affiliationCollegeId = this.letter.affiliationCollege.id; // university field display ko lagi
+            console.log('LETTER RECECIVER ID' + this.letterReceiverId);
+            this.hideLetterReceiver();
             this.buildRegisterForm();
-          } else {
-            // this.toastr.error('You are not Registered.');
           }
         },
         (err) => {
@@ -129,10 +131,6 @@ export class RegisterFormComponent implements OnInit {
         }
       );
 
-    // this.letter = data.form;
-    // this.letterReceiverList = this.letter.postalAddress;
-    // this.disablePhotoUpload();
-    // this.selectPostalAddress(this.letter.letterReceiver.id);
     this.buildRegisterForm();
   }
 
@@ -174,6 +172,7 @@ export class RegisterFormComponent implements OnInit {
         name: [this.letter.name],
         address: [this.letter.address],
         wardNo: [this.letter.wardNo],
+        university: [this.letter.university],
         collegeName: [this.letter.collegeName],
         collegeAddress: [this.letter.collegeAddress],
         dob: [this.letter.dob],
@@ -303,21 +302,12 @@ export class RegisterFormComponent implements OnInit {
     location.reload();
   }
 
-  // disablePhotoUpload() {
-  //   this.mode === 'edit' && this.button1Status == 'V'
-  //     ? this.registerForm.get('photoBill').disable()
-  //     : this.registerForm.get('photoBill').enable();
-  // }
-  /* img to base64 conversion */
   onImageChange($event, imageType) {
-    console.log('image type ' + imageType);
     const file = $event.target.files[0];
     this.convertToBase64(file, imageType);
   }
 
   convertToBase64(file: File, imageType: string) {
-    console.log('image type ' + imageType);
-
     const observable = new Observable((subscriber: Subscriber<any>) => {
       this.readFile(file, subscriber);
     });
@@ -337,8 +327,8 @@ export class RegisterFormComponent implements OnInit {
         this.registerForm.controls['photoBillChange2'].setValue(true);
       }  */
         this.altImage = base64;
-        this.registerForm.controls['photoAlt'].setValue(this.altImage);
-        // this.registerForm.controls['altPhtoto'].setValue(true);
+        this.registerForm.controls['photoOption'].setValue(this.altImage);
+        this.registerForm.controls['photoOptionChange'].setValue(true);
       }
     });
   }
@@ -361,33 +351,34 @@ export class RegisterFormComponent implements OnInit {
   compareFn(optionOne, optionTwo): boolean {
     return optionOne.id === optionTwo.id;
   }
-// START FROM HERE
-  selectPostalAddress(id: number) {
-    this.selectedLetterReceiverId = id;
-    if (id === this.postalOtherId) {
+
+  selectPostalAddress(opt: LetterReceiver) {
+    this.letterReceiverOption = opt.option; //for photoOption
+    this.selectedLetterReceiverId = opt.id; // for postalAddress fields
+    /* for 'other' selection */
+    if (this.selectedLetterReceiverId === 1) {
+      this.selectedLetterReceiverId = 1;
       this.addOtherFields = true;
-      this.addOptionalPhoto = false; //YESLAI HATAYERA OPTION STATUS KO ANUSAR OPTINALpHOTO SHOW GARNE
+      this.addOptionalPhoto = this.letterReceiverOption; //YESLAI HATAYERA OPTION STATUS KO ANUSAR OPTINALpHOTO SHOW GARNE
       this.postalAddressList = [];
       return;
-    } else if (id === 2) {
-      this.addOptionalPhoto = true;
-      this.addOtherFields = false;
-      this.postalAddressList = this.addressList.filter(
-        (f) => f.letterReceiverId === id
-      );
     } else {
-      this.addOptionalPhoto = false;
+      /* for not 'other' selection */
+      this.addOptionalPhoto = this.letterReceiverOption;
       this.addOtherFields = false;
       this.postalAddressList = this.addressList.filter(
-        (f) => f.letterReceiverId === id
+        (f) => f.letterReceiverId === opt.id
       );
     }
   }
 
   seletAffiliationCollege(id: number) {
-    console.log(id);
-
-    this.affiliatedOtherId = id;
+    if (this.mode !== 'edit') {
+      id === 1 ? (this.addUniversity = true) : (this.addUniversity = false);
+    } else {
+      this.affiliationCollegeId = id; // univeristy field display ko lagi
+      this.registerForm.controls['university'].reset();
+    }
   }
 
   lastBillEdited(checked) {
@@ -398,5 +389,13 @@ export class RegisterFormComponent implements OnInit {
     this.showOldBills = !this.showOldBills;
     this.toggle =
       this.showOldBills !== true ? 'Show old bills' : 'Hide old bills';
+  }
+
+  hideLetterReceiver() {
+    console.log('calling hide leteer function' + this.letterReceiverId);
+
+    this.letterReceiverId === 1
+      ? (this.hidePostalAddress = true)
+      : (this.hidePostalAddress = false);
   }
 }
