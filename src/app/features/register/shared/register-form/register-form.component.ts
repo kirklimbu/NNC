@@ -206,10 +206,15 @@ export class RegisterFormComponent implements OnInit {
     this.isSubmitted = true;
     if (this.registerForm.valid) {
       if (this.mode) {
+        /* postalAddress 'other' selected*/
         if (this.selectedLetterReceiverId === 1) {
           this.registerForm.controls['postalAddress'].reset();
           this.registerService.register(this.registerForm.value).subscribe(
             (data) => {
+              console.log(
+                'other postal address selected vitra ' + JSON.stringify(data)
+              );
+
               this.loading = false;
               data = data.message
                 ? this.toastr.success(data.message)
@@ -224,13 +229,20 @@ export class RegisterFormComponent implements OnInit {
             }
           );
         } else {
+          /* postalAddress not 'other' selected*/
+          console.log('not other postal address selected vitra ' );
+
+
           this.registerForm.controls['address1'].reset();
           this.registerForm.controls['address2'].reset();
           this.registerForm.controls['address3'].reset();
 
           this.registerService.register(this.registerForm.value).subscribe(
             (data) => {
+              console.log('');
+
               this.loading = false;
+
               data = data.message
                 ? this.toastr.success(data.message)
                 : this.toastr.success('Student saved successfully');
@@ -363,6 +375,11 @@ export class RegisterFormComponent implements OnInit {
       this.postalAddressList = [];
       return;
     } else {
+      this.letterReceiverId = opt.id;
+      console.log(
+        'inside selectpostal address function ' + this.selectedLetterReceiverId
+      );
+
       /* for not 'other' selection */
       this.addOptionalPhoto = this.letterReceiverOption;
       this.addOtherFields = false;
@@ -394,8 +411,13 @@ export class RegisterFormComponent implements OnInit {
   hideLetterReceiver() {
     console.log('calling hide leteer function' + this.letterReceiverId);
 
-    this.letterReceiverId === 1
-      ? (this.hidePostalAddress = true)
-      : (this.hidePostalAddress = false);
+    if (this.letterReceiverId === 1) {
+      this.selectedLetterReceiverId = this.letterReceiverId;
+    } else {
+      this.selectedLetterReceiverId = this.letterReceiverId;
+    }
+    /* this.letterReceiverId === 1
+      ? (this.selectedLetterReceiverId = this.letterReceiverId;)
+      : (this.hidePostalAddress = false); */
   }
 }

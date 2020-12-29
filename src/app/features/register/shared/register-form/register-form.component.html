@@ -362,7 +362,7 @@
           </div>
           <!-- fifth row end -->
           <!-- conditional row display -->
-          <ng-container *ngIf="addOtherFields">
+          <ng-container *ngIf="addOtherFields || (letterReceiverId===1)">
             <section class="otherPostalAddress">
               <h2 class="label">Postal Address for others:</h2>
 

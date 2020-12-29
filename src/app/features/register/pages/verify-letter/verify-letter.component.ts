@@ -25,6 +25,7 @@ export class VerifyLetterComponent implements OnInit {
   letterDetails: LetterVerify;
   letterId: number;
   postalAddressId: number;
+  letterReceiverId: number;
   selected: string;
   letter = new Letter();
   affiliationCollegeList = [];
@@ -41,7 +42,7 @@ export class VerifyLetterComponent implements OnInit {
   addOptionalPhoto: Boolean = true;
   loading = false;
   showOldBills = false;
-  lastBillStatus
+  lastBillStatus;
 
   previewImageSrc: any;
   zoomImageSrc: any;
@@ -106,7 +107,9 @@ export class VerifyLetterComponent implements OnInit {
               this.billImage = data.photoBill;
               this.billImageList = data.requestList;
               this.lastBillStatus = data.lastBillEdit;
-              this.postalAddressId = data.postalAddress.letterReceiverId;
+              // this.postalAddressId = data.postalAddress.letterReceiverId;
+              this.letterReceiverId = this.letter.letterReceiver.id; // for changing drop-down values display
+
               this.buildVerifyForm();
             },
             (err) => {
@@ -126,12 +129,38 @@ export class VerifyLetterComponent implements OnInit {
 
   buildVerifyForm() {
     this.letterVerifyForm = this.formBuilder.group({
-      regNo: [this.letter.regNo],
+      /* regNo: [this.letter.regNo],
       issueDate: [this.letter.issueDate],
       expDate: [this.letter.expDate],
       name: [this.letter.name],
       address: [this.letter.address],
       wardNo: [this.letter.wardNo],
+      university: [this.letter.university],
+      collegeName: [this.letter.collegeName],
+      collegeAddress: [this.letter.collegeAddress],
+      dob: [this.letter.dob],
+      email: [this.letter.email],
+      mobileNo: [this.letter.mobileNo],
+      photoLicenceChange: [this.letter.photoLicenceChange],
+      photoLicence: [this.letter.photoLicence],
+      photoBill: [this.letter.photoBill],
+      photoBillChange: [this.letter.photoBillChange],
+      photoOption: [this.letter.photoOption],
+      photoOptionChange: [this.letter.photoOptionChange],
+      addNewBill: [this.letter.addNewBill],
+      address1: [this.letter.address1],
+      address2: [this.letter.address2],
+      address3: [this.letter.address3],
+      letterReceiver: [this.letter.letterReceiver],
+      postalAddress: [this.letter.postalAddress],
+      affiliationCollege: [this.letter.affiliationCollege], */
+      regNo: [this.letter.regNo], //EDIT SAVED WITH REGNO
+      issueDate: [this.letter.issueDate],
+      expDate: [this.letter.expDate],
+      name: [this.letter.name],
+      address: [this.letter.address],
+      wardNo: [this.letter.wardNo],
+      university: [this.letter.university],
       collegeName: [this.letter.collegeName],
       collegeAddress: [this.letter.collegeAddress],
       dob: [this.letter.dob],
@@ -198,6 +227,7 @@ export class VerifyLetterComponent implements OnInit {
     this.letterVerifyForm.get('dob').disable();
     this.letterVerifyForm.get('letterReceiver').disable();
     this.letterVerifyForm.get('postalAddress').disable();
+    this.letterVerifyForm.get('affiliationCollege').disable();
 
     // this.letterVerifyForm.get('addNewBill').disable();
     // this.letterVerifyForm.disable();
