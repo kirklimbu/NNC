@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <form novalidate role="form" [formGroup]="registerForm">
+  <form novalidate role="form" [formGroup]="registerForm" fxLayout="column">
     <div class="row mb-2">
       <div class="card registerCard">
         <div class="card-body">
@@ -157,10 +157,16 @@
           <!-- second row end -->
 
           <!-- third row  -->
-          <div class="row" style="display: flex; align-items: center">
+          <div
+            class="row"
+            fxLayout="row"
+            fxLayout.lt-md="column"
+            fxLayoutGap="20px"
+            fxLayoutGap.lt-md="0px"
+          >
             <!--  College Address -->
             <div class="col">
-              <mat-form-field>
+              <mat-form-field fxFlex>
                 <mat-label>Affiliation College</mat-label>
                 <mat-select
                   formControlName="affiliationCollege"
@@ -185,7 +191,7 @@
 
             <!-- collegeName-->
             <div class="col">
-              <mat-form-field>
+              <mat-form-field fxFlex>
                 <input
                   matInput
                   type="text"
@@ -207,7 +213,7 @@
 
             <!-- collegeAddress-->
             <div class="col">
-              <mat-form-field>
+              <mat-form-field fxFlex>
                 <input
                   matInput
                   type="text"
@@ -231,7 +237,7 @@
               *ngIf="addUniversity === true || affiliationCollegeId === 1"
             >
               <div class="col">
-                <mat-form-field>
+                <mat-form-field fxFlex>
                   <input
                     matInput
                     type="text"
@@ -497,6 +503,7 @@
                 <mat-hint align="end">Upload Bill Photo </mat-hint>
 
                 <mat-checkbox
+                  [disabled]="mode !== 'edit'"
                   [(ngModel)]="isChecked"
                   color="warn"
                   formControlName="addNewBill"

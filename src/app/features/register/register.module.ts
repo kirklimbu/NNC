@@ -13,6 +13,7 @@ import { NgxPrintModule } from 'ngx-print';
 import { VerifyLetterComponent } from './pages/verify-letter/verify-letter.component';
 import { PrintLetterComponent } from './pages/print-letter/print-letter.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LoginModule,
     NgxPrintModule,
     NgbModule,
+    FlexLayoutModule,
   ],
   providers: [DatePipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
