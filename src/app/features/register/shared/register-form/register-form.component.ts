@@ -1,3 +1,4 @@
+import { LetterVerifcationStatus } from './../../../../core/constants/letter-verifcation-status.enum';
 import { LetterReceiver } from './../../../../core/models/letter-receiver.model';
 import { Letter } from '../../../../core/models/letter.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -20,7 +21,6 @@ export class RegisterFormComponent implements OnInit {
   letter = new Letter();
   letterFormValues$: Observable<Letter>;
   letterDetails$: Observable<Letter>;
-  // letterReciverId: any;
 
   addOtherFields = false;
   showOldBills = false;
@@ -31,7 +31,7 @@ export class RegisterFormComponent implements OnInit {
   addNewBillStatus: boolean;
   hidePostalAddress: boolean;
   addUniversity = false;
-  letterReceiverOption: any;
+  letterReceiverOption: boolean;
 
   postalOtherId = 1;
   affiliatedOtherId: number = 1;
@@ -39,10 +39,6 @@ export class RegisterFormComponent implements OnInit {
   formId: number;
   affiliationCollegeId: number;
   selectedLetterReceiverId: number;
-
-  mode = 'add';
-  isLastBillEdited = 'Add new bill';
-  letterStatus = 'V' || 'P' || 'R';
 
   dob: string;
   fileName: string;
@@ -52,11 +48,15 @@ export class RegisterFormComponent implements OnInit {
   button2Status: string;
   selectedLetterReceiver: string;
   selectedCollegeAff: string;
+  optionalPhoto: string;
   toggle = 'Show old bills';
+  mode = 'add';
+  isLastBillEdited = 'Add new bill';
+  letterStatus = 'V' || 'P' || 'R';
 
   licenceImage: File | null;
   billImage: File | null;
-  altImage?: File | null;
+  altImage?: File | null | string;
 
   affiliationCollegeList: any[] = [];
   postalAddressList: any[] = [];
@@ -83,9 +83,7 @@ export class RegisterFormComponent implements OnInit {
         this.formId = data.form.id;
         this.affiliationCollegeList = data.affiliationCollegeList;
         this.letterReceiverList = data.letterReceiverList;
-        this.letterReceiverOption = data.letterReceiverList.filter(
-          (f) => f.option === true
-        ); // for optionPhoto
+        this.altImage = this.letter.photoOption;
         this.postalAddressList = data.postalAddressList; // for drop-down display
         this.addressList = data.postalAddressList; // for changing drop-down values display
         this.addNewBillStatus = this.letter.addNewBill; // for changing drop-down values display
@@ -114,12 +112,12 @@ export class RegisterFormComponent implements OnInit {
             this.affiliatedOtherId = data.form.affiliatedOtherId; // enabling checkbox
             this.licenceImage = data.form.photoLicence;
             this.billImage = data.form.photoBill;
+            this.altImage = data.form.photoOption;
             this.oldBills = data.form.requestList;
             this.addNewBillStatus = data.form.addNewBill;
-            // START FROM HERE... EDIT CASE MA UNIVERSITY RA ADDRESS1 2 3 AAKO XAENA
             this.letterReceiverId = this.letter.letterReceiver.id;
             this.affiliationCollegeId = this.letter.affiliationCollege.id; // university field display ko lagi
-            console.log('LETTER RECECIVER ID' + this.letterReceiverId);
+            // this.letterReceiverOptionStatus = this.letter.photoOption;
             this.hideLetterReceiver();
             this.buildRegisterForm();
           }
@@ -130,7 +128,6 @@ export class RegisterFormComponent implements OnInit {
             : this.toastr.error('Record no found');
         }
       );
-
     this.buildRegisterForm();
   }
 
@@ -211,10 +208,6 @@ export class RegisterFormComponent implements OnInit {
           this.registerForm.controls['postalAddress'].reset();
           this.registerService.register(this.registerForm.value).subscribe(
             (data) => {
-              console.log(
-                'other postal address selected vitra ' + JSON.stringify(data)
-              );
-
               this.loading = false;
               data = data.message
                 ? this.toastr.success(data.message)
@@ -229,20 +222,13 @@ export class RegisterFormComponent implements OnInit {
             }
           );
         } else {
-          /* postalAddress not 'other' selected*/
-          console.log('not other postal address selected vitra ' );
-
-
           this.registerForm.controls['address1'].reset();
           this.registerForm.controls['address2'].reset();
           this.registerForm.controls['address3'].reset();
 
           this.registerService.register(this.registerForm.value).subscribe(
             (data) => {
-              console.log('');
-
               this.loading = false;
-
               data = data.message
                 ? this.toastr.success(data.message)
                 : this.toastr.success('Student saved successfully');
@@ -257,48 +243,6 @@ export class RegisterFormComponent implements OnInit {
           );
         }
       }
-      /*   else {
-        // selected letterReceiver Other ho vane postalAddress formControl lai reset garne
-        // if id=3 vayo vane reset garne
-        console.log('inside edit letterRecId ' + this.selectedLetterReceiverId);
-        if (this.selectedLetterReceiverId === 1) {
-          // reset previous postalAddress formControl Value and save the form
-          this.registerForm.controls['postalAddress'].reset();
-
-          this.registerService.register(this.registerForm.value).subscribe(
-            (data) => {
-              data = data.message
-                ? this.toastr.success(data.message)
-                : this.toastr.success('Student saved successfully');
-              location.reload();
-            },
-            (err) => {
-              err = err.error.message
-                ? this.toastr.error(err.error.message)
-                : this.toastr.error('Error while saving letter.');
-            }
-          );
-
-        } else {
-          console.log('outside other edit ');
-          this.registerForm.controls['address1'].reset();
-          this.registerForm.controls['address2'].reset();
-          this.registerForm.controls['address3'].reset();
-          this.registerService.register(this.registerForm.value).subscribe(
-            (data) => {
-              data = data.message
-                ? this.toastr.success(data.message)
-                : this.toastr.success('Student saved successfully');
-              location.reload();
-            },
-            (err) => {
-              err = err.error.message
-                ? this.toastr.error(err.error.message)
-                : this.toastr.error('Error while saving letter.');
-            }
-          );
-        }
-      } */
     } else {
       console.log('invalid register form');
     }
@@ -360,33 +304,44 @@ export class RegisterFormComponent implements OnInit {
   }
 
   /* comparing the dropdown values & setting the selected value in edit form */
-  compareFn(optionOne, optionTwo): boolean {
+  compareFn(optionOne: any, optionTwo: any): boolean {
     return optionOne.id === optionTwo.id;
   }
 
   selectPostalAddress(opt: LetterReceiver) {
+    console.log(opt);
+
     this.letterReceiverOption = opt.option; //for photoOption
     this.selectedLetterReceiverId = opt.id; // for postalAddress fields
     /* for 'other' selection */
     if (this.selectedLetterReceiverId === 1) {
       this.selectedLetterReceiverId = 1;
       this.addOtherFields = true;
-      this.addOptionalPhoto = this.letterReceiverOption; //YESLAI HATAYERA OPTION STATUS KO ANUSAR OPTINALpHOTO SHOW GARNE
+      this.letterReceiverOption = this.letterReceiverOption;
       this.postalAddressList = [];
       return;
     } else {
-      this.letterReceiverId = opt.id;
-      console.log(
-        'inside selectpostal address function ' + this.selectedLetterReceiverId
-      );
-
       /* for not 'other' selection */
-      this.addOptionalPhoto = this.letterReceiverOption;
-      this.addOtherFields = false;
+      // this.letterReceiverOption = this.letterReceiverOption;
+      this.letterReceiverId = opt.id;
+      this.addOtherFields = false; // hide address1,2,3 fields
+      /* show drop down list on postalAddress */
       this.postalAddressList = this.addressList.filter(
         (f) => f.letterReceiverId === opt.id
       );
+      /* for altImage  */
+      if (this.letterReceiverOption === true) {
+        this.letterReceiverOption = this.letterReceiverOption;
+      } else {
+        console.log('inside else ');
+        this.resetPhotoOption(); // reset photoOption control if
+      }
     }
+  }
+
+  resetPhotoOption() {
+    console.log('inside photoOption reset');
+    this.registerForm.controls['photoOption'].reset();
   }
 
   seletAffiliationCollege(id: number) {
@@ -416,8 +371,8 @@ export class RegisterFormComponent implements OnInit {
     } else {
       this.selectedLetterReceiverId = this.letterReceiverId;
     }
-    /* this.letterReceiverId === 1
-      ? (this.selectedLetterReceiverId = this.letterReceiverId;)
-      : (this.hidePostalAddress = false); */
+    /*  this.letterReceiverId === 1
+      ? (this.selectedLetterReceiverId = this.letterReceiverId)
+      : (this.selectedLetterReceiverId = this.letterReceiverId); */
   }
 }
