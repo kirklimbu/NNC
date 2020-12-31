@@ -117,7 +117,7 @@ export class RegisterService {
   }
 
   getSearchStudent(status, fromDate, toDate) {
-    console.log('calling search service');
+    console.log(JSON.stringify(status, fromDate, toDate));
 
     return this.http
       .get(

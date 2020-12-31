@@ -14,6 +14,7 @@ import { VerifyLetterComponent } from './pages/verify-letter/verify-letter.compo
 import { PrintLetterComponent } from './pages/print-letter/print-letter.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NpDatepickerModule } from 'angular-nepali-datepicker';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     NgxPrintModule,
     NgbModule,
     FlexLayoutModule,
+    NpDatepickerModule,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, NpDatepickerModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class RegisterModule {}

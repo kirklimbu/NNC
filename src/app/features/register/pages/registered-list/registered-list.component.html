@@ -30,21 +30,27 @@
       </div>
       <div class="col-md-3">
         <!-- date1 filter -->
-        <mat-form-field appearance="fill" disableOptionCentering="true">
+        <!-- <mat-form-field appearance="fill" disableOptionCentering="true">
           <mat-label>From Date</mat-label>
           <input matInput [matDatepicker]="picker" [(ngModel)]="fromDate" />
+
           <mat-datepicker-toggle
             matSuffix
             [for]="picker"
           ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <!-- date1 filter end -->
+        <!-- test nepaliDate picker -->
+        <mat-label>From Date:</mat-label>
+        <np-datepicker [(ngModel)]="fromDate"></np-datepicker>
+
+        <!-- test nepaliDate picker end -->
       </div>
       <div class="col-md-3">
         <!-- date2 filter -->
-        <mat-form-field appearance="fill">
+        <!-- <mat-form-field appearance="fill">
           <mat-label>To date</mat-label>
           <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate" />
           <mat-datepicker-toggle
@@ -52,9 +58,15 @@
             [for]="picker2"
           ></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <!-- date2 filter end -->
+        <!-- nepali datePicker2 -->
+        <mat-label>To Date:</mat-label>
+
+        <np-datepicker [(ngModel)]="toDate"></np-datepicker>
+
+        <!-- nepali datePicker2 end -->
       </div>
       <button mat-icon-button (click)="searchFor()">
         <mat-icon>search</mat-icon>

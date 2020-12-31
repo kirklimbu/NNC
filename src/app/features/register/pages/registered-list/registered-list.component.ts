@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize, map } from 'rxjs/operators';
+import { NepaliDate, DateFormatter } from 'angular-nepali-datepicker';
 
 @Component({
   selector: 'app-registered-list',
@@ -17,10 +18,18 @@ import { finalize, map } from 'rxjs/operators';
 })
 export class RegisteredListComponent implements OnInit {
   // props
-  startDate = new Date();
-  endDate = new Date();
-  fromDate = new Date();
-  toDate = new Date();
+  // startDate = new Date();
+  // endDate = new Date();
+  // fromDate = new Date();
+  // toDate = new Date();
+  date: any;
+  fromDate: any;
+  toDate: any;
+  /*
+  date: DateFormatter = (date) => {
+    return `${date.year} साल, ${date.month} महिना, ${date.day} गते`;
+  };
+ */
   status: any;
   filterForm: FormGroup;
   displayedColumns: string[] = ['Id', 'name', 'regNo', 'Action'];
@@ -136,7 +145,8 @@ export class RegisteredListComponent implements OnInit {
 
     this.spinner.show();
     (this.letterListDataSource$ = this.registerService
-      .getSearchStudent(this.status, this.fromDate, this.toDate)
+      // .getSearchStudent(this.status, this.fromDate, this.toDate)
+      .getSearchStudent(this.date, this.fromDate, this.toDate)
       .pipe(finalize(() => this.spinner.hide()))),
       (err) => {
         this.toastr.error(err.message);
