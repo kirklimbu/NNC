@@ -1,3 +1,4 @@
+import { FormatDate } from './../../../../core/constants/format-date';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { LetterVerifcationStatus } from './../../../../core/constants/letter-verifcation-status.enum';
 import { ActivatedRoute, Route, Router } from '@angular/router';
@@ -18,18 +19,11 @@ import { NepaliDate, DateFormatter } from 'angular-nepali-datepicker';
 })
 export class RegisteredListComponent implements OnInit {
   // props
-  // startDate = new Date();
-  // endDate = new Date();
-  // fromDate = new Date();
-  // toDate = new Date();
-  date: any;
+
+  formatDate = new FormatDate();
   fromDate: any;
   toDate: any;
-  /*
-  date: DateFormatter = (date) => {
-    return `${date.year} साल, ${date.month} महिना, ${date.day} गते`;
-  };
- */
+
   status: any;
   filterForm: FormGroup;
   displayedColumns: string[] = ['Id', 'name', 'regNo', 'Action'];
@@ -44,7 +38,13 @@ export class RegisteredListComponent implements OnInit {
     { name: 'Print', value: 'PR' },
   ];
   isVerified = false;
-
+  /* displaying nepali date */
+  fromDateFormatter: DateFormatter = (date) => {
+    return `${date.year} / ${date.month + 1} / ${date.day} `;
+  };
+  toDateFormatter: DateFormatter = (date) => {
+    return `${date.year} / ${date.month + 1} / ${date.day} `;
+  };
   constructor(
     private registerService: RegisterService,
     private toastr: ToastrService,
@@ -58,18 +58,8 @@ export class RegisteredListComponent implements OnInit {
     // this.fetchLetterList();
     this.fetchLetterList();
     this.fetchPendingLetterList();
-    // this.buildFilterForm();
   }
 
-  buildFilterForm() {
-    // this.spinner.show();
-    this.filterForm = this.fb.group({
-      status: [],
-      fromDate: [],
-      toDate: [],
-      dateRange: [],
-    });
-  }
   fetchLetterList() {
     this.spinner.show();
 
@@ -141,16 +131,16 @@ export class RegisteredListComponent implements OnInit {
   }
 
   searchFor() {
-    console.log(this.status, this.fromDate, this.toDate);
-
     this.spinner.show();
     (this.letterListDataSource$ = this.registerService
-      // .getSearchStudent(this.status, this.fromDate, this.toDate)
-      .getSearchStudent(this.date, this.fromDate, this.toDate)
+      .getSearchStudent(
+        this.status,
+        this.formatDate.getFormatDate(this.fromDate),
+        this.formatDate.getFormatDate(this.toDate)
+      )
       .pipe(finalize(() => this.spinner.hide()))),
       (err) => {
         this.toastr.error(err.message);
       };
-    console.log(this.letterListDataSource$);
   }
 }
