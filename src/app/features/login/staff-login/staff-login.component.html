@@ -46,11 +46,13 @@
                     <mat-hint align="end">Enter password</mat-hint>
 
                     <input
+
                       matInput
                       formControlName="passWord"
                       [type]="hide ? 'password' : 'text'"
                     />
                     <button
+                    tabindex="-1"
                       mat-icon-button
                       matSuffix
                       [attr.aria-label]="'Hide password'"
