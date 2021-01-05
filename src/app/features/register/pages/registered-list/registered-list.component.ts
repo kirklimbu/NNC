@@ -94,27 +94,6 @@ export class RegisteredListComponent implements OnInit {
       queryParams: { id: letter.id },
     });
   }
-  // START FROM HERE AFTER BREAK
-  onFilter(status) {
-    if (status !== 'V') {
-      this.isVerified = false;
-      (this.letterListDataSource$ = this.registerService.getFilteredLetters(
-        status
-      )),
-        (err) => {
-          this.toastr.error(err.message);
-        };
-    } else {
-      this.isVerified = true;
-      (this.letterListDataSource$ = this.registerService.getFilteredLetters(
-        status
-      )),
-        // .pipe(map((data: any) => data.filter((p) => p.id == 3)))
-        (err) => {
-          this.toastr.error(err.message);
-        };
-    }
-  }
 
   onPrint(letter: Letter) {
     console.log(letter);
@@ -129,18 +108,37 @@ export class RegisteredListComponent implements OnInit {
 
   onSearch() {
     this.spinner.show();
-    (this.letterListDataSource$ = this.registerService
-      .getSearchStudent(
-        this.status,
-        this.formatDate.getFormatDate(this.fromDate),
-        this.formatDate.getFormatDate(this.toDate)
-      )
-      .pipe(finalize(() => this.spinner.hide()))),
-      (err) => {
-        this.toastr.error(err.message);
-      };
-    this.letterListDataSource$.subscribe((res) => {
-      console.log(res);
-    });
+    if (this.status === 'V') {
+      this.isVerified = true;
+      (this.letterListDataSource$ = this.registerService
+        .getSearchStudent(
+          this.status,
+          this.formatDate.getFormatDate(this.fromDate),
+          this.formatDate.getFormatDate(this.toDate)
+        )
+        .pipe(finalize(() => this.spinner.hide()))),
+        (err) => {
+          this.toastr.error(err.message);
+        };
+      this.letterListDataSource$.subscribe((res) => {
+        console.log(res);
+      });
+    } else {
+      this.isVerified = false;
+
+      (this.letterListDataSource$ = this.registerService
+        .getSearchStudent(
+          this.status,
+          this.formatDate.getFormatDate(this.fromDate),
+          this.formatDate.getFormatDate(this.toDate)
+        )
+        .pipe(finalize(() => this.spinner.hide()))),
+        (err) => {
+          this.toastr.error(err.message);
+        };
+      this.letterListDataSource$.subscribe((res) => {
+        console.log(res);
+      });
+    }
   }
 }

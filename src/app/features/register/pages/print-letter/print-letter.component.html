@@ -12,9 +12,9 @@
 
       <div class="col-md-7 name">
         <h2 class="text-center mt-2">Nepal Nursing Council</h2>
-        <h6 class="text-center mt-2">
+        <h4 class="text-center mt-2">
           Estd. Under Nepal Nursing Council Act, 2053,(1996)
-        </h6>
+        </h4>
       </div>
     </div>
     <div class="container-fluid mr-3">
@@ -52,27 +52,30 @@
         <div class="col-md-12 mt-2">
           <p class="disclaimer mt-3 mb-3">
             This is to certify that Ms.
-            <b>{{ printDetails.name | titlecase }}</b
-            >, a resident of {{ printDetails.address }},ward num {{ wardNo }} is
-            a Registered Nurse.Her Registration number according to the record
-            of this council is <b>{{ printDetails.regNo }}</b
+            <b>{{ printDetails?.name | titlecase }}</b
+            >, a resident of {{ printDetails?.address }},ward num
+            {{ printDetails?.wardNo }} is a Registered Nurse. Her Registration
+            number according to the record of this council is
+            <b>{{ printDetails?.regNo }}</b
             >.
           </p>
           <p class="disclaimer mt-4">
             She completed her 3 Years Proficiency Certificate Level in Nursing
-            from {{ printDetails.collegeName | titlecase }},{{
-              printDetails.collegeAddress | titlecase
+            from {{ printDetails?.collegeName | titlecase }},{{
+              printDetails?.collegeAddress | titlecase
             }}
-            dated {{ regDate }}, which is affiliated to
-            {{ printDetails.affiliationCollege.name | titlecase }}.
+            dated {{ printDetails?.issueDate | date }}, which is affiliated to
+            {{ printDetails?.affiliationCollege?.name | titlecase }}.
           </p>
           <p class="mt-4 mb-1 disclaimer">Other informations are as follows:</p>
 
           <ul class="info-list disclaimer">
-            <li>Date of birth:{{ printDetails.dob | date }}</li>
-            <li>Registration issued date:{{ regIssueDate }}</li>
-            <li>Registration expiry date:{{ regExpDate }}</li>
-            <li>Registration: {{ Registration }}</li>
+            <li>Date of birth:{{ printDetails?.dob | date }}</li>
+            <li>
+              Registration issued date:{{ printDetails?.issueDate | date }}
+            </li>
+            <li>Registration expiry date:{{ printDetails?.expDate | date }}</li>
+            <li>Registration: {{ registration }}</li>
           </ul>
         </div>
         <div class="col-md-12">
@@ -118,8 +121,5 @@
     >
       Print
     </button>
-    <!--  <button mat-raised-button class="mr-2" (click)="onPrintSave()" color="warn">
-      Save
-    </button> -->
   </div>
 </div>

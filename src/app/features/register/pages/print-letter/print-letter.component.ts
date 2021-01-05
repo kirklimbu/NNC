@@ -19,24 +19,14 @@ export class PrintLetterComponent implements OnInit {
   // props
 
   myDate: Date;
-  ref = 123456;
-  studentName = 'Saraswati Rai';
-  address = 'damak';
-  wardNo = 1;
-  regNo = 12365;
-  collegeName = 'Damak Aamda Hospital College';
-  collegeAddress = 'Damak 2 , Jhapa , Nepal';
-  regDate = '2016 A.D';
-  affiliation = 'C.T.E.V.T';
-  dob = '1st Jan 2016';
-  regIssueDate = '10th March 2016';
-  regExpDate = '10th March 2028';
-  Registration: 'Registered Nurse';
   letterId: number;
 
   printDetails$: Observable<Letter>;
   printDetails: Letter;
 
+  /* fake data */
+  registration = 'Registration';
+  /* fake data end */
   constructor(
     private datePipe: DatePipe,
     private router: Router,
