@@ -35,7 +35,7 @@ export class PrintLetterComponent implements OnInit {
   letterId: number;
 
   printDetails$: Observable<Letter>;
-  printDetails: any;
+  printDetails: Letter;
 
   constructor(
     private datePipe: DatePipe,
@@ -65,6 +65,8 @@ export class PrintLetterComponent implements OnInit {
         .getPrintDetails(this.letterId)
         .pipe(finalize(() => this.spinner.hide()))
         .subscribe((data) => {
+          console.log(data);
+
           this.printDetails = data;
         });
     }),
@@ -75,10 +77,13 @@ export class PrintLetterComponent implements OnInit {
       };
   }
 
-  onPrintSave() {
+  savePrint() {
+    console.log('calling print save');
+
     const id = this.letterId;
     this.letterService.savePrintInfo(id).subscribe(
       (res) => {
+        this.toastr.success(res.message);
         this.router.navigate(['/home/letter/letter-list']);
       },
       (err) => {
@@ -89,20 +94,18 @@ export class PrintLetterComponent implements OnInit {
     );
   }
 
-  testModal() {
-    console.log('popup modal button pressed');
+  onPrintStatusCheck() {
     const dialogRef = this.dialog.open(DeletePopupComponent, {
       width: '450px',
-      data: {},
+      data: {
+        title: 'Print status ',
+        message: 'Was the print successful?',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed ' + result);
-      if (result === 'Yes') {
-        console.log('yes');
-      } else {
-        console.log('no');
-      }
+      result === 'yes' ? this.savePrint() : null;
     });
   }
 }

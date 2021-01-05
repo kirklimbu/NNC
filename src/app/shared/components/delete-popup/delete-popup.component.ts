@@ -22,7 +22,8 @@ export class DeletePopupComponent implements OnInit {
     public dialogRef: MatDialogRef<DeletePopupComponent>,
     @Inject(MAT_DIALOG_DATA) private modalData: any
   ) {
-    console.log(this.modalData);
+    this.title = this.modalData.title;
+    this.message = this.modalData.message;
   }
 
   ngOnInit(): void {}

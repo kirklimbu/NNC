@@ -46,7 +46,7 @@
       <button
         mat-icon-button
         style="margin-top: 22px; margin-right: 4px"
-        (click)="searchFor()"
+        (click)="onSearch()"
       >
         <mat-icon>search</mat-icon>
       </button>
@@ -95,7 +95,6 @@
             [enableEdit]="false"
             [enableDelete]="false"
             [enableViewDetails]="true"
-            (edit)="onEdit(element)"
             (delete)="onDelete(element)"
             (viewDetails)="onVerifyDetails('verify', element)"
           >

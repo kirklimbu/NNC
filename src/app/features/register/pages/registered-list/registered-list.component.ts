@@ -55,6 +55,9 @@ export class RegisteredListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    /* test */
+    // this.onPrint();
+    /* test end */
     // this.fetchLetterList();
     this.fetchLetterList();
     this.fetchPendingLetterList();
@@ -80,12 +83,6 @@ export class RegisteredListComponent implements OnInit {
       (err) => {
         this.toastr.error(err.message);
       };
-  }
-
-  onEdit(letter: Letter) {
-    this.router.navigate(['/home/register'], {
-      queryParams: { regNo: letter.regNo },
-    });
   }
 
   onDelete() {}
@@ -130,7 +127,7 @@ export class RegisteredListComponent implements OnInit {
     this.letterListDataSource.filter = value.trim().toLocaleLowerCase();
   }
 
-  searchFor() {
+  onSearch() {
     this.spinner.show();
     (this.letterListDataSource$ = this.registerService
       .getSearchStudent(
@@ -142,5 +139,8 @@ export class RegisteredListComponent implements OnInit {
       (err) => {
         this.toastr.error(err.message);
       };
+    this.letterListDataSource$.subscribe((res) => {
+      console.log(res);
+    });
   }
 }
