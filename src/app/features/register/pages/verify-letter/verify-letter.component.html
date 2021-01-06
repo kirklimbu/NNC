@@ -166,7 +166,7 @@
                   <mat-option
                     *ngFor="let item of affiliationCollegeList"
                     [value]="item"
-                    >{{ item.name }}</mat-option
+                    >{{ item?.name }}</mat-option
                   >
                 </mat-select>
                 <mat-hint align="end">Select college affiliation</mat-hint>
@@ -345,7 +345,7 @@
                   <mat-option
                     *ngFor="let item of postalAddressList"
                     [value]="item"
-                    >{{ item.address2 }}, {{ item.address1 }}</mat-option
+                    >{{ item?.address2 }}, {{ item?.address1 }}</mat-option
                   >
                 </mat-select>
                 <mat-hint align="end">Select letter receiver</mat-hint>
@@ -493,7 +493,7 @@
                   *ngFor="let item of billImageList; index as i"
                 >
                   <label for="Bill{{ i + 1 }}"></label>
-                  <img [src]="item.photoBill" alt="Bill photo" />
+                  <img [src]="item?.photoBill" alt="Bill photo" />
                   <!-- Bill{{ i + 1 }} -->
                   <!-- <div class="desc"></div> -->
                 </div>
@@ -509,6 +509,8 @@
                 type="button "
                 mat-raised-button
                 color="warn"
+                [class.spinner]="isRejectloading"
+                [disabled]="isRejectloading"
                 (click)="onReject()"
               >
                 Reject
@@ -516,8 +518,8 @@
               <button
                 mat-raised-button
                 color="primary"
-                [class.spinner]="loading"
-                [disabled]="loading"
+                [class.spinner]="isVerifyloading"
+                [disabled]="isVerifyloading"
                 (click)="onVerify()"
               >
                 Verify

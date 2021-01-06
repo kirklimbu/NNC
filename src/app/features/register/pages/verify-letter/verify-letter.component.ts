@@ -40,7 +40,8 @@ export class VerifyLetterComponent implements OnInit {
   altImage: any;
   enableZoom: Boolean = true;
   addOptionalPhoto: Boolean = true;
-  loading = false;
+  isVerifyloading = false;
+  isRejectloading = false;
   showOldBills = false;
   lastBillStatus;
 
@@ -69,7 +70,6 @@ export class VerifyLetterComponent implements OnInit {
   fetchLetterFormValues() {
     this.letterFormValues$ = this.letterService.getLetterForm().subscribe(
       (data) => {
-        console.log('default form valuuuuse ' + data);
         this.letter = data.form;
         this.affiliationCollegeList = data.affiliationCollegeList;
         this.letterReceiverList = data.letterReceiverList;
@@ -92,7 +92,7 @@ export class VerifyLetterComponent implements OnInit {
       .pipe(finalize(() => this.spinner.hide()))
       .subscribe((params) => {
         this.letterId = +params.get('id');
-        console.log(this.letterId);
+
         /* test */
         this.letterService
           .getLetterDetails(this.letterId)
@@ -100,7 +100,7 @@ export class VerifyLetterComponent implements OnInit {
           .subscribe(
             (data) => {
               this.letter = data;
-              console.log(data);
+
               this.licenceImage = data.photoLicence;
 
               this.altImage = data.photoOption;
@@ -129,31 +129,7 @@ export class VerifyLetterComponent implements OnInit {
 
   buildVerifyForm() {
     this.letterVerifyForm = this.formBuilder.group({
-      /* regNo: [this.letter.regNo],
-      issueDate: [this.letter.issueDate],
-      expDate: [this.letter.expDate],
-      name: [this.letter.name],
-      address: [this.letter.address],
-      wardNo: [this.letter.wardNo],
-      university: [this.letter.university],
-      collegeName: [this.letter.collegeName],
-      collegeAddress: [this.letter.collegeAddress],
-      dob: [this.letter.dob],
-      email: [this.letter.email],
-      mobileNo: [this.letter.mobileNo],
-      photoLicenceChange: [this.letter.photoLicenceChange],
-      photoLicence: [this.letter.photoLicence],
-      photoBill: [this.letter.photoBill],
-      photoBillChange: [this.letter.photoBillChange],
-      photoOption: [this.letter.photoOption],
-      photoOptionChange: [this.letter.photoOptionChange],
-      addNewBill: [this.letter.addNewBill],
-      address1: [this.letter.address1],
-      address2: [this.letter.address2],
-      address3: [this.letter.address3],
-      letterReceiver: [this.letter.letterReceiver],
-      postalAddress: [this.letter.postalAddress],
-      affiliationCollege: [this.letter.affiliationCollege], */
+
       regNo: [this.letter.regNo], //EDIT SAVED WITH REGNO
       issueDate: [this.letter.issueDate],
       expDate: [this.letter.expDate],
@@ -183,38 +159,36 @@ export class VerifyLetterComponent implements OnInit {
   }
 
   onVerify() {
-    console.log(this.letterVerifyForm.value);
+    this.isVerifyloading = true;
 
-    this.loading = true;
     const id = this.letterId;
     this.letterService.isVerfied(id).subscribe(
       (res) => {
-        this.loading = false;
+        this.isVerifyloading = false;
         this.router.navigate(['/home/register/letter-list']);
       },
       (err) => {
         err = err.error.message
           ? this.toastr.error(err.error.message)
           : this.toastr.error('Verification failed');
-        this.loading = false;
+        this.isVerifyloading = false;
       }
     );
   }
   onReject() {
-    console.log('reject clicked');
-    this.loading = true;
+    this.isRejectloading = true;
 
     const id = this.letterId;
     this.letterService.isRejected(id).subscribe(
       (res) => {
-        this.loading = false;
+        this.isRejectloading = false;
         this.router.navigate(['/home/register/letter-list']);
       },
       (err) => {
         err = err.error.message
           ? this.toastr.error(err.error.message)
           : this.toastr.error('Rejection failed');
-        this.loading = false;
+        this.isRejectloading = false;
       }
     );
   }
