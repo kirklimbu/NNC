@@ -88,7 +88,7 @@ export class PrintLetterComponent implements OnInit {
     const dialogRef = this.dialog.open(DeletePopupComponent, {
       width: '450px',
       data: {
-        title: 'Print status ',
+        title: '',
         message: 'Was the print successful?',
       },
     });
