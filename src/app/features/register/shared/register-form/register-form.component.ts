@@ -199,48 +199,56 @@ export class RegisterFormComponent implements OnInit {
 
   onRegister() {
     this.loading = true;
-
+    this.spinner.show();
     this.isSubmitted = true;
     if (this.registerForm.valid) {
       if (this.mode) {
         /* postalAddress 'other' selected*/
         if (this.selectedLetterReceiverId === 1) {
           this.registerForm.controls['postalAddress'].reset();
-          this.registerService.register(this.registerForm.value).subscribe(
-            (data) => {
-              this.loading = false;
-              data = data.message
-                ? this.toastr.success(data.message)
-                : this.toastr.success('Student saved successfully');
-              location.reload();
-            },
-            (err) => {
-              err = err.error.message
-                ? this.toastr.error(err.error.message)
-                : this.toastr.error('Error while saving letter.');
-              this.loading = false;
-            }
-          );
+          this.registerService
+            .register(this.registerForm.value)
+            .pipe(finalize(() => this.spinner.hide()))
+            .subscribe(
+              (data) => {
+                this.loading = false;
+                data = data.message
+                  ? this.toastr.success(data.message)
+                  : this.toastr.success('Student saved successfully');
+                location.reload();
+              },
+              (err) => {
+                err = err.error.message
+                  ? this.toastr.error(err.error.message)
+                  : this.toastr.error('Error while saving letter.');
+                this.loading = false;
+                this.spinner.hide();
+              }
+            );
         } else {
           this.registerForm.controls['address1'].reset();
           this.registerForm.controls['address2'].reset();
           this.registerForm.controls['address3'].reset();
 
-          this.registerService.register(this.registerForm.value).subscribe(
-            (data) => {
-              this.loading = false;
-              data = data.message
-                ? this.toastr.success(data.message)
-                : this.toastr.success('Student saved successfully');
-              location.reload();
-            },
-            (err) => {
-              err = err.error.message
-                ? this.toastr.error(err.error.message)
-                : this.toastr.error('Error while saving letter.');
-              this.loading = false;
-            }
-          );
+          this.registerService
+            .register(this.registerForm.value)
+            .pipe(finalize(() => this.spinner.hide()))
+            .subscribe(
+              (data) => {
+                this.loading = false;
+                data = data.message
+                  ? this.toastr.success(data.message)
+                  : this.toastr.success('Student saved successfully');
+                location.reload();
+              },
+              (err) => {
+                err = err.error.message
+                  ? this.toastr.error(err.error.message)
+                  : this.toastr.error('Error while saving letter.');
+                this.loading = false;
+                this.spinner.hide();
+              }
+            );
         }
       }
     } else {

@@ -55,10 +55,6 @@ export class RegisteredListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    /* test */
-    // this.onPrint();
-    /* test end */
-    // this.fetchLetterList();
     this.fetchLetterList();
     this.fetchPendingLetterList();
   }
@@ -119,13 +115,10 @@ export class RegisteredListComponent implements OnInit {
         .pipe(finalize(() => this.spinner.hide()))),
         (err) => {
           this.toastr.error(err.message);
+          this.spinner.hide();
         };
-      this.letterListDataSource$.subscribe((res) => {
-        console.log(res);
-      });
     } else {
       this.isVerified = false;
-
       (this.letterListDataSource$ = this.registerService
         .getSearchStudent(
           this.status,
@@ -135,10 +128,8 @@ export class RegisteredListComponent implements OnInit {
         .pipe(finalize(() => this.spinner.hide()))),
         (err) => {
           this.toastr.error(err.message);
+          this.spinner.hide();
         };
-      this.letterListDataSource$.subscribe((res) => {
-        console.log(res);
-      });
     }
   }
 }

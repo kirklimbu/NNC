@@ -116,12 +116,12 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-toolbar
+    <!-- <mat-toolbar
       align="center"
       *ngIf="!(letterListDataSource$ | async)?.length"
     >
       <mat-icon>report_problem</mat-icon>No Data Available
-    </mat-toolbar>
+    </mat-toolbar> -->
     <!-- / student table -->
   </div>
 </div>
