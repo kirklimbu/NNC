@@ -62,7 +62,7 @@ export class VerifyLetterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchLetterFormValues();
+    // this.fetchLetterFormValues();
     this.buildVerifyForm();
     this.fetchParamFromUrl();
     this.disableVerifyDob();
@@ -129,7 +129,6 @@ export class VerifyLetterComponent implements OnInit {
 
   buildVerifyForm() {
     this.letterVerifyForm = this.formBuilder.group({
-
       regNo: [this.letter.regNo], //EDIT SAVED WITH REGNO
       issueDate: [this.letter.issueDate],
       expDate: [this.letter.expDate],
@@ -160,37 +159,46 @@ export class VerifyLetterComponent implements OnInit {
 
   onVerify() {
     this.isVerifyloading = true;
-
+    this.spinner.show();
     const id = this.letterId;
-    this.letterService.isVerfied(id).subscribe(
-      (res) => {
-        this.isVerifyloading = false;
-        this.router.navigate(['/home/register/letter-list']);
-      },
-      (err) => {
-        err = err.error.message
-          ? this.toastr.error(err.error.message)
-          : this.toastr.error('Verification failed');
-        this.isVerifyloading = false;
-      }
-    );
+
+    this.letterService
+      .isVerfied(id)
+      .pipe(finalize(() => this.spinner.hide()))
+      .subscribe(
+        (res) => {
+          this.isVerifyloading = false;
+          this.router.navigate(['/home/register/letter-list']);
+        },
+        (err) => {
+          err = err.error.message
+            ? this.toastr.error(err.error.message)
+            : this.toastr.error('Verification failed');
+          this.isVerifyloading = false;
+          this.spinner.hide();
+        }
+      );
   }
   onReject() {
     this.isRejectloading = true;
-
+    this.spinner.show();
     const id = this.letterId;
-    this.letterService.isRejected(id).subscribe(
-      (res) => {
-        this.isRejectloading = false;
-        this.router.navigate(['/home/register/letter-list']);
-      },
-      (err) => {
-        err = err.error.message
-          ? this.toastr.error(err.error.message)
-          : this.toastr.error('Rejection failed');
-        this.isRejectloading = false;
-      }
-    );
+    this.letterService
+      .isRejected(id)
+      .pipe(finalize(() => this.spinner.hide()))
+      .subscribe(
+        (res) => {
+          this.isRejectloading = false;
+          this.router.navigate(['/home/register/letter-list']);
+        },
+        (err) => {
+          err = err.error.message
+            ? this.toastr.error(err.error.message)
+            : this.toastr.error('Rejection failed');
+          this.isRejectloading = false;
+          this.spinner.hide();
+        }
+      );
   }
   /* comparing the dropdown values & setting the selected value in edit form */
   compareFn(optionOne, optionTwo): boolean {
