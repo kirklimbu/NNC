@@ -65,6 +65,9 @@ export class RegisteredListComponent implements OnInit {
 
   getToday() {
     console.log('fadfa ' + JSON.stringify(new CustomJs().getCurrentDateBS()));
+    console.log(
+      'dfasdfasdfa ' + JSON.stringify(new CustomJs().getBeforeAfterDateAD(1))
+    );
 
     console.log(Date.now());
   }
