@@ -1,3 +1,4 @@
+// import { NepaliDate } from 'nepali-date';
 import { FormatDate } from './../../../../core/constants/format-date';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { LetterVerifcationStatus } from './../../../../core/constants/letter-verifcation-status.enum';
@@ -7,10 +8,11 @@ import { RegisterService } from './../../services/register.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize, map } from 'rxjs/operators';
-import { NepaliDate, DateFormatter } from 'angular-nepali-datepicker';
+import { Observable } from 'rxjs';
+import { DateFormatter, NepaliDate } from 'angular-nepali-datepicker';
+import { CustomJs } from 'src/app/shared/customjs/custom.js';
 
 @Component({
   selector: 'app-registered-list',
@@ -35,7 +37,7 @@ export class RegisteredListComponent implements OnInit {
     { name: 'Verified', value: 'V' },
     { name: 'Pending', value: 'P' },
     { name: 'Rejected', value: 'R' },
-    { name: 'Print', value: 'PR' },
+    // { name: 'Print', value: 'PR' },
   ];
   isVerified = false;
   /* displaying nepali date */
@@ -55,8 +57,16 @@ export class RegisteredListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getToday();
+
     this.fetchLetterList();
     this.fetchPendingLetterList();
+  }
+
+  getToday() {
+    console.log('fadfa ' + JSON.stringify(new CustomJs().getCurrentDateBS()));
+
+    console.log(Date.now());
   }
 
   fetchLetterList() {

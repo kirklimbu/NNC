@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,7 +10,8 @@ import { LetterVerify } from 'src/app/core/models/verify-letter.model';
 import { LetterReceiver } from 'src/app/core/models/letter-receiver.model';
 import { AffiliationCollege } from 'src/app/core/models/affiliation-college.model';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { finalize } from 'rxjs/operators';
+import { delay, finalize, timeout } from 'rxjs/operators';
+import { DeletePopupComponent } from 'src/app/shared/components/delete-popup/delete-popup.component';
 
 @Component({
   selector: 'app-verify-letter',
@@ -26,6 +28,7 @@ export class VerifyLetterComponent implements OnInit {
   letterId: number;
   postalAddressId: number;
   letterReceiverId: number;
+  affiliationCollegeId: number;
   selected: string;
   letter = new Letter();
   affiliationCollegeList = [];
@@ -42,7 +45,10 @@ export class VerifyLetterComponent implements OnInit {
   addOptionalPhoto: Boolean = true;
   isVerifyloading = false;
   isRejectloading = false;
+  isSaveLoading = false;
   showOldBills = false;
+  addUniversity = false;
+
   lastBillStatus;
 
   previewImageSrc: any;
@@ -58,11 +64,12 @@ export class VerifyLetterComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
+    private dialog: MatDialog,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    // this.fetchLetterFormValues();
+    this.fetchLetterFormValues(); // YESKO SATTO GETFORM JASTAI FORM WITH OTHER OBJECT AAUXA FOR DROPDOWN POPULATION
     this.buildVerifyForm();
     this.fetchParamFromUrl();
     this.disableVerifyDob();
@@ -107,6 +114,8 @@ export class VerifyLetterComponent implements OnInit {
               this.billImage = data.photoBill;
               this.billImageList = data.requestList;
               this.lastBillStatus = data.lastBillEdit;
+              this.affiliationCollegeId = data.affiliationCollege.id;
+
               // this.postalAddressId = data.postalAddress.letterReceiverId;
               this.letterReceiverId = this.letter.letterReceiver.id; // for changing drop-down values display
 
@@ -128,33 +137,63 @@ export class VerifyLetterComponent implements OnInit {
   }
 
   buildVerifyForm() {
-    this.letterVerifyForm = this.formBuilder.group({
-      regNo: [this.letter.regNo], //EDIT SAVED WITH REGNO
-      issueDate: [this.letter.issueDate],
-      expDate: [this.letter.expDate],
-      name: [this.letter.name],
-      address: [this.letter.address],
-      wardNo: [this.letter.wardNo],
-      university: [this.letter.university],
-      collegeName: [this.letter.collegeName],
-      collegeAddress: [this.letter.collegeAddress],
-      dob: [this.letter.dob],
-      email: [this.letter.email],
-      mobileNo: [this.letter.mobileNo],
-      photoLicenceChange: [this.letter.photoLicenceChange],
-      photoLicence: [this.letter.photoLicence],
-      photoBill: [this.letter.photoBill],
-      photoBillChange: [this.letter.photoBillChange],
-      photoOption: [this.letter.photoOption],
-      photoOptionChange: [this.letter.photoOptionChange],
-      addNewBill: [this.letter.addNewBill],
-      address1: [this.letter.address1],
-      address2: [this.letter.address2],
-      address3: [this.letter.address3],
-      letterReceiver: [this.letter.letterReceiver],
-      postalAddress: [this.letter.postalAddress],
-      affiliationCollege: [this.letter.affiliationCollege],
-    });
+    if (this.mode !== 'edit') {
+      this.letterVerifyForm = this.formBuilder.group({
+        regNo: [this.letter.regNo],
+        issueDate: [this.letter.issueDate],
+        expDate: [this.letter.expDate],
+        name: [this.letter.name],
+        address: [this.letter.address],
+        wardNo: [this.letter.wardNo],
+        university: [this.letter.university],
+        collegeName: [this.letter.collegeName],
+        collegeAddress: [this.letter.collegeAddress],
+        dob: [this.letter.dob],
+        email: [this.letter.email],
+        mobileNo: [this.letter.mobileNo],
+        photoLicenceChange: [this.letter.photoLicenceChange],
+        photoLicence: [this.letter.photoLicence],
+        photoBill: [this.letter.photoBill],
+        photoBillChange: [this.letter.photoBillChange],
+        photoOption: [this.letter.photoOption],
+        photoOptionChange: [this.letter.photoOptionChange],
+        addNewBill: [this.letter.addNewBill],
+        address1: [this.letter.address1],
+        address2: [this.letter.address2],
+        address3: [this.letter.address3],
+        letterReceiver: [this.letter.letterReceiver],
+        postalAddress: [this.letter.postalAddress],
+        affiliationCollege: [this.letter.affiliationCollege],
+      });
+    } else {
+      this.letterVerifyForm = this.formBuilder.group({
+        regNo: [this.letter.regNo], //EDIT SAVED WITH REGNO
+        issueDate: [this.letter.issueDate],
+        expDate: [this.letter.expDate],
+        name: [this.letter.name],
+        address: [this.letter.address],
+        wardNo: [this.letter.wardNo],
+        university: [this.letter.university],
+        collegeName: [this.letter.collegeName],
+        collegeAddress: [this.letter.collegeAddress],
+        dob: [this.letter.dob],
+        email: [this.letter.email],
+        mobileNo: [this.letter.mobileNo],
+        photoLicenceChange: [this.letter.photoLicenceChange],
+        photoLicence: [this.letter.photoLicence],
+        photoBill: [this.letter.photoBill],
+        photoBillChange: [this.letter.photoBillChange],
+        photoOption: [this.letter.photoOption],
+        photoOptionChange: [this.letter.photoOptionChange],
+        addNewBill: [this.letter.addNewBill],
+        address1: [this.letter.address1],
+        address2: [this.letter.address2],
+        address3: [this.letter.address3],
+        letterReceiver: [this.letter.letterReceiver],
+        postalAddress: [this.letter.postalAddress],
+        affiliationCollege: [this.letter.affiliationCollege],
+      });
+    }
   }
 
   onVerify() {
@@ -179,6 +218,7 @@ export class VerifyLetterComponent implements OnInit {
         }
       );
   }
+
   onReject() {
     this.isRejectloading = true;
     this.spinner.show();
@@ -204,14 +244,82 @@ export class VerifyLetterComponent implements OnInit {
   compareFn(optionOne, optionTwo): boolean {
     return optionOne.id === optionTwo.id;
   }
+  onStatusCheck(mode) {
+    if (mode === 'verify') {
+      const dialogRef = this.dialog.open(DeletePopupComponent, {
+        disableClose: true,
+        width: '25rem',
+        data: {
+          title: '',
+          message: 'Are you sure you completed Verifying this form?',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log('The dialog was closed ' + result);
+        result === 'yes' ? this.onVerify() : null;
+      });
+    } else {
+      const dialogRef = this.dialog.open(DeletePopupComponent, {
+        disableClose: true,
+        width: '25rem',
+        data: {
+          title: '',
+          message: 'Are you sure you want to Reject this form?',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        result === 'yes' ? this.onReject() : null;
+      });
+    }
+  }
+  onSave(mode: string) {
+    console.log(this.letterVerifyForm.value);
+    // this.isSaveLoading = true;
+
+    return; // remove after bacvkend is ready
+    this.spinner.show();
+
+    this.letterService
+      .register(this.letterVerifyForm.value)
+      .pipe(finalize(() => this.spinner.hide()))
+      .subscribe(
+        (data) => {
+          this.isSaveLoading = false;
+          data = data.message
+            ? this.toastr.success(data.message)
+            : this.toastr.success('Student saved successfully');
+          location.reload();
+        },
+        (err) => {
+          err = err.error.message
+            ? this.toastr.error(err.error.message)
+            : this.toastr.error('Error while saving letter.');
+          this.isSaveLoading = false;
+          this.spinner.hide();
+        }
+      );
+  }
 
   disableVerifyDob() {
     this.letterVerifyForm.get('dob').disable();
     this.letterVerifyForm.get('letterReceiver').disable();
     this.letterVerifyForm.get('postalAddress').disable();
-    this.letterVerifyForm.get('affiliationCollege').disable();
+    // this.letterVerifyForm.get('affiliationCollege').disable();
 
     // this.letterVerifyForm.get('addNewBill').disable();
     // this.letterVerifyForm.disable();
+  }
+
+  seletAffiliationCollege(id: number) {
+    if (id === 1) {
+      this.addUniversity = true;
+      // id === 1 ? (this.addUniversity = true) : (this.addUniversity = false);
+    } else {
+      this.addUniversity = false;
+      // this.affiliationCollegeId = id; // univeristy field display ko lagi
+      this.letterVerifyForm.controls['university'].reset();
+    }
   }
 }

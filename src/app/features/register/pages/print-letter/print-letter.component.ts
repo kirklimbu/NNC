@@ -86,6 +86,7 @@ export class PrintLetterComponent implements OnInit {
 
   onPrintStatusCheck() {
     const dialogRef = this.dialog.open(DeletePopupComponent, {
+      disableClose: true,
       width: '450px',
       data: {
         title: '',
