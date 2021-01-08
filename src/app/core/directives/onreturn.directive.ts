@@ -16,20 +16,16 @@ export class OnreturnDirective {
 
   constructor(private _el: ElementRef, renderer: Renderer2) {
     this.el = this._el;
-    // renderer.setStyle(_el.nativeElement, 'color', 'red');
+    // renderer.setStyle(_el.nativeElement, 'color', 'red'); // changing color
   }
+
   @HostListener('keydown', ['$event']) onKeyDown(e) {
     console.log(e);
 
     if (e.which == 13 || e.keyCode == 13) {
       e.preventDefault();
-
       if (e.srcElement.form) {
-        console.log('inside sibiling');
-        console.log('form vaues ' + JSON.stringify(e.srcElement.form.localName));
-
-        e.srcElement.form.focus();
-        console.log(e.srcElement.form.focus());
+        e.srcElement.form[3].focus();
       } else {
         console.log('close keyboard');
       }

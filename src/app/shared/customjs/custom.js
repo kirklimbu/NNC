@@ -2,6 +2,7 @@ export class CustomJs {
   getCurrentDateBS() {
     return NepaliFunctions.GetCurrentBsDate();
   }
+
   getBeforeAfterDateAD(days) {
     let date = new Date();
     return new Date(date.setMonth(date.getMonth() + days));
@@ -83,5 +84,14 @@ export class CustomJs {
   getNepaliFunctionDateObject(dateString) {
     return NepaliFunctions.ConvertToDateObject(dateString, "YYYY/MM/DD");
   }
+
+  getDatePickerObject(realDateString) {
+    let nepaliFunctionObject = this.getNepaliFunctionDateObject(realDateString);
+    nepaliFunctionObject.month = nepaliFunctionObject.month - 1;
+    return this.getNepaliFunctionDateObject(
+      this.getStringFromNepaliFunction(nepaliFunctionObject)
+    );
+  }
+
   /* mg ko  */
 }

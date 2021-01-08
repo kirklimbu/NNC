@@ -257,7 +257,6 @@ export class VerifyLetterComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe((result) => {
-        console.log('The dialog was closed ' + result);
         result === 'yes' ? this.onVerify() : null;
       });
     } else {
@@ -325,7 +324,6 @@ export class VerifyLetterComponent implements OnInit {
   }
 
   onZoomPhoto(photo: any) {
-    console.log(photo);
     this.zoomImage != this.zoomImage;
 
     if (photo === 'licenceImage') {
@@ -358,7 +356,6 @@ export class VerifyLetterComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed ' + result);
       result === 'yes' ? null : null;
     });
   }

@@ -69,7 +69,7 @@ export class RegisteredListComponent implements OnInit {
     const status = 'P';
 
     let toDate: NepaliDate = this.customDate.getCurrentDateBS();
-    toDate = this.customDate.getNepaliFunctionDateObject(toDate); // converting to object to display in Datepicker
+    toDate = this.customDate.getDatePickerObject(toDate); // converting to object to display in Datepicker
     this.toDate = toDate; // assigning to Datepicker
 
     let fromDate: NepaliDate = this.customDate.getBeforeAfterMonthDateBS(-1);
