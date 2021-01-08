@@ -48,6 +48,7 @@ export class VerifyLetterComponent implements OnInit {
   isSaveLoading = false;
   showOldBills = false;
   addUniversity = false;
+  zoomImage: boolean;
 
   lastBillStatus;
 
@@ -242,7 +243,7 @@ export class VerifyLetterComponent implements OnInit {
   }
   /* comparing the dropdown values & setting the selected value in edit form */
   compareFn(optionOne, optionTwo): boolean {
-    return optionOne.id === optionTwo.id;
+    return optionOne?.id === optionTwo?.id;
   }
   onStatusCheck(mode) {
     if (mode === 'verify') {
@@ -321,5 +322,44 @@ export class VerifyLetterComponent implements OnInit {
       // this.affiliationCollegeId = id; // univeristy field display ko lagi
       this.letterVerifyForm.controls['university'].reset();
     }
+  }
+
+  onZoomPhoto(photo: any) {
+    console.log(photo);
+    this.zoomImage != this.zoomImage;
+
+    if (photo === 'licenceImage') {
+      photo = this.licenceImage;
+      this.showZoomedPhoto(photo);
+    } else if (photo === 'billImage') {
+      photo = this.billImage;
+      this.showZoomedPhoto(photo);
+    } else if (photo === 'altImage') {
+      photo = this.altImage;
+      this.showZoomedPhoto(photo);
+    } else {
+      this.showZoomedPhoto(photo);
+    }
+  }
+
+  showZoomedPhoto(photo) {
+    // this.spinner.show();
+    const dialogRef = this.dialog.open(DeletePopupComponent, {
+      disableClose: true,
+      width: '520px',
+      height: '550px',
+      data: {
+        title: '',
+        message: '',
+        image: photo,
+        zoomImage: true,
+        button: 'Close',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed ' + result);
+      result === 'yes' ? null : null;
+    });
   }
 }

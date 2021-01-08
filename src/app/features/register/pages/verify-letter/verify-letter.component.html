@@ -430,9 +430,11 @@
                   </mat-toolbar>
                   <!-- Fetch selected filed on change -->
                   <img
+                    ngbTooltip="Click to zoom image"
                     [src]="licenceImage"
                     *ngIf="licenceImage"
                     style="margin: 3px"
+                    (click)="onZoomPhoto('licenceImage')"
                   />
                   <mat-hint align="end">Uploaded licence photo</mat-hint>
                 </mat-form-field>
@@ -449,11 +451,14 @@
                     </mat-toolbar>
                     <!-- Fetch selected filed on change -->
                     <img
+                      ngbTooltip="Click to zoom image"
                       [src]="altImage"
                       *ngIf="altImage"
                       style="margin: 3px"
+                      (click)="onZoomPhoto('altImage')"
                     />
                     <mat-hint align="end">Uploaded Optional photo</mat-hint>
+                    <button mat-button align="end">Zoom photo</button>
                   </mat-form-field>
                   <!-- upload alt photo  -->
                 </div>
@@ -468,7 +473,11 @@
                   </mat-toolbar>
 
                   <!-- Fetch selected filed on change -->
-                  <img [src]="billImage" />
+                  <img
+                    [src]="billImage"
+                    ngbTooltip="Click to zoom image"
+                    (click)="onZoomPhoto('billImage')"
+                  />
                   <mat-hint align="end">Uploaded Bill Photo </mat-hint>
                 </mat-form-field>
               </div>
@@ -487,7 +496,12 @@
                   *ngFor="let item of billImageList; index as i"
                 >
                   <label for="Bill{{ i + 1 }}"></label>
-                  <img [src]="item?.photoBill" alt="Bill photo" />
+                  <img
+                    ngbTooltip="Click to zoom image"
+                    [src]="item?.photoBill"
+                    alt="Bill photo"
+                    (click)="onZoomPhoto(item?.photoBill)"
+                  />
                   <!-- Bill{{ i + 1 }} -->
                   <!-- <div class="desc"></div> -->
                 </div>

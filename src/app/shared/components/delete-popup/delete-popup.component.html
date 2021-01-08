@@ -1,28 +1,44 @@
-
 <!-- material modal  -->
 
 <h2 mat-dialog-title>{{ title }}</h2>
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content class="mat-typography modal-img-container">
+  <img
+    class="modal-img"
+    [src]="image"
+    [style.display]="zoomImage ? 'block' : 'none'"
+  />
   <p>{{ message }}</p>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
+<mat-dialog-actions>
   <button
-    mat-button
-    color="warn"
+    *ngIf="button1"
+    mat-raised-button
+    color="primary"
     [mat-dialog-close]="true"
     cdkFocusInitial
+    align="start"
     (click)="close()"
   >
-    Yes
+    {{ buttonType1 }}
   </button>
 
   <button
-      mat-button
-      mat-dialog-close
-      color="secondary"
-      (click)="dismiss()">
-    No
+    *ngIf="button2"
+    mat-button
+    mat-dialog-close
+    color="secondary"
+    (click)="dismiss()"
+  >
+    {{ buttonType2 }}</button
+  ><button
+    *ngIf="button3"
+    mat-button
+    mat-dialog-close
+    color="warn"
+    (click)="dismiss()"
+  >
+    {{ buttonType3 }}
   </button>
 </mat-dialog-actions>
 
