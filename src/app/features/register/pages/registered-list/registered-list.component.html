@@ -6,7 +6,8 @@
         <select
           class="custom-select"
           id="inputGroupSelect03"
-          [(ngModel)]="status"
+          [(value)]="status"
+          (change)="selectedStatus($event.target.value)"
         >
           <!-- <option [selected] disabled>Choose...</option> -->
           <option
@@ -75,7 +76,9 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.name |titlecase}}</td>
+        <td mat-cell *matCellDef="let element">
+          {{ element.name | titlecase }}
+        </td>
       </ng-container>
 
       <!-- class Column -->

@@ -9,6 +9,6 @@ export class FormatDate {
       '/' +
       ('0' + (date.day )).slice(-2));
 
-    console.log('GET formated date called' + this.formattedDate);
+
   }
 }

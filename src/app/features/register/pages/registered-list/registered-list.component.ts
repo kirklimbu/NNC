@@ -21,31 +21,35 @@ import { CustomJs } from 'src/app/shared/customjs/custom.js';
 })
 export class RegisteredListComponent implements OnInit {
   // props
-
   formatDate = new FormatDate();
+  customDate = new CustomJs();
   fromDate: any;
+  fromDate2: any;
   toDate: any;
 
-  status: any;
+  status: any = 'P';
+  student: any;
+
   filterForm: FormGroup;
   displayedColumns: string[] = ['Id', 'name', 'regNo', 'Action'];
   letterListDataSource: MatTableDataSource<any>;
   letterListDataSource$: Observable<any>;
   filtereedletterListDataSource$: Observable<any>;
-  student: any;
   letterStatuses = [
-    { name: 'Verified', value: 'V' },
     { name: 'Pending', value: 'P' },
+    { name: 'Verified', value: 'V' },
     { name: 'Rejected', value: 'R' },
     // { name: 'Print', value: 'PR' },
   ];
   isVerified = false;
   /* displaying nepali date */
   fromDateFormatter: DateFormatter = (date) => {
-    return `${date.year} / ${date.month + 1} / ${date.day} `;
+    // return `${date.year} / ${date.month + 1} / ${date.day} `;
+    return this.formatDate.getFormatDate(date);
   };
   toDateFormatter: DateFormatter = (date) => {
-    return `${date.year} / ${date.month + 1} / ${date.day} `;
+    // return `${date.year} / ${date.month + 1} / ${date.day} `;
+    return this.formatDate.getFormatDate(date);
   };
   constructor(
     private registerService: RegisterService,
@@ -57,45 +61,38 @@ export class RegisteredListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getToday();
-
-    this.fetchLetterList();
-    this.fetchPendingLetterList();
+    this.fetchPendingLetterList(); //for default list on table
   }
 
-  getToday() {
-    console.log('fadfa ' + JSON.stringify(new CustomJs().getCurrentDateBS()));
-    console.log(
-      'dfasdfasdfa ' + JSON.stringify(new CustomJs().getBeforeAfterDateAD(1))
-    );
-
-    console.log(Date.now());
-  }
-
-  fetchLetterList() {
-    this.spinner.show();
-
-    (this.letterListDataSource$ = this.registerService
-      .getLetterList()
-      .pipe(finalize(() => this.spinner.hide()))),
-      (err) => {
-        this.toastr.error(err.message);
-      };
-  }
   fetchPendingLetterList() {
     this.spinner.show();
-
     const status = 'P';
-    (this.letterListDataSource$ = this.registerService
-      .getFilteredLetters(status)
-      .pipe(finalize(() => this.spinner.hide()))),
-      (err) => {
-        this.toastr.error(err.message);
-      };
+
+    let toDate: NepaliDate = this.customDate.getCurrentDateBS();
+    toDate = this.customDate.getNepaliFunctionDateObject(toDate); // converting to object to display in Datepicker
+    this.toDate = toDate; // assigning to Datepicker
+
+    let fromDate: NepaliDate = this.customDate.getBeforeAfterMonthDateBS(-1);
+    fromDate = this.customDate.getNepaliFunctionDateObject(fromDate);
+    this.fromDate = fromDate;
+
+    this.letterListDataSource$ = this.registerService
+      .getSearchStudent(
+        status,
+        this.formatDate.getFormatDate(fromDate),
+        this.formatDate.getFormatDate(toDate)
+      )
+      .pipe(finalize(() => this.spinner.hide()));
+    (err) => {
+      this.toastr.error(err.message);
+      this.spinner.hide();
+    };
   }
 
   onDelete() {}
 
+  // code can be optimized
+  // keep onVerifyDetails and  onPrint in one funciton just pass different variables and use relativeTo path activatedRoute
   onVerifyDetails(mode: string, letter: Letter) {
     this.isVerified = true;
     console.log('show data ' + JSON.stringify(letter));
@@ -103,7 +100,7 @@ export class RegisteredListComponent implements OnInit {
       queryParams: { id: letter.id },
     });
   }
-
+  // code can be optimized
   onPrint(letter: Letter) {
     console.log(letter);
     this.router.navigate(['/home/register/print-letter'], {
@@ -113,6 +110,10 @@ export class RegisteredListComponent implements OnInit {
 
   doFilter(value: string) {
     this.letterListDataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  selectedStatus(status) {
+    this.status = status;
   }
 
   onSearch() {
@@ -125,12 +126,15 @@ export class RegisteredListComponent implements OnInit {
           this.formatDate.getFormatDate(this.fromDate),
           this.formatDate.getFormatDate(this.toDate)
         )
-        .pipe(finalize(() => this.spinner.hide()))),
+        .pipe(finalize(() => this.spinner.hide())))
+        ,
         (err) => {
           this.toastr.error(err.message);
           this.spinner.hide();
         };
     } else {
+      console.log(this.status);
+
       this.isVerified = false;
       (this.letterListDataSource$ = this.registerService
         .getSearchStudent(

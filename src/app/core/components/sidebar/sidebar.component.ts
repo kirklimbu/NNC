@@ -26,10 +26,10 @@ export class SidebarComponent implements OnInit {
 
   }
 
-  fetchAddedStudent() {
+  /* fetchAddedStudent() {
     this.registerService.getFilteredLetters('P').subscribe((data) => {
       let students = data;
       this.recentStudents = students.splice(-4);
     });
-  }
+  } */
 }

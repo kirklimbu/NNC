@@ -46,18 +46,19 @@
                     <mat-hint align="end">Enter password</mat-hint>
 
                     <input
-
+                      appOnreturn
                       matInput
                       formControlName="passWord"
                       [type]="hide ? 'password' : 'text'"
                     />
                     <button
-                    tabindex="-1"
+                      tabindex="-1"
                       mat-icon-button
                       matSuffix
                       [attr.aria-label]="'Hide password'"
                       [attr.aria-pressed]="hide"
                       (click)="hide = !hide"
+                      onkeydown
                     >
                       <mat-icon>{{
                         hide ? "visibility_off" : "visibility"

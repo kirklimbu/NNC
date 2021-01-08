@@ -55,9 +55,11 @@ export class RegisterService {
         })
       );
   }
-  getFilteredLetters(status): any {
+  getFilteredLetters(status, fromDate, toDate): any {
     return this.http
-      .get(`${this.API_URL}auth/letter/verify/list?status=${status}`)
+      .get(
+        `${this.API_URL}auth/letter/verify/list?status=${status}?fromDate=${fromDate}?todDate=${toDate}`
+      )
       .pipe(
         catchError((err) => {
           return throwError(err);
